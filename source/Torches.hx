@@ -9,7 +9,7 @@ package
 		private var tempTorch:Torch;
 		
 		
-		public function Torches()
+		public function new()
 		{
 			super();
 		}

@@ -9,7 +9,7 @@ package
 		private var player:Player;
 		private var tempRock:CrumbleRock;
 		
-		public function CrumbleRocks()
+		public function new()
 		{
 			super();
 		}

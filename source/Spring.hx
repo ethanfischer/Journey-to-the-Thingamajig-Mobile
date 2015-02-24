@@ -10,7 +10,7 @@ package
 		[Embed(source = "../assets/spring.png")] private var springPNG:Class;
 		public var bounce:Int;
 		
-		public function Spring(x:Int, y:Int, i_bounce:Int) 
+		public function new(x:Int, y:Int, i_bounce:Int) 
 		{
 			super(x, y);
 			

@@ -11,7 +11,7 @@ package
 		private var startPoint:FlxPoint;
 		private var endPoint:FlxPoint;
 		
-		public function Elevator(X:Float, Y:Float, Width:Float, Height:Float, Speed:Int = 40)
+		public function new(X:Float, Y:Float, Width:Float, Height:Float, Speed:Int = 40)
 		{
 			super(X * 16, Y * 16, elevatorPNG);
 			

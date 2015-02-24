@@ -21,7 +21,7 @@ package
 		public var direction:uint;
 		public var updateForever:Bool;
 		
-		public function Bot2(x:Int, y:Int, i_player:Player, i_weapon:FlxWeapon, i_facing:uint, bladeSpeed:Int, i_active:Bool = false, fireRate:Int = 1, bullets:Int = 4, i_updateForever:Bool = false)
+		public function new(x:Int, y:Int, i_player:Player, i_weapon:FlxWeapon, i_facing:uint, bladeSpeed:Int, i_active:Bool = false, fireRate:Int = 1, bullets:Int = 4, i_updateForever:Bool = false)
 		{
 			super(x, y, i_player, FlxObject.RIGHT);
 			

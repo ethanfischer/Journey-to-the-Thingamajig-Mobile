@@ -7,7 +7,7 @@ package
 		[Embed(source = "../assets/Poof.png")] private var PoofPNG:Class;
 		
 	
-		public function Poof(i_x:Int, i_y:Int)
+		public function new(i_x:Int, i_y:Int)
 		{
 			super(x * 16, y * 16);
 			

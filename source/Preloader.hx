@@ -4,7 +4,7 @@ package
  
 	public class Preloader extends FlxPreloader
 	{
-		public function Preloader():Void
+		public function new():Void
 		{
 			className = "Main";
 			super();

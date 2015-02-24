@@ -12,7 +12,7 @@ package
 		
 		[Embed(source="../map/rock.png")] private var rockPNG:Class;
 		
-		public function Rock(x:Int, y:Int, i_player:Player)
+		public function new(x:Int, y:Int, i_player:Player)
 		{
 			super(x * 16, y * 16);
 			

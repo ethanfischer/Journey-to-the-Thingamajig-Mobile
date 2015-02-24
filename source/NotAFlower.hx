@@ -30,7 +30,7 @@ package
 		
 		
 		
-		public function NotAFlower(x:Int, y:Int, i_player:Player)
+		public function new(x:Int, y:Int, i_player:Player)
 		{
 			super(x, y);
 			

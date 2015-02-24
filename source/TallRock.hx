@@ -12,7 +12,7 @@ package
 		
 		[Embed(source="../map/tallRock.png")] private var TallRockPNG:Class;
 		
-		public function TallRock(x:Int, y:Int, i_player:Player)
+		public function new(x:Int, y:Int, i_player:Player)
 		{
 			super(x * 16, y * 16);
 			

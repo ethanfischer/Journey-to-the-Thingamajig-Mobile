@@ -27,7 +27,7 @@ package
 		public var meetTimer2:Float;
 		public var meetFlag:Bool = false;
 		
-		public function NPC(x:Int, y:Int, i_facing:uint)
+		public function new(x:Int, y:Int, i_facing:uint)
 		{
 			super(x * 16, y * 16);
 			

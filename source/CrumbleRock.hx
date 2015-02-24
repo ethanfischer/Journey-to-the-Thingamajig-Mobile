@@ -15,7 +15,7 @@ package
 		[Embed(source = "../map/crumbleRock.png")] private var crumbleRockPNG:Class;
 		[Embed(source = "../assets/poof2.mp3")] private var poof2:Class;
 		
-		public function CrumbleRock(x:Int, y:Int)
+		public function new(x:Int, y:Int)
 		{
 			super(x * 16, y * 16);
 			

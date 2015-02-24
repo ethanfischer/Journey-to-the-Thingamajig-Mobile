@@ -44,7 +44,7 @@ package
 		
 		
 		
-		public function LevelMenuState() 
+		public function new() 
 		{
 		}
 		

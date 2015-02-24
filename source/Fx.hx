@@ -7,7 +7,7 @@ package
 		private var pixels:FlxGroup;
 		private var jet:FlxEmitter;
 		
-		public function Fx() 
+		public function new() 
 		{
 			super();
 			

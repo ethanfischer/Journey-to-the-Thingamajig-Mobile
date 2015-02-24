@@ -10,7 +10,7 @@ package
 		private var tempBorg:Borg;
 		
 		
-		public function Borgs()
+		public function new()
 		{
 			super();
 		}

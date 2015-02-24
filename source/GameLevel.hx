@@ -71,7 +71,7 @@ package
 		
 		[Embed(source = "../assets/water.mp3")] private var water:Class;
 		
-		public function GameLevel() 
+		public function new() 
 		{
 			super();
 		

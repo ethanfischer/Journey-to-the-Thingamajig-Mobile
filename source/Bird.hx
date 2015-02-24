@@ -22,7 +22,7 @@ package
 		
 		
 		
-		public function Bird()
+		public function new()
 		{
 			super(x * 16, y * 16);
 			

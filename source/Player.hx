@@ -74,7 +74,7 @@ package
 		private	var decel:Float;
 		public	var speed:Float;
 		
-		public function Player(X:Float, Y:Float)
+		public function new(X:Float, Y:Float)
 		{	
 			
 			

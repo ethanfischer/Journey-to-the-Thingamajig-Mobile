@@ -14,7 +14,7 @@ package
 		
 		[Embed(source="../map/Reinforcement.png")] private var ReinforcementPNG:Class;
 		
-		public function Reinforcement(x:Int, y:Int)
+		public function new(x:Int, y:Int)
 		{
 			super(x * 16, y * 16);
 			

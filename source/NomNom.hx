@@ -14,7 +14,7 @@ package
 		public var crossedIt:Bool = false;
 		public var spinTimer:Float;
 		
-		public function NomNom(X:Int, Y:Int)
+		public function new(X:Int, Y:Int)
 		{
 			super(X * 16, Y * 16);
 			

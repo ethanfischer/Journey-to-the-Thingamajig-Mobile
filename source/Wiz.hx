@@ -18,7 +18,7 @@ package
 		
 		
 		
-		public function Wiz(x:Int, y:Int)
+		public function new(x:Int, y:Int)
 		{
 			super(x, y);
 			

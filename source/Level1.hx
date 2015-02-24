@@ -24,7 +24,7 @@ package
 		
 		public var rockMap:FlxTilemap;	
 		
-		public function Level1() 
+		public function new() 
 		{
 			super();
 			

@@ -12,7 +12,7 @@ package
 		private var splodeFlag:Bool = false;
 		public var sploded:Bool = false;
 		
-		public function Boulder() 
+		public function new() 
 		{
 			super(100, -100);
 			loadGraphic(boulderPNG, false, false, 30, 24);

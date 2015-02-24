@@ -10,7 +10,7 @@ package
 		private var x:Int;
 		private var y:Int;
 		
-		public function Sign(i_x:Int, i_y:Int, text:String, i_player:Player, m_x:Int, m_y:Int )
+		public function new(i_x:Int, i_y:Int, text:String, i_player:Player, m_x:Int, m_y:Int )
 		{
 			super();
 			

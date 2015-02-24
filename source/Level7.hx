@@ -55,7 +55,7 @@ package
 		public var crumbleRockMap:FlxTilemap;
 		public var fadeBlockMap:FlxTilemap;
 		
-		public function Level7() 
+		public function new() 
 		{
 			super();
 		

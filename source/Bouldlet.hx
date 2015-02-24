@@ -15,7 +15,7 @@ package
 		private var lifetime:Float;
 		private var falls:Int = 0;
 		
-		public function Bouldlet(i_x:Int, i_y:Int, i_velocityY:Int, i_velocityX:Int = 0, i_lifetime:Float = 0) 
+		public function new(i_x:Int, i_y:Int, i_velocityY:Int, i_velocityX:Int = 0, i_lifetime:Float = 0) 
 		{
 			super(i_x, i_y);
 			

@@ -13,7 +13,7 @@ package
 		
 		
 		
-		public function Poofs()
+		public function new()
 		{
 			super();
 		}

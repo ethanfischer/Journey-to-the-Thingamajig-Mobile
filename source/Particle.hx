@@ -13,7 +13,7 @@ package
 		private var rand2:Int;
 		private var timer:Float = 0;
 		
-		public function Particle(i_x:Int, i_y:Int) 
+		public function new(i_x:Int, i_y:Int) 
 		{
 			super(i_x, i_y);
 			

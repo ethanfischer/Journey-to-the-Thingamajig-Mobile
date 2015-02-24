@@ -8,7 +8,7 @@ package
 	public class Particles extends FlxGroup
 	{
 		
-		public function Particles()
+		public function new()
 		{
 			super();
 		}

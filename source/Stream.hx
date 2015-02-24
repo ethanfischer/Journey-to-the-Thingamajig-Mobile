@@ -12,7 +12,7 @@ package
 		public var flowLeft:Bool;
 		public var type:String;
 		
-		public function Stream(x:Int, y:Int, i_flowLeft:Bool, i_type:String) 
+		public function new(x:Int, y:Int, i_flowLeft:Bool, i_type:String) 
 		{
 			super(x * 16, y * 16);
 			

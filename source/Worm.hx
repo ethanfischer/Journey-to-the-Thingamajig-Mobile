@@ -7,7 +7,7 @@ package
 	{
 		[Embed(source = "../assets/worm.png")] private var WormPNG:Class;	
 		
-		public function Worm(x:Int, y:Int)
+		public function new(x:Int, y:Int)
 		{
 			super(x, y);
 			loadGraphic(WormPNG, true, true, 4, 8);

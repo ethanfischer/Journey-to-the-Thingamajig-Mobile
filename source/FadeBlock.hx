@@ -14,7 +14,7 @@ package
 		[Embed(source = "../assets/drawerslide.mp3")] private var scootSFX:Class;
 		[Embed(source="../map/fadeRock(brown).png")] private var rockPNG:Class;
 		
-		public function FadeBlock(x:Int, y:Int, i_delay:Float, i_speed:Float)
+		public function new(x:Int, y:Int, i_delay:Float, i_speed:Float)
 		{
 			super(x * 16, y * 16 + 160); //no clue why I had to add 160
 			

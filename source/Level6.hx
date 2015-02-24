@@ -54,7 +54,7 @@ package
 		public var fadeBlockMap:FlxTilemap;
 		//public var borgs:Borgs;
 		
-		public function Level6() 
+		public function new() 
 		{
 			super();
 		

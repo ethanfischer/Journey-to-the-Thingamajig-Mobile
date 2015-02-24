@@ -52,7 +52,7 @@ package
 
 		//only here so reference in PlayState doesn't freak out
 		//HI
-		public function PlayState()
+		public function new()
 		{
 		}
 

@@ -39,7 +39,7 @@ package
 		public var rockMap:FlxTilemap;	
 		public var crumbleRockMap:FlxTilemap;
 		
-		public function Level4() 
+		public function new() 
 		{
 			super();
 			

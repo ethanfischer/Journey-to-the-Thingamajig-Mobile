@@ -12,7 +12,7 @@ package
 	
 		private var scootFlag:Bool;
 		
-		public function FadeBlocks()
+		public function new()
 		{
 			super();
 		}

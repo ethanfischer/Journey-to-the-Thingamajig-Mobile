@@ -61,7 +61,7 @@ package
 		public static var firstLevel4:Bool = true;
 		
 		
-		public function Registry() 
+		public function new() 
 		{
 		}
 		

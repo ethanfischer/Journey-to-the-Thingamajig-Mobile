@@ -18,7 +18,7 @@ package
 		public var specialOne:Bool; //if true, this is the bot that the lilguy will retreat from
 		public var dTurnFlag:Bool = false;		
 		
-		public function Bot(x:Int, y:Int, i_player:Player, i_facing:uint)
+		public function new(x:Int, y:Int, i_player:Player, i_facing:uint)
 		{
 			super(x * 16, y * 16);
 			

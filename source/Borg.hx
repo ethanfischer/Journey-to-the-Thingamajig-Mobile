@@ -21,7 +21,7 @@ package
 		public var awakeBool:Bool = true; //when true, have the Borg follow its normal routine
 		public var reanimateBool:Bool = false;
 		
-		public function Borg(x:Int, y:Int, i_player:Player, i_facing:uint)
+		public function new(x:Int, y:Int, i_player:Player, i_facing:uint)
 		{
 			super(x * 16, y * 16 + 125);
 			

@@ -13,7 +13,7 @@ package
 		
 		
 		
-		public function Bots()
+		public function new()
 		{
 			super();
 		}

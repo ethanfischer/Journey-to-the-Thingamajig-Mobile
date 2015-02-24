@@ -16,7 +16,7 @@ package
 		public var dieFlag:Bool = false;
 		public var end:Bool;
 		
-		public function Checkpoint(x:Int, y:Int, i_end:Bool = false)
+		public function new(x:Int, y:Int, i_end:Bool = false)
 		{
 			super(x*16, y*16);
 			

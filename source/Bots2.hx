@@ -13,7 +13,7 @@ package
 		public var blades:FlxGroup = new FlxGroup;
 		
 		
-		public function Bots2()
+		public function new()
 		{
 			super();
 		}

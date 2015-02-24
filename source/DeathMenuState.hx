@@ -21,7 +21,7 @@ package
 		[Embed(source = "../assets/distant_thunder.mp3")] public var dwarfDance:Class; //mountain ambience mode
 		[Embed(source = "../assets/rumble.mp3")] public var rumble:Class;
 		
-		public function DeathMenuState() 
+		public function new() 
 		{
 		}
 		

@@ -9,7 +9,7 @@ package
 		private var player:Player;
 		private var tempReinforcement:Reinforcement;
 		
-		public function Reinforcements()
+		public function new()
 		{
 			super();
 		}

@@ -13,7 +13,7 @@ package
 		private var haltTimer:Number = -1;
 		private var haltTimerFlag:Bool = false;
 		
-		public function Bot3(x:Int, y:Int, i_player:Player)
+		public function new(x:Int, y:Int, i_player:Player)
 		{
 			super(x, y,  i_player, FlxObject.RIGHT);
 			

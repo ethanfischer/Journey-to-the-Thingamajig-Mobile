@@ -10,7 +10,7 @@ package
 		private var tempRock:Rock;
 		private var tallRock:TallRock;
 		
-		public function Rocks()
+		public function new()
 		{
 			super();
 		}

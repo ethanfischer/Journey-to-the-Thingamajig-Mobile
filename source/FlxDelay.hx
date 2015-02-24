@@ -41,7 +41,7 @@ package
 		 * 
 		 * @param	runFor	The duration of this timer in ms. Call start() to set it going.
 		 */
-		public function FlxDelay(runFor:Int)
+		public function new(runFor:Int)
 		{
 			duration = runFor;
 		}

@@ -54,7 +54,7 @@ package
 		private var timer:Floa = 2.8;
 		private var start:FlxSprite;
 		
-		public function MainMenuState() 
+		public function new() 
 		{
 		}
 		

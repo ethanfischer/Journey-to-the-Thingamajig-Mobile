@@ -37,7 +37,7 @@ package
 		
 		//private var reveal:CenterSlideFX;
 		
-		public function LevelCompleteState() 
+		public function new() 
 		{
 		}
 		

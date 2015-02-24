@@ -12,7 +12,7 @@ package
 		
 		[Embed(source="../map/Support.png")] private var SupportPNG:Class;
 		
-		public function Support(x:Int, y:Int)
+		public function new(x:Int, y:Int)
 		{
 			if (Registry.stageCount == 5) number = 160
 			else number = 0

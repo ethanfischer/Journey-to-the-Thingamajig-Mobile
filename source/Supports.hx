@@ -10,7 +10,7 @@ package
 		private var tempSupport:Support;
 		
 		
-		public function Supports()
+		public function new()
 		{
 			super();
 		}

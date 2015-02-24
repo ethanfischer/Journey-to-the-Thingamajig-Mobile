@@ -8,7 +8,7 @@ package
 		private var levelMessage:FlxText;
 		private var levelNumber:Int;
 		
-		public function LevelTitleState() 
+		public function new() 
 		{
 		}
 		

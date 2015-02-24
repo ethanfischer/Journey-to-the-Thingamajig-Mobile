@@ -8,7 +8,7 @@ package
 	public class Smokelets extends FlxGroup
 	{
 		
-		public function Smokelets()
+		public function new()
 		{
 			super();
 		}

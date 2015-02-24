@@ -11,7 +11,7 @@ package
 		private var rand1:Int;
 		private var rand2:Int;
 		
-		public function Smokelet(i_x:Int, i_y:Int) 
+		public function new(i_x:Int, i_y:Int) 
 		{
 			super(i_x, i_y);
 			

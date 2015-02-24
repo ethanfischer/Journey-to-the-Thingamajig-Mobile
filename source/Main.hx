@@ -7,7 +7,7 @@ package
 
 	public class Main extends FlxGame
 	{
-		public function Main()
+		public function new()
 		{
 			super(Registry.screenWidth, Registry.screenHeight, MainMenuState, 2, 30, 30);
 			

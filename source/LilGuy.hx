@@ -13,7 +13,7 @@ package
 		public var aliveTimer:Float = 0;
 		public var dieFlag:Bool = false;
 		
-		public function LilGuy(x:Int, y:Int)
+		public function new(x:Int, y:Int)
 		{
 			super(x, y);
 			

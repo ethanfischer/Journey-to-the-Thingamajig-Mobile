@@ -12,7 +12,7 @@ package
 		public var flameOn:Bool = false;
 		private var flameDance:Int;
 		
-		public function Torch(x:Float, y:Float, i_flameDance:Int) 
+		public function new(x:Float, y:Float, i_flameDance:Int) 
 		{
 			super(x * 16, y * 16);
 			
