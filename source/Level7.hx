@@ -69,7 +69,7 @@ package
 			boulder = new Boulder();
 			
 			bouldlets = new FlxGroup(30);
-			for (var j:Int = 0; j < 30; j++)
+			for (j in 0...30)
 			{
 				var x:Int = (Math.random() * 600);
 				var y:Int = -400 + (Math.random() * 400);
@@ -130,13 +130,13 @@ package
 		}
 		var rand1:Int;
 		var rand2:Int;
-		for (var i:Int = 0; i < 100; i++)
+		for (i in 0...100)
 		{
 			rand1 = (((Math.random() + .5) * 3) + ((Math.random() + .5) * 3)) * 4;
 			rand2 = (((Math.random()+.5) * 3) + ((Math.random()+.5) * 3)) * 10;
 			smokelets.addSmokelet(445 + rand1, 140+ rand2);
 		}
-		for (var p:Int = 0; p < 10; p++)
+		for (p in 0...10)
 		{
 			rand1 = (((Math.random() + .5) * 3) + ((Math.random() + .5) * 3)) * 4;
 			rand2 = (((Math.random()+.5) * 3) + ((Math.random()+.5) * 3)) * 10;
@@ -176,9 +176,9 @@ package
 			
 			nomNoms = new FlxGroup();
 			
-			for (var ty:Int = 0; ty < nomNomMap.heightInTiles; ty++)
+			for (ty in 0...nomNomMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < nomNomMap.widthInTiles; tx++)
+				for (tx in 0...nomNomMap.widthInTiles)
 				{
 					if (nomNomMap.getTile(tx, ty) == 1)
 					{
@@ -196,15 +196,19 @@ package
 			
 			reinforcements = new Reinforcements;
 			
-			for (var ty:Float = reinforcementMap.heightInTiles; ty > 0; ty--)
+			var ty:Float = reinforcementMap.heightInTiles;
+			while(ty > 0)
 			{
-				for (var tx:Int = reinforcementMap.widthInTiles; tx > 0; tx--)
+				var tx:Int = reinforcementMap.widthInTiles;
+				while(tx > 0)
 				{
 					if (reinforcementMap.getTile(tx, ty) == 1)
 					{
 						reinforcements.addReinforcement(tx, ty);
 					}
+					tx--;
 				}
+				ty--;
 			}
 		}
 		
@@ -216,9 +220,9 @@ package
 			
 			torches = new Torches();
 			
-			for (var ty:Int = 0; ty < torchMap.heightInTiles; ty++)
+			for (ty in 0...torchMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < torchMap.widthInTiles; tx++)
+				for (tx in 0...torchMap.widthInTiles)
 				{
 					if (torchMap.getTile(tx, ty) == 1)
 					{
@@ -236,9 +240,9 @@ package
 			
 			streams = new FlxGroup();
 			
-			for (var ty:Int = 0; ty < streamMap.heightInTiles; ty++)
+			for (ty in 0...streamMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < streamMap.widthInTiles; tx++)
+				for (tx in 0...streamMap.widthInTiles)
 				{
 					if (streamMap.getTile(tx, ty) == 1)
 					{
@@ -272,9 +276,9 @@ package
 			
 			bots = new Bots;
 			
-			for (var ty:Float = 0; ty < botMap.heightInTiles; ty++)
+			for (ty in 0...botMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < botMap.widthInTiles; tx++)
+				for (tx in 0...botMap.widthInTiles)
 				{
 					if (botMap.getTile(tx, ty) == 1)
 					{
@@ -296,9 +300,9 @@ package
 			
 			checkpointMap.loadMap(new checkpointCSV, botletPNG, 16, 16);
 			
-			for (var ty:Float = 0; ty < checkpointMap.heightInTiles; ty++)
+			for (ty in 0...checkpointMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < checkpointMap.widthInTiles; tx++)
+				for (tx in 0...checkpointMap.widthInTiles)
 				{
 					if (checkpointMap.getTile(tx, ty) == 1)
 					{
@@ -325,9 +329,9 @@ package
 			
 			borgs = new Borgs;			
 			
-			for (var ty:Float = 0; ty < borgMap.heightInTiles; ty++)
+			for (ty in 0...borgMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < borgMap.widthInTiles; tx++)
+				for (tx in 0...borgMap.widthInTiles)
 				{
 					if (borgMap.getTile(tx, ty) == 1)
 					{
@@ -350,9 +354,9 @@ package
 			
 			bots2 = new Bots2;	
 			
-			for (var ty:Float = 0; ty < bot2Map.heightInTiles; ty++)
+			for (ty in 0...bot2Map.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < bot2Map.widthInTiles; tx++)
+				for (tx in 0...bot2Map.widthInTiles)
 				{
 					if (bot2Map.getTile(tx, ty) == 1)
 					{
@@ -383,9 +387,9 @@ package
 			
 			rocks = new Rocks;
 			
-			for (var ty:Float = 0; ty < rockMap.heightInTiles; ty++)
+			for (ty in 0...rockMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < rockMap.widthInTiles; tx++)
+				for (tx in 0...rockMap.widthInTiles)
 				{
 					if (rockMap.getTile(tx, ty) == 1)
 					{
@@ -407,9 +411,9 @@ package
 			
 			crumbleRocks = new CrumbleRocks;
 			
-			for (var ty:Float = 0; ty < crumbleRockMap.heightInTiles; ty++)
+			for (ty in 0...crumbleRockMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < crumbleRockMap.widthInTiles; tx++)
+				for (tx in 0...crumbleRockMap.widthInTiles)
 				{
 					if (crumbleRockMap.getTile(tx, ty) == 1)
 					{
@@ -427,9 +431,9 @@ package
 			
 			fadeBlocks = new FadeBlocks;
 			
-			for (var ty:Float = 0; ty < fadeBlockMap.heightInTiles; ty++)
+			for (ty in 0...fadeBlockMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < fadeBlockMap.widthInTiles; tx++)
+				for (tx in 0...fadeBlockMap.widthInTiles)
 				{
 					if (fadeBlockMap.getTile(tx, ty) == 1)
 					{
@@ -459,9 +463,9 @@ package
 			
 			supports = new Supports;
 			
-			for (var ty:Float = 0; ty < supportMap.heightInTiles; ty++)
+			for (ty in 0...supportMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < supportMap.widthInTiles; tx++)
+				for (tx in 0...supportMap.widthInTiles)
 				{
 					if (supportMap.getTile(tx, ty) == 1)
 					{

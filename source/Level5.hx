@@ -160,9 +160,9 @@ package
 			
 			nomNoms = new FlxGroup();
 			
-			for (var ty:Int = 0; ty < nomNomMap.heightInTiles; ty++)
+			for (ty in 0...nomNomMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < nomNomMap.widthInTiles; tx++)
+				for (tx in 0...nomNomMap.widthInTiles)
 				{
 					if (nomNomMap.getTile(tx, ty) == 1)
 					{
@@ -180,9 +180,9 @@ package
 			
 			torches = new Torches();
 			
-			for (var ty:Int = 0; ty < torchMap.heightInTiles; ty++)
+			for (ty in 0...torchMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < torchMap.widthInTiles; tx++)
+				for (tx in 0...torchMap.widthInTiles)
 				{
 					if (torchMap.getTile(tx, ty) == 1)
 					{
@@ -200,9 +200,9 @@ package
 			
 			streams = new FlxGroup();
 			
-			for (var ty:Int = 0; ty < streamMap.heightInTiles; ty++)
+			for (ty in 0...streamMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < streamMap.widthInTiles; tx++)
+				for (tx in 0...streamMap.widthInTiles)
 				{
 					if (streamMap.getTile(tx, ty) == 1)
 					{
@@ -236,9 +236,9 @@ package
 			
 			bots = new Bots;
 			
-			for (var ty:Float = 0; ty < botMap.heightInTiles; ty++)
+			for (ty in 0...botMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < botMap.widthInTiles; tx++)
+				for (tx in 0...botMap.widthInTiles)
 				{
 					if (botMap.getTile(tx, ty) == 1)
 					{
@@ -262,9 +262,9 @@ package
 			
 			bots2 = new Bots2;	
 			
-			for (var ty:Float = 0; ty < bot2Map.heightInTiles; ty++)
+			for (ty in 0...bot2Map.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < bot2Map.widthInTiles; tx++)
+				for (tx in 0...bot2Map.widthInTiles)
 				{
 					if (bot2Map.getTile(tx, ty) == 1)
 					{
@@ -285,9 +285,9 @@ package
 			
 			NPCMap.loadMap(new NPCCSV, botletPNG, 16, 16);
 			
-			for (var ty:Float = 0; ty < NPCMap.heightInTiles; ty++)
+			for (ty in 0...NPCMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < NPCMap.widthInTiles; tx++)
+				for (tx in 0...NPCMap.widthInTiles)
 				{
 					if (NPCMap.getTile(tx, ty) == 1)
 					{
@@ -308,15 +308,19 @@ package
 			
 			rocks = new Rocks;
 			
-			for (var ty:Float = rockMap.heightInTiles; ty > 0; ty--)
+			var ty:Float = rockMap.heightInTiles;
+			while (ty > 0)
 			{
-				for (var tx:Int = rockMap.widthInTiles; tx > 0; tx--)
+				var tx:Int = rockMap.widthInTiles;
+				while(tx > 0)
 				{
 					if (rockMap.getTile(tx, ty) == 1)
 					{
 						rocks.addRock(tx, ty, player, 1);
 					}
+					tx--;
 				}
+				ty--;
 			}
 		}
 		
@@ -326,9 +330,9 @@ package
 			
 			checkpointMap.loadMap(new checkpointCSV, botletPNG, 16, 16);
 			
-			for (var ty:Float = 0; ty < checkpointMap.heightInTiles; ty++)
+			for (ty in 0...checkpointMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < checkpointMap.widthInTiles; tx++)
+				for (tx in 0...checkpointMap.widthInTiles)
 				{
 					if (checkpointMap.getTile(tx, ty) == 1)
 					{
@@ -355,9 +359,9 @@ package
 			
 			crumbleRocks = new CrumbleRocks;
 			
-			for (var ty:Float = 0; ty < crumbleRockMap.heightInTiles; ty++)
+			for (ty in 0...crumbleRockMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < crumbleRockMap.widthInTiles; tx++)
+				for (tx in 0...crumbleRockMap.widthInTiles)
 				{
 					if (crumbleRockMap.getTile(tx, ty) == 1)
 					{

@@ -91,9 +91,9 @@ package
 			
 			bots = new Bots;
 			
-			for (var ty:Float = 0; ty < _botMap.heightInTiles; ty++)
+			for (ty in 0..._botMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < _botMap.widthInTiles; tx++)
+				for (tx in 0..._botMap.widthInTiles)
 				{
 					if (_botMap.getTile(tx, ty) == 1)
 					{
@@ -117,9 +117,11 @@ package
 			
 			rocks = new Rocks;
 			
-			for (var ty:Float = rockMap.heightInTiles; ty > 0; ty--)
+			var ty:Float = rockMap.heightInTiles;
+			while(ty > 0)
 			{
-				for (var tx:Int = rockMap.widthInTiles; tx > 0; tx--)
+				var tx:Int = rockMap.widthInTiles;
+				while (tx > 0)
 				{
 					if (rockMap.getTile(tx, ty) == 1)
 					{
@@ -129,7 +131,9 @@ package
 					{
 						rocks.addRock(tx, ty, player, 2);
 					}
+					tx--;
 				}
+				ty--;
 			}
 		}
 		
@@ -139,9 +143,9 @@ package
 			
 			_checkpointMap.loadMap(new _checkpointCSV, botletPNG, 16, 16);
 			
-			for (var ty:Float = 0; ty < _checkpointMap.heightInTiles; ty++)
+			for (ty in 0..._checkpointMap.heightInTiles)
 			{
-				for (var tx:Int = 0; tx < _checkpointMap.widthInTiles; tx++)
+				for (tx in 0..._checkpointMap.widthInTiles)
 				{
 					if (_checkpointMap.getTile(tx, ty) == 1)
 					{
@@ -168,15 +172,19 @@ package
 			
 			reinforcements = new Reinforcements;
 			
-			for (var ty:Float = reinforcementMap.heightInTiles; ty > 0; ty--)
+			var ty:Float = reinforcementMap.heightInTiles;
+			while(ty > 0)
 			{
-				for (var tx:Int = reinforcementMap.widthInTiles; tx > 0; tx--)
+				var tx:Int = reinforcementMap.widthInTiles;
+				while(tx > 0)
 				{
 					if (reinforcementMap.getTile(tx, ty) == 1)
 					{
 						reinforcements.addReinforcement(tx, ty);
 					}
+					tx--;
 				}
+				ty--;
 			}
 		}
 	}

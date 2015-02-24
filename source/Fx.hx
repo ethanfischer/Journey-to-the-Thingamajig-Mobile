@@ -14,7 +14,7 @@ package
 			pixels = new FlxGroup();
 			
 			//	Here we create an FlxGroup containing 40 FlxEmitters, all the same, used when the aliens are shot/explode
-			for (var i:Int = 0; i < 40; i++)
+			for (i in 0...40)
 			{
 				var tempPixel:FlxEmitter = new FlxEmitter();
 				tempPixel.setSize(8, 8);
