@@ -7,18 +7,18 @@ package
 		[Embed(source = "../map/bot.png")] private var botPNG:Class;
 		[Embed(source = "../assets/eject.mp3")] private var ejectSFX:Class;
 		
-		public var isDying:Boolean = false;
-		private var dieTimer:Number;
-		private var bounceTimer:Number;
-		private var turnAroundTimer:Number;
-		private var knockBackTimer:Number;
+		public var isDying:Bool = false;
+		private var dieTimer:Float;
+		private var bounceTimer:Float;
+		private var turnAroundTimer:Float;
+		private var knockBackTimer:Float;
 		private var player:Player;
-		private var canKnockback:Boolean = false;
-		private var retreatFlag:Boolean = false;
-		public var specialOne:Boolean; //if true, this is the bot that the lilguy will retreat from
-		public var dTurnFlag:Boolean = false;		
+		private var canKnockback:Bool = false;
+		private var retreatFlag:Bool = false;
+		public var specialOne:Bool; //if true, this is the bot that the lilguy will retreat from
+		public var dTurnFlag:Bool = false;		
 		
-		public function Bot(x:int, y:int, i_player:Player, i_facing:uint)
+		public function Bot(x:Int, y:Int, i_player:Player, i_facing:uint)
 		{
 			super(x * 16, y * 16);
 			
@@ -51,7 +51,7 @@ package
 		
 		}
 		
-		override public function kill():void
+		override public function kill():Void
 		{		
 			isDying = true;
 			
@@ -62,13 +62,13 @@ package
 		}
 		
 		
-		private function removeSprite():void
+		private function removeSprite():Void
 		{
 			dieTimer = 3;
 			play("dead");
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -161,8 +161,8 @@ package
 			
 			if (!canKnockback) //don't allow bots to turn around when they have been knocked back
 			{
-				var tx:Number = Number(x / 16);
-				var ty:Number = Number(y / 15.5);
+				var tx:Float = Float(x / 16);
+				var ty:Float = Float(y / 15.5);
 			
 			
 				 if (facing == FlxObject.LEFT)
@@ -190,7 +190,7 @@ package
 			}
 		}
 		
-		public function turnAround():void
+		public function turnAround():Void
 		{
 			if (!isDying)
 			{
@@ -210,7 +210,7 @@ package
 			}
 		}
 		
-		public function bounce():void
+		public function bounce():Void
 		{
 			kill();
 		
@@ -220,7 +220,7 @@ package
 			FlxG.shake(.04, .15, null, true, 2);
 		}
 		
-		public function knockback():void
+		public function knockback():Void
 		{		
 			kill();
 		
@@ -232,7 +232,7 @@ package
 			
 		}
 		
-		public function retreat():void
+		public function retreat():Void
 		{
 			if (!retreatFlag)
 			{
@@ -249,7 +249,7 @@ package
 			active = false;
 		}
 		
-		public function delayedTurnaround(delay:Number):void
+		public function delayedTurnaround(delay:Float):Void
 		{
 			if (!dTurnFlag)
 			{

@@ -8,20 +8,20 @@ package
 		
 		[Embed(source = "../assets/pig_borg.mp3")] private var growlSFX:Class;
 		[Embed(source="../assets/borgDeathSFX.mp3")] private var deathSFX:Class;
-		private var growlSFX_flag:Boolean = false;
+		private var growlSFX_flag:Bool = false;
 		
 		
-		public var isDying:Boolean = false;
-		private var dieTimer:Number;
+		public var isDying:Bool = false;
+		private var dieTimer:Float;
 		private var player:Player;
-		private var knockedBack:Boolean = false;
+		private var knockedBack:Bool = false;
 		public var chargeDirection:String;
-		public var chargeBool:Boolean;
-		public var stunTimer:Number;  // when > 0, have the Borg remain motionless, flash, and be harmless
-		public var awakeBool:Boolean = true; //when true, have the Borg follow its normal routine
-		public var reanimateBool:Boolean = false;
+		public var chargeBool:Bool;
+		public var stunTimer:Float;  // when > 0, have the Borg remain motionless, flash, and be harmless
+		public var awakeBool:Bool = true; //when true, have the Borg follow its normal routine
+		public var reanimateBool:Bool = false;
 		
-		public function Borg(x:int, y:int, i_player:Player, i_facing:uint)
+		public function Borg(x:Int, y:Int, i_player:Player, i_facing:uint)
 		{
 			super(x * 16, y * 16 + 125);
 			
@@ -50,7 +50,7 @@ package
 
 		}
 		
-		override public function kill():void
+		override public function kill():Void
 		{		
 			FlxG.play(deathSFX);
 			play("dead");
@@ -61,13 +61,13 @@ package
 		}
 		
 		
-		private function removeSprite():void
+		private function removeSprite():Void
 		{
 			dieTimer = 1;
 			play("dead");
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 		
@@ -139,8 +139,8 @@ package
 			
 			if (!knockedBack) //don't allow borgs to turn around when they have been knocked back
 			{
-				var tx:Number = Number(x /16);
-				var ty:Number = Number(y /15.5);
+				var tx:Float = Float(x /16);
+				var ty:Float = Float(y /15.5);
 			
 			
 				 if (facing == FlxObject.LEFT)
@@ -166,7 +166,7 @@ package
 			
 		}
 		
-		public function turnAround():void
+		public function turnAround():Void
 		{
 			chargeBool = false;
 			if (facing == FlxObject.RIGHT)
@@ -183,7 +183,7 @@ package
 			}
 		}
 		
-		public function knockback():void
+		public function knockback():Void
 		{		
 			FlxG.play(deathSFX);
 			play("dead");
@@ -195,7 +195,7 @@ package
 			velocity.y = -75;
 		}
 		
-		public function graze():void
+		public function graze():Void
 		{
 			if(!isDying) play("walk");
 			chargeBool = false;
@@ -203,7 +203,7 @@ package
 			growlSFX_flag = false;
 		}
 		
-		public function chargeEm():void
+		public function chargeEm():Void
 		{
 			
 			

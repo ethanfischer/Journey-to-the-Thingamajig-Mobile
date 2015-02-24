@@ -7,7 +7,7 @@ package
 		[Embed(source = "../assets/Poof.png")] private var PoofPNG:Class;
 		
 	
-		public function Poof(i_x:int, i_y:int)
+		public function Poof(i_x:Int, i_y:Int)
 		{
 			super(x * 16, y * 16);
 			
@@ -26,7 +26,7 @@ package
 		
 		
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			if (this.frame == 3) kill();

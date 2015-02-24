@@ -8,10 +8,10 @@ package
 	public class Smokelet extends FlxSprite
 	{
 		[Embed(source = "../assets/smokelet.png")] private var smokeletPNG:Class;
-		private var rand1:int;
-		private var rand2:int;
+		private var rand1:Int;
+		private var rand2:Int;
 		
-		public function Smokelet(i_x:int, i_y:int) 
+		public function Smokelet(i_x:Int, i_y:Int) 
 		{
 			super(i_x, i_y);
 			
@@ -26,14 +26,14 @@ package
 			
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			if (y < 130) 
 			{
 				velocity.y = 0;
 				y = 190;
 				velocity.x = 0;
-				acceleration.x = ((int(Math.random()*3))-1)*2;
+				acceleration.x = ((Int(Math.random()*3))-1)*2;
 				x = 450 + rand1;
 				acceleration.y = ((Math.random()+.5) * 3) * -2;
 			}

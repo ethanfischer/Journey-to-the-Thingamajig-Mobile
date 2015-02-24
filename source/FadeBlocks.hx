@@ -4,20 +4,20 @@ package
 
 	public class FadeBlocks extends FlxGroup
 	{
-		private var x:int;
-		private var y:int;
+		private var x:Int;
+		private var y:Int;
 		private var player:Player;
 		private var tempRock:FadeBlock;
 		private var allofem:FlxGroup = new FlxGroup();
 	
-		private var scootFlag:Boolean;
+		private var scootFlag:Bool;
 		
 		public function FadeBlocks()
 		{
 			super();
 		}
 		
-		public function addFadeBlock(i_x:int, i_y:int, delay:Number, speed:Number):void
+		public function addFadeBlock(i_x:Int, i_y:Int, delay:Float, speed:Float):Void
 		{	
 			x = i_x;
 			y = i_y;

@@ -4,18 +4,18 @@ package
 
 	public class CrumbleRock extends FlxSprite
 	{
-		private var crumbleTimer:Number;
-		private var crumbleTimerFlag:Boolean;
-		private var explosionTimerFlag:Boolean;
-		private var reappearTimer:Number = 0;
-		private	var killFlag:Boolean = false;
+		private var crumbleTimer:Float;
+		private var crumbleTimerFlag:Bool;
+		private var explosionTimerFlag:Bool;
+		private var reappearTimer:Float = 0;
+		private	var killFlag:Bool = false;
 		
 		[Embed(source="../assets/rockBust.mp3")] private var bustSFX:Class;
 		
 		[Embed(source = "../map/crumbleRock.png")] private var crumbleRockPNG:Class;
 		[Embed(source = "../assets/poof2.mp3")] private var poof2:Class;
 		
-		public function CrumbleRock(x:int, y:int)
+		public function CrumbleRock(x:Int, y:Int)
 		{
 			super(x * 16, y * 16);
 			
@@ -35,7 +35,7 @@ package
 			height = 24;
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -76,11 +76,11 @@ package
 		}
 		
 		//only here so reference in PlayState doesn't freak out
-		public function knockback():void
+		public function knockback():Void
 		{
 		}
 		
-		public function crumble():void
+		public function crumble():Void
 		{
 			if (!crumbleTimerFlag)
 			{

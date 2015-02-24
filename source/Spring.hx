@@ -8,9 +8,9 @@ package
 	public class Spring extends FlxSprite
 	{
 		[Embed(source = "../assets/spring.png")] private var springPNG:Class;
-		public var bounce:int;
+		public var bounce:Int;
 		
-		public function Spring(x:int, y:int, i_bounce:int) 
+		public function Spring(x:Int, y:Int, i_bounce:Int) 
 		{
 			super(x, y);
 			

@@ -6,14 +6,14 @@ package
 	{
 		[Embed(source = "../assets/lilGuy.png")] private var lilGuyPNG:Class;
 		
-		public var isDying:Boolean = false;
-		private var dieTimer:Number;
+		public var isDying:Bool = false;
+		private var dieTimer:Float;
 		private var player:Player;
-		private var canKnockback:Boolean = false;
-		public var aliveTimer:Number = 0;
-		public var dieFlag:Boolean = false;
+		private var canKnockback:Bool = false;
+		public var aliveTimer:Float = 0;
+		public var dieFlag:Bool = false;
 		
-		public function LilGuy(x:int, y:int)
+		public function LilGuy(x:Int, y:Int)
 		{
 			super(x, y);
 			
@@ -42,7 +42,7 @@ package
 			
 		}
 		
-		override public function kill():void
+		override public function kill():Void
 		{		
 			if (!dieFlag)
 			{
@@ -54,12 +54,12 @@ package
 		}
 		
 		
-		private function removeSprite():void
+		private function removeSprite():Void
 		{
 			dieTimer = 1.3;
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -117,7 +117,7 @@ package
 		
 		
 		
-		public function knockback():void
+		public function knockback():Void
 		{		
 			kill();
 			canKnockback = true;

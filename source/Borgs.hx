@@ -4,8 +4,8 @@ package
 
 	public class Borgs extends FlxGroup
 	{
-		private var x:int;
-		private var y:int;
+		private var x:Int;
+		private var y:Int;
 		private var player:Player;
 		private var tempBorg:Borg;
 		
@@ -15,7 +15,7 @@ package
 			super();
 		}
 		
-		public function addBorg(i_x:int, i_y:int, i_player:Player, facing:uint):void
+		public function addBorg(i_x:Int, i_y:Int, i_player:Player, facing:uint):Void
 		{	
 			x = i_x;
 			y = i_y;

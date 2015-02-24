@@ -9,7 +9,7 @@ package
 	{
 		[Embed(source = "../assets/mail.png")] private var mailPNG:Class;
 		
-		public function Mail(x:int, y:int) 
+		public function Mail(x:Int, y:Int) 
 		{
 			super(x, y);
 			loadGraphic(mailPNG, true, true, 8, 4);

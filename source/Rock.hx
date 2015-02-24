@@ -5,14 +5,14 @@ package
 	public class Rock extends FlxSprite
 	{
 		private var player:Player;
-		private var timer:Number;
-		private	var killFlag:Boolean = false;
+		private var timer:Float;
+		private	var killFlag:Bool = false;
 		
 		[Embed(source="../assets/rockBust2.mp3")] private var bustSFX:Class;
 		
 		[Embed(source="../map/rock.png")] private var rockPNG:Class;
 		
-		public function Rock(x:int, y:int, i_player:Player)
+		public function Rock(x:Int, y:Int, i_player:Player)
 		{
 			super(x * 16, y * 16);
 			
@@ -39,7 +39,7 @@ package
 			immovable = true;
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -57,7 +57,7 @@ package
 			
 		}
 		
-		override public function kill():void
+		override public function kill():Void
 		{
 			solid = false;
 			FlxG.play(bustSFX);
@@ -71,7 +71,7 @@ package
 		}
 		
 		//only here so reference in PlayState doesn't freak out
-		public function knockback():void
+		public function knockback():Void
 		{
 		}
 	}

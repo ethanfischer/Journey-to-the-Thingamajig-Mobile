@@ -4,11 +4,11 @@ package
 
 	public class Poofs extends FlxGroup
 	{
-		private var x:int;
-		private var y:int;
+		private var x:Int;
+		private var y:Int;
 		private var player:Player;
 		private var tempPoof:Poof;
-		public var allthePoofs:Array = new Array(); //array of Poofs used to randomly select a chosen bot for retreat function
+		public var allthePoofs:Array<Dynamic> = new Array<Dynamic>(); //array of Poofs used to randomly select a chosen bot for retreat function
 		
 		
 		
@@ -18,7 +18,7 @@ package
 			super();
 		}
 		
-		public function addPoof(i_x:int, i_y:int):void
+		public function addPoof(i_x:Int, i_y:Int):Void
 		{	
 			x = i_x;
 			y = i_y;

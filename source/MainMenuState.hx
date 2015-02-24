@@ -27,9 +27,9 @@ package
 		[Embed(source = "../assets/fadein_chord.mp3")] private var fadeChord:Class
 		[Embed(source = "../assets/forestsounds.mp3")] public var dwarfDance:Class;
 		
-		private var fadeChordflag1:Boolean;
-		private var fadeChordflag2:Boolean;
-		private var fadeChordflag3:Boolean;
+		private var fadeChordflag1:Bool;
+		private var fadeChordflag2:Bool;
+		private var fadeChordflag3:Bool;
 		
 		
 	 	private var dots:FlxSprite = new FlxSprite(Registry.screenWidth / 2 - 34, 191);
@@ -40,7 +40,7 @@ package
 		//private var start:FlxButton;
 		private var levelsText:FlxText;
 		private var levelsBox:FlxButton;
-		private var selector:int = 1;
+		private var selector:Int = 1;
 		
 		//private var the:FlxSprite;
 		private var quest:FlxSprite;
@@ -50,15 +50,15 @@ package
 		private var stars2:FlxSprite;
 		private var black:FlxSprite;
 		private var menuTrees:FlxSprite;
-		private var punchFlag:Boolean;
-		private var timer:Number = 2.8;
+		private var punchFlag:Bool;
+		private var timer:Floa = 2.8;
 		private var start:FlxSprite;
 		
 		public function MainMenuState() 
 		{
 		}
 		
-		override public function create():void
+		override public function create():Void
 		{
 		
 		//Registry.checkpointFlag = false;
@@ -141,7 +141,7 @@ package
 		
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			dots.play("blink");
@@ -232,7 +232,7 @@ package
 			
 		}
 		
-		private function changeState():void
+		private function changeState():Void
 		{
 			if (selector == 1) 
 				{	
@@ -245,19 +245,19 @@ package
 			//FlxG.switchState(new DeathMenuState);
 		}
 		
-		override public function destroy():void
+		override public function destroy():Void
 		{
 			FlxSpecialFX.clear();
 			
 			super.destroy();
 		}
 		
-		private function goToLevelMenu():void
+		private function goToLevelMenu():Void
 		{
 			FlxG.switchState(new LevelMenuState);
 		}
 		
-		private function startIt():void
+		private function startIt():Void
 		{
 			Registry.stageCount = 0;
 			FlxG.switchState(new DeathMenuState);

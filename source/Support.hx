@@ -5,14 +5,14 @@ package
 	public class Support extends FlxSprite
 	{
 		private var player:Player;
-		private var timer:Number;
-		private	var killFlag:Boolean = false;
-		private var number:int;
+		private var timer:Float;
+		private	var killFlag:Bool = false;
+		private var number:Int;
  
 		
 		[Embed(source="../map/Support.png")] private var SupportPNG:Class;
 		
-		public function Support(x:int, y:int)
+		public function Support(x:Int, y:Int)
 		{
 			if (Registry.stageCount == 5) number = 160
 			else number = 0
@@ -33,7 +33,7 @@ package
 			timer = 0;
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -50,7 +50,7 @@ package
 			
 		}
 		
-		override public function kill():void
+		override public function kill():Void
 		{
 			solid = false;
 
@@ -62,7 +62,7 @@ package
 		}
 		
 		//only here so reference in PlayState doesn't freak out
-		public function knockback():void
+		public function knockback():Void
 		{
 		}
 	}

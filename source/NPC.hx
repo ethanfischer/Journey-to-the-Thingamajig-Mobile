@@ -7,27 +7,27 @@ package
 	{
 		[Embed(source = "../map/teddy.png")] private var NPCPNG:Class;
 		[Embed(source = "../assets/here.mp3")] private var hereSFX:Class;
-		private var hereSFXFLAG:Boolean;
+		private var hereSFXFLAG:Bool;
 		[Embed(source = "../assets/npcNoise2.mp3")] private var noise2:Class;
-		private var noise2Flag:Boolean;
+		private var noise2Flag:Bool;
 		[Embed(source = "../assets/bah.mp3")] private var bah:Class;
 		[Embed(source = "../assets/bahfade.mp3")] private var bahfade:Class;
 		
-		public var isDying:Boolean = false;
-		private var dieTimer:Number;
-		private var bounceTimer:Number;
-		private var knockBackTimer:Number;
+		public var isDying:Bool = false;
+		private var dieTimer:Float;
+		private var bounceTimer:Float;
+		private var knockBackTimer:Float;
 		private var player:Player;
-		private var canKnockback:Boolean = false;
-		private var retreatFlag:Boolean = false;
+		private var canKnockback:Bool = false;
+		private var retreatFlag:Bool = false;
 		public var message:FlxText;
-		public var messageCount:int = 0;
+		public var messageCount:Int = 0;
 		private var text:String;
-		public var meetTimer:Number;
-		public var meetTimer2:Number;
-		public var meetFlag:Boolean = false;
+		public var meetTimer:Float;
+		public var meetTimer2:Float;
+		public var meetFlag:Bool = false;
 		
-		public function NPC(x:int, y:int, i_facing:uint)
+		public function NPC(x:Int, y:Int, i_facing:uint)
 		{
 			super(x * 16, y * 16);
 			
@@ -59,7 +59,7 @@ package
 			offset.x = 8;
 		}
 		
-		override public function kill():void
+		override public function kill():Void
 		{		
 			isDying = true;
 			
@@ -70,13 +70,13 @@ package
 		}
 		
 		
-		private function removeSprite():void
+		private function removeSprite():Void
 		{
 			dieTimer = 3;
 			play("dead");
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -195,7 +195,7 @@ package
 		}
 		
 		
-		public function bounce():void
+		public function bounce():Void
 		{
 			kill();
 		
@@ -204,7 +204,7 @@ package
 			bounceTimer = .01;
 		}
 		
-		public function knockback():void
+		public function knockback():Void
 		{		
 			velocity.y = -500;
 			if (x > Registry.gameLevel.player.x)
@@ -217,7 +217,7 @@ package
 			}
 		}
 		
-		public function talk():void
+		public function talk():Void
 		{
 			play("punched");
 			if (messageCount == 1)

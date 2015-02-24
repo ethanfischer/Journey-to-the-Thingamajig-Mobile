@@ -7,7 +7,7 @@ package
 	{
 		[Embed(source = "../assets/worm.png")] private var WormPNG:Class;	
 		
-		public function Worm(x:int, y:int)
+		public function Worm(x:Int, y:Int)
 		{
 			super(x, y);
 			loadGraphic(WormPNG, true, true, 4, 8);
@@ -19,7 +19,7 @@ package
 			offset.y = -2;
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			if (velocity.y > 0) visible = false;

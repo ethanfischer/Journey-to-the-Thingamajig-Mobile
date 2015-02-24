@@ -13,7 +13,7 @@ package
 			super();
 		}
 		
-		public function addSmokelet(i_x:int, i_y:int):void
+		public function addSmokelet(i_x:Int, i_y:Int):Void
 		{	
 			var temp:Smokelet = new Smokelet(i_x, i_y);
 			add(temp);

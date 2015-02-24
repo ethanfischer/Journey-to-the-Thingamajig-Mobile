@@ -12,16 +12,16 @@ package
 	
 		
 		public var fireSFX:FlxSound;
-		private var dieTimer:Number;
+		private var dieTimer:Float;
 		private var player:Player;
-		private var knockbackTimer:Number;
-		private var knockbackTimerFlag:Boolean;
-		private var canKnockback:Boolean = false;
+		private var knockbackTimer:Float;
+		private var knockbackTimerFlag:Bool;
+		private var canKnockback:Bool = false;
 		public var weapon:FlxWeapon;
 		public var direction:uint;
-		public var updateForever:Boolean;
+		public var updateForever:Bool;
 		
-		public function Bot2(x:int, y:int, i_player:Player, i_weapon:FlxWeapon, i_facing:uint, bladeSpeed:int, i_active:Boolean = false, fireRate:int = 1, bullets:int = 4, i_updateForever:Boolean = false)
+		public function Bot2(x:Int, y:Int, i_player:Player, i_weapon:FlxWeapon, i_facing:uint, bladeSpeed:Int, i_active:Bool = false, fireRate:Int = 1, bullets:Int = 4, i_updateForever:Bool = false)
 		{
 			super(x, y, i_player, FlxObject.RIGHT);
 			
@@ -61,7 +61,7 @@ package
 			velocity.x = 0;
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -85,13 +85,13 @@ package
 			
 		}
 		
-		override public function retreat():void
+		override public function retreat():Void
 		{
 			
 		}
 		
 		
-		private function meh():void
+		private function meh():Void
 		{
 			
 		}

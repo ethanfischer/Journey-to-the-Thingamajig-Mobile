@@ -5,16 +5,16 @@ package
 	public class FadeBlock extends FlxSprite
 	{
 		private var player:Player;
-		private var timer:Number;
-		private var delay:Number;
-		private	var killFlag:Boolean = false;
-		private var speed:Number;
-		private var faded:Boolean = false;
+		private var timer:Float;
+		private var delay:Float;
+		private	var killFlag:Bool = false;
+		private var speed:Float;
+		private var faded:Bool = false;
 		
 		[Embed(source = "../assets/drawerslide.mp3")] private var scootSFX:Class;
 		[Embed(source="../map/fadeRock(brown).png")] private var rockPNG:Class;
 		
-		public function FadeBlock(x:int, y:int, i_delay:Number, i_speed:Number)
+		public function FadeBlock(x:Int, y:Int, i_delay:Float, i_speed:Float)
 		{
 			super(x * 16, y * 16 + 160); //no clue why I had to add 160
 			
@@ -37,7 +37,7 @@ package
 			
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -57,7 +57,7 @@ package
 			
 		}
 		
-		public function switchFade():void
+		public function switchFade():Void
 		{
 		//	if (this.onScreen()) //FlxG.play(scootSFX, .1);
 			
@@ -77,7 +77,7 @@ package
 		
 		
 		//only here so reference in PlayState doesn't freak out
-		public function knockback():void
+		public function knockback():Void
 		{
 		}
 	}

@@ -14,7 +14,7 @@ package
 			pixels = new FlxGroup();
 			
 			//	Here we create an FlxGroup containing 40 FlxEmitters, all the same, used when the aliens are shot/explode
-			for (var i:int = 0; i < 40; i++)
+			for (var i:Int = 0; i < 40; i++)
 			{
 				var tempPixel:FlxEmitter = new FlxEmitter();
 				tempPixel.setSize(8, 8);
@@ -43,7 +43,7 @@ package
 			//add(jet);
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -53,7 +53,7 @@ package
 			jet.y = Registry.player.y + 12;
 		}
 		
-		public function explodeBlock(ax:int, ay:int):void
+		public function explodeBlock(ax:Int, ay:Int):Void
 		{
 			var pixel:FlxEmitter = FlxEmitter(pixels.getFirstAvailable());
 			

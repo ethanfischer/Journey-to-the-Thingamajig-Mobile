@@ -8,10 +8,10 @@ package
 	public class DeathMenuState extends FlxState
 	{	
 		private var levelMessage:FlxText;
-		private var levelNumber:int;
+		private var levelNumber:Int;
 		private var deathMessage:FlxText;
 		private var spacebarMessage:FlxText;
-		private var timer:Number;
+		private var timer:Float;
 		//private var reveal:CenterSlideFX;
 		[Embed(source = "../assets/quack.mp3")] private var quack:Class;
 		[Embed(source = "../assets/writing.mp3")] private var writing:Class;
@@ -25,7 +25,7 @@ package
 		{
 		}
 		
-		override public function create():void
+		override public function create():Void
 		{			
 			deathMessage = new FlxText(Registry.screenWidth/2 - 155, 50, 320, "" + levelNumber);
 			deathMessage.size = 180; 
@@ -59,7 +59,7 @@ package
 			
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -82,12 +82,12 @@ package
 			
 		}
 		
-		private function changeState():void
+		private function changeState():Void
 		{
 			FlxG.switchState(new PlayState);
 		}
 		
-		override public function destroy():void
+		override public function destroy():Void
 		{
 			FlxSpecialFX.clear();
 			

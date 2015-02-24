@@ -4,8 +4,8 @@ package
 
 	public class Supports extends FlxGroup
 	{
-		private var x:int;
-		private var y:int;
+		private var x:Int;
+		private var y:Int;
 		private var player:Player;
 		private var tempSupport:Support;
 		
@@ -15,7 +15,7 @@ package
 			super();
 		}
 		
-		public function addSupport(i_x:int, i_y:int):void
+		public function addSupport(i_x:Int, i_y:Int):Void
 		{	
 			x = i_x;
 			y = i_y;

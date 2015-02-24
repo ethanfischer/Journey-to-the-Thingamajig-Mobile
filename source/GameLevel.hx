@@ -11,8 +11,8 @@ package
 		public var backbackground:FlxTilemap;
 		public var foreground:FlxTilemap;
 		public var foreforeground:FlxTilemap;
-		public var width:int;
-		public var height:int;
+		public var width:Int;
+		public var height:Int;
 		public var bots:Bots;
 		public var bots2:Bots2;
 		public var poofs:Poofs;
@@ -47,7 +47,7 @@ package
 		[Embed(source = "../assets/blue.png")] private var bluePNG:Class;
 		public var blue:FlxSprite;
 		public var umbrella:FlxSprite = new FlxSprite(23, 375);	
-		public var beats:Array;
+		public var beats:Array<Dynamic>;
 		public var worm1:Worm;
 		public var worm2:Worm;
 		public var worm3:Worm;
@@ -110,7 +110,7 @@ package
 			beat3.loadEmbedded(beet3, true);
 			beat4.loadEmbedded(beet4, true); */
 			
-			//beats = new Array();
+			//beats = new Array<Dynamic>();
 			//beats = [beat2, beat1, beat3, beat4];
 			//musix = beats[Registry.deathCount % 4];
 			//FlxG.music = musix;

@@ -9,10 +9,10 @@ package
 	public class Stream extends FlxSprite
 	{
 		[Embed(source = "../assets/stream.png")] private var streamPNG:Class;
-		public var flowLeft:Boolean;
+		public var flowLeft:Bool;
 		public var type:String;
 		
-		public function Stream(x:int, y:int, i_flowLeft:Boolean, i_type:String) 
+		public function Stream(x:Int, y:Int, i_flowLeft:Bool, i_type:String) 
 		{
 			super(x * 16, y * 16);
 			

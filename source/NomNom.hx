@@ -11,10 +11,10 @@ package
 		
 		private var tempWhere:String = "left";
 		private var where:String = "left";
-		public var crossedIt:Boolean = false;
-		public var spinTimer:Number;
+		public var crossedIt:Bool = false;
+		public var spinTimer:Float;
 		
-		public function NomNom(X:int, Y:int)
+		public function NomNom(X:Int, Y:Int)
 		{
 			super(X * 16, Y * 16);
 			
@@ -29,7 +29,7 @@ package
 			
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			
 			if (Registry.torchesOn) 

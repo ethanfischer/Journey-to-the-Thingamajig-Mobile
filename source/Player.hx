@@ -29,52 +29,52 @@ package
 		[Embed(source = "../assets/foldpaper.mp3")] private var _foldPaperSFX:Class;
 		
 		
-		private var _paraFlag:Boolean;
-		private var _deathSFXflag:Boolean;
+		private var _paraFlag:Bool;
+		private var _deathSFXflag:Bool;
 		
 		private var _jumpSFX:FlxSound;
-		private var _fadeoutFlag:Boolean= false;
+		private var _fadeoutFlag:Bool= false;
 		private var _footage:String;
 		
 		public var walkSFX:FlxSound;
-		private var _jumpSFXflag:Boolean;
+		private var _jumpSFXflag:Bool;
 		private var _slideSFX:FlxSound;
 		
 		private var _start:FlxPoint;
-		private var _maxHealth:int;
-		private var _hurtTimer:Number = -1;
-		private var _invTimer:Number;
-		public var pickup:Boolean = false;
-		private var _invincible:Boolean;
-		private var _deadTimer:Number = 0;
-		public var pickupTimer:Number;
-		private var _letterTimer:Number;
-		public var deathFlag:Boolean;
-		public var _canJump:Boolean = true;
-		private var _jump:Number;
-		private const MAXSPEED:Number = 170;
+		private var _maxHealth:Int;
+		private var _hurtTimer:Float = -1;
+		private var _invTimer:Float;
+		public var pickup:Bool = false;
+		private var _invincible:Bool;
+		private var _deadTimer:Float = 0;
+		public var pickupTimer:Float;
+		private var _letterTimer:Float;
+		public var deathFlag:Bool;
+		public var _canJump:Bool = true;
+		private var _jump:Float;
+		private const MAXSPEED:Float = 170;
 		public var hitBox:FlxSprite;
 		public var screen:FlxSprite; //for updating things off screen
 		public var screen2:FlxSprite; //for updating things that visible on screen
-		public var canIdle:Boolean = true;
-		public var canPunch:Boolean = true;
-		public var isDying:Boolean = false;
-		public var isDucking:Boolean = false;
-		private var umbrellaCounter:int; //when you first open the umbrella, it slows you down. Only let this happen twice
+		public var canIdle:Bool = true;
+		public var canPunch:Bool = true;
+		public var isDying:Bool = false;
+		public var isDucking:Bool = false;
+		private var umbrellaCounter:Int; //when you first open the umbrella, it slows you down. Only let this happen twice
 		
-		public var walkingFlag:Boolean = false;
-		public var halted:Boolean;
-		public var facingFlag:Boolean;
-		private var _flag497:Boolean; //why the fuck would I name something this??
+		public var walkingFlag:Bool = false;
+		public var halted:Bool;
+		public var facingFlag:Bool;
+		private var _flag497:Bool; //why the fuck would I name something this??
 		
-		public var knockback:Boolean = false;
+		public var knockback:Bool = false;
 		
 		
-		public var accel:Number;
-		private	var decel:Number;
-		public	var speed:Number;
+		public var accel:Float;
+		private	var decel:Float;
+		public	var speed:Float;
 		
-		public function Player(X:Number, Y:Number)
+		public function Player(X:Float, Y:Float)
 		{	
 			
 			
@@ -218,7 +218,7 @@ package
 			facing = FlxObject.RIGHT;
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -534,9 +534,9 @@ package
 		//										OTHER METHODS									 //
 		///////////////////////////////////////////////////////////////////////////////////////////
 				
-		private function jump():void
+		private function jump():Void
 		{
-			_jump:Number;
+			_jump:Float;
 				if((_jump >= 0) && (FlxG.keys.Z || FlxG.keys.UP) && (_canJump)) //You can also use space or any other key you want
 				{	
 					_jump += FlxG.elapsed;
@@ -607,7 +607,7 @@ package
 			if (FlxG.keys.Z && velocity.y > 30) _canJump = false;
 		}
 		
-		public function bounce(bounceAmount:int):void
+		public function bounce(bounceAmount:Int):Void
 		{
 			velocity.y = -bounceAmount;
 			umbrellaCounter = 0; // same as landing on the ground
@@ -615,7 +615,7 @@ package
 		}
 		
 		
-		public function ouch(damage:int):void
+		public function ouch(damage:Int):Void
 		{
 			if (_invincible)
 			{
@@ -635,7 +635,7 @@ package
 			}
 		}
 		
-		public function dead():Boolean
+		public function dead():Bool
 		{
 			//death
 			if (!deathFlag)
@@ -668,7 +668,7 @@ package
 			return true;
 		}
 	
-		public function get getInvincible():Boolean
+		public function get getInvincible():Bool
 		{
 			return _invincible;
 		}
@@ -678,12 +678,12 @@ package
 			return _facing;
 		}
 		
-		public function onFade():void
+		public function onFade():Void
 		{
 			FlxG.switchState(new PlayState);
 		}
 		
-		public function putAway():void
+		public function putAway():Void
 		{
 			FlxG.play(_foldPaperSFX, 1);
 			canIdle = false;

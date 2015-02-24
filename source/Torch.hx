@@ -9,10 +9,10 @@ package
 	{
 		[Embed(source = "../assets/torch.png")] private var torchPNG:Class;
 		
-		public var flameOn:Boolean = false;
-		private var flameDance:int;
+		public var flameOn:Bool = false;
+		private var flameDance:Int;
 		
-		public function Torch(x:Number, y:Number, i_flameDance:int) 
+		public function Torch(x:Float, y:Float, i_flameDance:Int) 
 		{
 			super(x * 16, y * 16);
 			
@@ -29,7 +29,7 @@ package
 			addAnimation("flameOff", [7], 0, false);	
 		}
 
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			

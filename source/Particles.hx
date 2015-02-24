@@ -13,7 +13,7 @@ package
 			super();
 		}
 		
-		public function addParticle(i_x:int, i_y:int):void
+		public function addParticle(i_x:Int, i_y:Int):Void
 		{	
 			var temp:Particle = new Particle(i_x, i_y);
 			add(temp);

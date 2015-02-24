@@ -5,22 +5,22 @@ package
 	public class NotAFlower extends FlxSprite
 	{
 		private var player:Player;
-		private var blinktimer:Number;
-		private var discoverTimer:Number;
-		public var stareTimer:Number;
-		public var punchTimer:Number;
-		private var flashTimer:Number;
+		private var blinktimer:Float;
+		private var discoverTimer:Float;
+		public var stareTimer:Float;
+		public var punchTimer:Float;
+		private var flashTimer:Float;
 		private var animation:String;
-		private var blinkSequence:Boolean = true;
-		private var hungerTimer:Number = 20;
-		private var chasePlayer:Boolean;
-		private var eatingTimer:Number;
-		private var eatingTimerFlag:Boolean;
-		public var eatingEm:Boolean = false;
+		private var blinkSequence:Bool = true;
+		private var hungerTimer:Float = 20;
+		private var chasePlayer:Bool;
+		private var eatingTimer:Float;
+		private var eatingTimerFlag:Bool;
+		public var eatingEm:Bool = false;
 		public var idleSpeed:String = "idle";
-		private var drumfillFlag:Boolean = false;
-		public var contact:Boolean;
-		private var meeting:Boolean;
+		private var drumfillFlag:Bool = false;
+		public var contact:Bool;
+		private var meeting:Bool;
 		
 	
 		[Embed(source = "../assets/boxGlove2.png")] private var not_a_flowerPNG:Class;
@@ -30,7 +30,7 @@ package
 		
 		
 		
-		public function NotAFlower(x:int, y:int, i_player:Player)
+		public function NotAFlower(x:Int, y:Int, i_player:Player)
 		{
 			super(x, y);
 			
@@ -53,7 +53,7 @@ package
 			blinktimer = 3;
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 
@@ -147,7 +147,7 @@ package
 			
 		}
 		
-		public function niceToMeetYou():void
+		public function niceToMeetYou():Void
 		{
 			if (!meeting)
 			{
@@ -156,7 +156,7 @@ package
 			}
 		}
 		
-		public function killPlayer(player:Player, yeah:FlxObject):void
+		public function killPlayer(player:Player, yeah:FlxObject):Void
 		{
 			player.dead();
 		}

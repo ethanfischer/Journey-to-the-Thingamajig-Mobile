@@ -27,21 +27,21 @@ package
 	
 	public class FlxDelay extends Sprite
 	{
-		public var isRunning:Boolean;
+		public var isRunning:Bool;
 		
-		private var started:int;
-		public var duration:int;
-		private var expires:int;
-		private var pauseStarted:int;
-		private var pausedTimerRunning:Boolean;
-		private var complete:Boolean;
+		private var started:Int;
+		public var duration:Int;
+		private var expires:Int;
+		private var pauseStarted:Int;
+		private var pausedTimerRunning:Bool;
+		private var complete:Bool;
 		
 		/**
 		 * Create a new timer which will run for the given amount of ms (1000 = 1 second real time)
 		 * 
 		 * @param	runFor	The duration of this timer in ms. Call start() to set it going.
 		 */
-		public function FlxDelay(runFor:int)
+		public function FlxDelay(runFor:Int)
 		{
 			duration = runFor;
 		}
@@ -49,7 +49,7 @@ package
 		/**
 		 * Starts the timer running
 		 */
-		public function start():void
+		public function start():Void
 		{
 			started = getTimer();
 			expires = started + duration;
@@ -65,7 +65,7 @@ package
 		/**
 		 * Has the timer finished?
 		 */
-		public function get hasExpired():Boolean
+		public function get hasExpired():Bool
 		{
 			return complete;
 		}
@@ -75,14 +75,14 @@ package
 		 * 
 		 * @param	newDuration	The duration of this timer in ms.
 		 */
-		public function reset(newDuration:int):void
+		public function reset(newDuration:Int):Void
 		{
 			duration = newDuration;
 			
 			start();
 		}
 		
-		private function update(event:Event):void
+		private function update(event:Event):Void
 		{
 			//	Has the game been paused?
 			if (pausedTimerRunning == true && FlxG.paused == false)
@@ -107,12 +107,12 @@ package
 		/**
 		 * Abors a currently active timer without firing any callbacks (if set)
 		 */
-		public function abort():void
+		public function abort():Void
 		{
 			stop();
 		}
 		
-		private function stop():void
+		private function stop():Void
 		{
 			removeEventListener(Event.ENTER_FRAME, update);
 			

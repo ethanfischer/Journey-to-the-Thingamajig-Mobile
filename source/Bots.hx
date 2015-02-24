@@ -4,11 +4,11 @@ package
 
 	public class Bots extends FlxGroup
 	{
-		private var x:int;
-		private var y:int;
+		private var x:Int;
+		private var y:Int;
 		private var player:Player;
 		private var tempBot:Bot;
-		public var alltheBots:Array = new Array(); //array of bots used to randomly select a chosen bot for retreat function
+		public var alltheBots:Array<Dynamic> = new Array<Dynamic>(); //array of bots used to randomly select a chosen bot for retreat function
 		
 		
 		
@@ -18,7 +18,7 @@ package
 			super();
 		}
 		
-		public function addBot(i_x:int, i_y:int, i_player:Player, i_facing:uint):void
+		public function addBot(i_x:Int, i_y:Int, i_player:Player, i_facing:uint):Void
 		{	
 			x = i_x;
 			y = i_y;

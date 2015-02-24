@@ -4,8 +4,8 @@ package
 
 	public class Rocks extends FlxGroup
 	{
-		private var x:int;
-		private var y:int;
+		private var x:Int;
+		private var y:Int;
 		private var player:Player;
 		private var tempRock:Rock;
 		private var tallRock:TallRock;
@@ -15,7 +15,7 @@ package
 			super();
 		}
 		
-		public function addRock(i_x:int, i_y:int, i_player:Player, rockType:int):void
+		public function addRock(i_x:Int, i_y:Int, i_player:Player, rockType:Int):Void
 		{	
 			x = i_x;
 			y = i_y;

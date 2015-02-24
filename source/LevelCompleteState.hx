@@ -8,17 +8,17 @@ package
 	public class LevelCompleteState extends FlxState
 	{	
 		private var levelMessage:FlxText;
-		private var levelNumber:int;
+		private var levelNumber:Int;
 		private var deathMessage:FlxText;
 		private var totalDeathsMessage:FlxText;
 		private var levelDeathsMessage:FlxText;
 		private var spacebarMessage:FlxText;
 		private var chkptsUsedText:FlxText;
 		private var totalChkptsUsedText:FlxText;
-		private var awardTimer:Number;
-		private var timer:Number = 5;
-		private var i_totalTime:Number;
-		private var drumRollFlag:Boolean;
+		private var awardTimer:Float;
+		private var timer:Float = 5;
+		private var i_totalTime:Float;
+		private var drumRollFlag:Bool;
 		
 		[Embed(source="../assets/z_scoreappear.mp3")] private var bingbong:Class;
 		//[Embed(source = "../assets/Dats Dat Kuuuush.mp3")] private var datsDatKush:Class;
@@ -31,9 +31,9 @@ package
 		[Embed(source = "../assets/splat.mp3")] private var splat:Class;
 		
 		private var trophy:FlxSprite = new FlxSprite(0, 0);
-		private var sFlag1:Boolean;
-		private var sFlag2:Boolean;
-		private var sFlag3:Boolean;
+		private var sFlag1:Bool;
+		private var sFlag2:Bool;
+		private var sFlag3:Bool;
 		
 		//private var reveal:CenterSlideFX;
 		
@@ -41,7 +41,7 @@ package
 		{
 		}
 		
-		override public function create():void
+		override public function create():Void
 		{	
 			//FlxG.music.stop();
 			//FlxG.music.fadeOut(2);
@@ -72,7 +72,7 @@ package
 			
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -143,19 +143,19 @@ package
 			
 		}
 		
-		private function changeState():void
+		private function changeState():Void
 		{
 			
 			Registry.gameStart = false;
 			FlxG.switchState(new DeathMenuState);
 		}
 		
-		private function start():void
+		private function start():Void
 		{
 			timer = 5;
 		}
 		
-		override public function destroy():void
+		override public function destroy():Void
 		{
 			FlxSpecialFX.clear();
 			

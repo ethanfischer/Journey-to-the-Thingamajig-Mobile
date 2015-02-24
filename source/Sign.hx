@@ -7,10 +7,10 @@ package
 	{	
 		public var message:FlxText;
 		private var player:Player;
-		private var x:int;
-		private var y:int;
+		private var x:Int;
+		private var y:Int;
 		
-		public function Sign(i_x:int, i_y:int, text:String, i_player:Player, m_x:int, m_y:int )
+		public function Sign(i_x:Int, i_y:Int, text:String, i_player:Player, m_x:Int, m_y:Int )
 		{
 			super();
 			
@@ -25,7 +25,7 @@ package
 			add(message);
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			if (player.x > x-34 && player.x < x+50)
 			{

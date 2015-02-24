@@ -11,17 +11,17 @@ package
 	{
 		[Embed(source = "../assets/bouldlet.png")] public var bouldletPNG:Class;
 		[Embed(source = "../assets/bouldletmini.png")] public var bouldletminiPNG:Class;
-		private var images:Array = new Array();
-		private var lifetime:Number;
-		private var falls:int = 0;
+		private var images:Array<Dynamic> = new Array<Dynamic>();
+		private var lifetime:Float;
+		private var falls:Int = 0;
 		
-		public function Bouldlet(i_x:int, i_y:int, i_velocityY:int, i_velocityX:int = 0, i_lifetime:Number = 0) 
+		public function Bouldlet(i_x:Int, i_y:Int, i_velocityY:Int, i_velocityX:Int = 0, i_lifetime:Float = 0) 
 		{
 			super(i_x, i_y);
 			
 			images[0] = bouldletminiPNG;
 			images[1] = bouldletminiPNG;
-			var rand:int = Math.random();
+			var rand:Int = Math.random();
 			
 			lifetime = i_lifetime;
 			loadGraphic(images[rand], false, false, 8, 8);
@@ -33,7 +33,7 @@ package
 			scrollFactor.x = 0;
 			scrollFactor.y = 0;
 		}
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			

@@ -109,7 +109,7 @@ package
 			Registry.player = player;
 		}
 			
-		private function parseNomNoms():void
+		private function parseNomNoms():Void
 		{
 			var nomNomMap:FlxTilemap = new FlxTilemap();
 			
@@ -117,9 +117,9 @@ package
 			
 			nomNoms = new FlxGroup();
 			
-			for (var ty:int = 0; ty < nomNomMap.heightInTiles; ty++)
+			for (var ty:Int = 0; ty < nomNomMap.heightInTiles; ty++)
 			{
-				for (var tx:int = 0; tx < nomNomMap.widthInTiles; tx++)
+				for (var tx:Int = 0; tx < nomNomMap.widthInTiles; tx++)
 				{
 					if (nomNomMap.getTile(tx, ty) == 1)
 					{
@@ -129,7 +129,7 @@ package
 			}
 		}
 		
-		private function parseBots(player:Player):void
+		private function parseBots(player:Player):Void
 		{			
 			var botMap:FlxTilemap = new FlxTilemap();
 			
@@ -137,9 +137,9 @@ package
 			
 			bots = new Bots;
 			
-			for (var ty:Number = 0; ty < botMap.heightInTiles; ty++)
+			for (var ty:Float = 0; ty < botMap.heightInTiles; ty++)
 			{
-				for (var tx:int = 0; tx < botMap.widthInTiles; tx++)
+				for (var tx:Int = 0; tx < botMap.widthInTiles; tx++)
 				{
 					if (botMap.getTile(tx, ty) == 1)
 					{
@@ -155,15 +155,15 @@ package
 			Registry.bots = bots;
 		}
 		
-		private function parseCheckpoint():void
+		private function parseCheckpoint():Void
 		{			
 			var checkpointMap:FlxTilemap = new FlxTilemap();
 			
 			checkpointMap.loadMap(new checkpointCSV, botletPNG, 16, 16);
 			
-			for (var ty:Number = 0; ty < checkpointMap.heightInTiles; ty++)
+			for (var ty:Float = 0; ty < checkpointMap.heightInTiles; ty++)
 			{
-				for (var tx:int = 0; tx < checkpointMap.widthInTiles; tx++)
+				for (var tx:Int = 0; tx < checkpointMap.widthInTiles; tx++)
 				{
 					if (checkpointMap.getTile(tx, ty) == 1)
 					{
@@ -182,7 +182,7 @@ package
 			}
 		}
 		
-		private function parseSupports():void
+		private function parseSupports():Void
 		{			
 			supportMap = new FlxTilemap();
 			
@@ -190,9 +190,9 @@ package
 			
 			supports = new Supports;
 			
-			for (var ty:Number = 0; ty < supportMap.heightInTiles; ty++)
+			for (var ty:Float = 0; ty < supportMap.heightInTiles; ty++)
 			{
-				for (var tx:int = 0; tx < supportMap.widthInTiles; tx++)
+				for (var tx:Int = 0; tx < supportMap.widthInTiles; tx++)
 				{
 					if (supportMap.getTile(tx, ty) == 1)
 					{
@@ -202,15 +202,15 @@ package
 			}
 		}
 		
-		private function parseNPCs():void
+		private function parseNPCs():Void
 		{			
 			var NPCMap:FlxTilemap = new FlxTilemap();
 			
 			NPCMap.loadMap(new npcsCSV, botletPNG, 16, 16);
 			
-			for (var ty:Number = 0; ty < NPCMap.heightInTiles; ty++)
+			for (var ty:Float = 0; ty < NPCMap.heightInTiles; ty++)
 			{
-				for (var tx:int = 0; tx < NPCMap.widthInTiles; tx++)
+				for (var tx:Int = 0; tx < NPCMap.widthInTiles; tx++)
 				{
 					if (NPCMap.getTile(tx, ty) == 1)
 					{
@@ -222,7 +222,7 @@ package
 			}
 		}
 		
-		private function parseRocks(player:Player):void
+		private function parseRocks(player:Player):Void
 		{			
 			rockMap = new FlxTilemap();
 			
@@ -230,9 +230,9 @@ package
 			
 			rocks = new Rocks;
 			
-			for (var ty:Number = rockMap.heightInTiles; ty > 0; ty--)
+			for (var ty:Float = rockMap.heightInTiles; ty > 0; ty--)
 			{
-				for (var tx:int = rockMap.widthInTiles; tx > 0; tx--)
+				for (var tx:Int = rockMap.widthInTiles; tx > 0; tx--)
 				{
 					if (rockMap.getTile(tx, ty) == 1)
 					{
@@ -246,7 +246,7 @@ package
 			}
 		}
 		
-		private function parseReinforcements():void
+		private function parseReinforcements():Void
 		{			
 			reinforcementMap = new FlxTilemap();
 			
@@ -254,9 +254,9 @@ package
 			
 			reinforcements = new Reinforcements;
 			
-			for (var ty:Number = reinforcementMap.heightInTiles; ty > 0; ty--)
+			for (var ty:Float = reinforcementMap.heightInTiles; ty > 0; ty--)
 			{
-				for (var tx:int = reinforcementMap.widthInTiles; tx > 0; tx--)
+				for (var tx:Int = reinforcementMap.widthInTiles; tx > 0; tx--)
 				{
 					if (reinforcementMap.getTile(tx, ty) == 1)
 					{
@@ -266,7 +266,7 @@ package
 			}
 		}
 		
-		private function parseCrumbleRocks(player:Player):void
+		private function parseCrumbleRocks(player:Player):Void
 		{			
 			crumbleRockMap = new FlxTilemap();
 			
@@ -274,9 +274,9 @@ package
 			
 			crumbleRocks = new CrumbleRocks;
 			
-			for (var ty:Number = 0; ty < crumbleRockMap.heightInTiles; ty++)
+			for (var ty:Float = 0; ty < crumbleRockMap.heightInTiles; ty++)
 			{
-				for (var tx:int = 0; tx < crumbleRockMap.widthInTiles; tx++)
+				for (var tx:Int = 0; tx < crumbleRockMap.widthInTiles; tx++)
 				{
 					if (crumbleRockMap.getTile(tx, ty) == 1)
 					{

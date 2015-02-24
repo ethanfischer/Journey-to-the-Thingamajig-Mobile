@@ -17,14 +17,14 @@ package
 		[Embed(source = "../assets/quack.mp3")] private var quack:Class;
 		
 	 	private var dots:FlxSprite = new FlxSprite(Registry.screenWidth / 2 - 29, Registry.screenHeight - 29);
-		private var selector:int = 1;
+		private var selector:Int = 1;
 		
 		private var l1pic:FlxSprite;
 		private var l2pic:FlxSprite;
 		
-		private var lpics:Array = new Array;
+		private var lpics:Array<Dynamic> = new Array<Dynamic>;
 		private var lpic:FlxSprite;
-		private var lpicCount:int = 0;
+		private var lpicCount:Int = 0;
 		
 		private var title:FlxSprite;
 		private var back:FlxText;
@@ -36,9 +36,9 @@ package
 		private var l6:FlxButton;
 		private var l7:FlxButton;
 		private var currentButton:FlxButton;
-		private var levelCount:int = 0;
+		private var levelCount:Int = 0;
 		
-		private var levels:Array;
+		private var levels:Array<Dynamic>;
 		
 		//private var reveal:CenterSlideFX;
 		
@@ -48,7 +48,7 @@ package
 		{
 		}
 		
-		override public function create():void
+		override public function create():Void
 		{
 		FlxG.play(quack);
 			
@@ -113,7 +113,7 @@ package
 		
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -172,12 +172,12 @@ package
 			
 		}
 		
-		private function changeState():void
+		private function changeState():Void
 		{
 			FlxG.switchState(new DeathMenuState);
 		}
 		
-		override public function destroy():void
+		override public function destroy():Void
 		{
 			FlxSpecialFX.clear();
 			super.destroy();

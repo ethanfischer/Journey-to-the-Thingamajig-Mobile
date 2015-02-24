@@ -5,8 +5,8 @@ package
 	public class Reinforcement extends FlxSprite
 	{
 		private var player:Player;
-		private var timer:Number;
-		private	var killFlag:Boolean = false;
+		private var timer:Float;
+		private	var killFlag:Bool = false;
 		
 		//[Embed(source="../assets/Rubber Band Hit.mp3")] private var reinforcementSFX:Class;
 		//[Embed(source="../assets/guitar_E9.mp3")] private var reinforcementSFX:Class;
@@ -14,7 +14,7 @@ package
 		
 		[Embed(source="../map/Reinforcement.png")] private var ReinforcementPNG:Class;
 		
-		public function Reinforcement(x:int, y:int)
+		public function Reinforcement(x:Int, y:Int)
 		{
 			super(x * 16, y * 16);
 			
@@ -34,7 +34,7 @@ package
 			timer = 0;
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -56,7 +56,7 @@ package
 			
 		}
 		
-		override public function kill():void
+		override public function kill():Void
 		{
 			solid = false;
 			FlxG.play(reinforcementSFX);
@@ -70,7 +70,7 @@ package
 		}
 		
 		//only here so reference in PlayState doesn't freak out
-		public function knockback():void
+		public function knockback():Void
 		{
 		}
 	}

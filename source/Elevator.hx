@@ -6,12 +6,12 @@ package
 	{
 		[Embed(source = '../assets/elevator.png')] private var elevatorPNG:Class;
 		
-		public var moveX:Boolean = false;
-		public var moveY:Boolean = false;
+		public var moveX:Bool = false;
+		public var moveY:Bool = false;
 		private var startPoint:FlxPoint;
 		private var endPoint:FlxPoint;
 		
-		public function Elevator(X:Number, Y:Number, Width:Number, Height:Number, Speed:int = 40)
+		public function Elevator(X:Float, Y:Float, Width:Float, Height:Float, Speed:Int = 40)
 		{
 			super(X * 16, Y * 16, elevatorPNG);
 			
@@ -35,7 +35,7 @@ package
 			allowCollisions = FlxObject.UP;
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			//	Has platform reached the end of its movement?
 			

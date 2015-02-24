@@ -5,8 +5,8 @@ package
 
 	public class Bots2 extends FlxGroup
 	{
-		public var x:int;
-		public var y:int;
+		public var x:Int;
+		public var y:Int;
 		private var player:Player;
 		private var tempBot:Bot2;
 		public var weapon:FlxWeapon;
@@ -18,7 +18,7 @@ package
 			super();
 		}
 		
-		public function addBot2(i_x:int, i_y:int, i_player:Player, facing:uint, bladeSpeed:int, i_active:Boolean = false, i_fireRate:int = 1, i_bullets:int = 4, i_updateForever:Boolean = false):void
+		public function addBot2(i_x:Int, i_y:Int, i_player:Player, facing:uint, bladeSpeed:Int, i_active:Bool = false, i_fireRate:Int = 1, i_bullets:Int = 4, i_updateForever:Bool = false):Void
 		{	
 			x = i_x;
 			y = i_y + 4/16; //+ 4 because the bots fall a little bit to the ground otherwise

@@ -8,8 +8,8 @@ package
 	public class PlayState extends FlxState
 	{
 		private var _gameLevel:GameLevel;
-		private static var stages:Array;
-		private static var stageCount:int = Registry.stageCount; //what stage the user is currently on (0 means Level 1, 1 means Level 2, etc.)
+		private static var stages:Array<Dynamic>;
+		private static var stageCount:Int = Registry.stageCount; //what stage the user is currently on (0 means Level 1, 1 means Level 2, etc.)
 		private var _level1:Class = Level1;
 		private var _level2:Class = Level2;
 		private var _level3:Class = Level3;
@@ -22,14 +22,14 @@ package
 		public var healthBar:FlxHealthBar;
 		private var _amountOfDeathsMessage:FlxText;
 		private var _playtimeMessage:FlxText;
-		private var _torchFlag:Boolean = false;
+		private var _torchFlag:Bool = false;
 		private var _randBot:Bot;
-		public var streamDrag:Boolean = false;
-		private var _streamLeft:Boolean = true;
-		private var _shakeFlag:Boolean;
-		private var _letterTimer:Number;
-		private var _npcTextTime:Number;
-		private var _partyPopflag:Boolean;
+		public var streamDrag:Bool = false;
+		private var _streamLeft:Bool = true;
+		private var _shakeFlag:Bool;
+		private var _letterTimer:Float;
+		private var _npcTextTime:Float;
+		private var _partyPopflag:Bool;
 		private var _splosion:Poof;
 		private var _splat:FlxSprite = new FlxSprite(0, 0);
 
@@ -56,7 +56,7 @@ package
 		{
 		}
 
-		override public function create():void
+		override public function create():Void
 		{
 			stages = [_level1, _level2, _level3, _level4, _level5, _level6, _level7];
 
@@ -95,7 +95,7 @@ package
 			FlxG.camera.follow(_gameLevel.player, FlxCamera.STYLE_PLATFORMER);
 		}
 
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 
@@ -232,7 +232,7 @@ package
 			}
 		}
 
-		private function hitBot(player:Player, bot:Bot):void
+		private function hitBot(player:Player, bot:Bot):Void
 		{
 			if (bot.isDying)
 			{
@@ -273,7 +273,7 @@ package
 			}
 		}
 
-		private function hitBorg(player:Player, borg:Borg):void
+		private function hitBorg(player:Player, borg:Borg):Void
 		{
 			if (!player.isDying && !borg.isDying)
 			{
@@ -297,7 +297,7 @@ package
 			}
 		}
 
-		private function hitFire(player:Player, fire:Torch):void
+		private function hitFire(player:Player, fire:Torch):Void
 		{
 			if (player.getInvincible == false && player.y + 30 > fire.y + 5)
 			{
@@ -322,13 +322,13 @@ package
 
 		//turn all the torches on or off
 		//this is only way I know how to apply a function to a bunch of things at the same time
-		private function flameOn(foreground:FlxTilemap, torch:Torch):void
+		private function flameOn(foreground:FlxTilemap, torch:Torch):Void
 		{
 			if (Registry.torchesOn) torch.flameOn = true;
 			else torch.flameOn = false;
 		}
 
-		private function hitNomNom(thing:FlxSprite, nomNom:NomNom):void
+		private function hitNomNom(thing:FlxSprite, nomNom:NomNom):Void
 		{
 			if (thing is Bot)
 			{
@@ -360,7 +360,7 @@ package
 			}
 		}
 
-		private function hitCheckpoint(player:Player, checkpoint:Checkpoint):void
+		private function hitCheckpoint(player:Player, checkpoint:Checkpoint):Void
 		{
 			Registry.checkpointFlag = true;
 			if (checkpoint.end)
@@ -388,12 +388,12 @@ package
 			}
 		}
 
-		private function hitReinforcement(player:Player, reinforcement:Reinforcement):void
+		private function hitReinforcement(player:Player, reinforcement:Reinforcement):Void
 		{
 			reinforcement.kill();
 		}
 
-		private function hitBlade(player:Player, blade:Bullet):void
+		private function hitBlade(player:Player, blade:Bullet):Void
 		{
 			if (player.y + player.height/2 <= blade.y)
 			{
@@ -413,7 +413,7 @@ package
 			}
 		}
 
-		private function hitLilguy(player:Player, lilguy:LilGuy):void
+		private function hitLilguy(player:Player, lilguy:LilGuy):Void
 		{
 			if (!lilguy.isDying)
 			{
@@ -430,7 +430,7 @@ package
 			}
 		}
 
-		private function createHealthBar():void
+		private function createHealthBar():Void
 		{
 			healthBar = new FlxHealthBar(_gameLevel.player, 30, 3, 0, 100, true);
 			healthBar.createFilledBar(0x00000000, 0x90FF0000, false);
@@ -441,7 +441,7 @@ package
 			add(healthBar);
 		}
 
-		private function createAmountOfDeathsMessage():void
+		private function createAmountOfDeathsMessage():Void
 		{
 			_amountOfDeathsMessage = new FlxText(Registry.screenWidth - 90, 3, 320, "Level " + (Registry.stageCount + 1) + "\n" + "Deaths: " + Registry.deaths);
 			_amountOfDeathsMessage.size = 8;
@@ -450,7 +450,7 @@ package
 			add(_amountOfDeathsMessage);
 		}
 
-		private function createPlaytimeMessage():void
+		private function createPlaytimeMessage():Void
 		{
 			_playtimeMessage = new FlxText(Registry.screenWidth - 63, 3, 320, "" + Registry.playtime);
 			_playtimeMessage.size = 8;
@@ -458,13 +458,13 @@ package
 			_playtimeMessage.scrollFactor.y = 0;
 			add(_playtimeMessage);
 		}
-		private function meetNPC(hitBox:FlxObject, npc:NPC):void
+		private function meetNPC(hitBox:FlxObject, npc:NPC):Void
 		{
 			add(_gameLevel.npc.message);
 			if(!_gameLevel.npc.meetFlag) _gameLevel.npc.meetTimer = 12;
 		}
 
-		private function punchBot(hitBox:FlxObject , bot:Bot):void
+		private function punchBot(hitBox:FlxObject , bot:Bot):Void
 		{
 			if (Registry.gameLevel.player.canPunch && FlxG.keys.justPressed("X") && Registry.hasFlower && !bot.isDying)
 			{
@@ -474,11 +474,11 @@ package
 		}
 
 		//only here so reference in PlayState doesn't freak out
-		private function nothing():void
+		private function nothing():Void
 		{
 		}
 
-		private function punchBorg(hitBox:FlxObject , borg:Borg):void
+		private function punchBorg(hitBox:FlxObject , borg:Borg):Void
 		{
 			if (Registry.gameLevel.player.canPunch && FlxG.keys.justPressed("X") && !borg.isDying)
 			{
@@ -488,7 +488,7 @@ package
 			}
 		}
 
-		private function punchRock(hitBox:FlxObject, rock:FlxObject):void
+		private function punchRock(hitBox:FlxObject, rock:FlxObject):Void
 		{
 			if (Registry.gameLevel.player.canPunch && FlxG.keys.justPressed("X") && Registry.hasFlower)
 			{
@@ -497,7 +497,7 @@ package
 			}
 		}
 
-		private function botRock(bot:Bot, rock:FlxObject):void //when bots fly towards rocks, destroy rocks
+		private function botRock(bot:Bot, rock:FlxObject):Void //when bots fly towards rocks, destroy rocks
 		{
 			if (bot.velocity.x > 50 || bot.velocity.x < -50)
 			{
@@ -509,7 +509,7 @@ package
 			}
 		}
 
-		private function hitMail(player:Player, mail:Mail):void
+		private function hitMail(player:Player, mail:Mail):Void
 		{
 			add(_gameLevel.letter);
 			_gameLevel.player.moves = false;
@@ -519,7 +519,7 @@ package
 			Registry.firstLevel4 = false;
 		}
 
-		private function viewMail():void
+		private function viewMail():Void
 		{
 			FlxG.camera.stopFX();
 			FlxG.flash(0x00000000, 1.4);
@@ -527,7 +527,7 @@ package
 			_gameLevel.letter.visible = true;
 		}
 
-		private function punchNPC(hitBox:FlxObject, npc:NPC):void
+		private function punchNPC(hitBox:FlxObject, npc:NPC):Void
 		{
 			if (Registry.gameLevel.player.canPunch && FlxG.keys.justPressed("X"))
 			{
@@ -542,12 +542,12 @@ package
 			}
 		}
 
-		public function crumble(player:Player, crumblerock:CrumbleRock):void
+		public function crumble(player:Player, crumblerock:CrumbleRock):Void
 		{
 			crumblerock.crumble();
 		}
 
-		public function bouncePlayer(player:Player, spring:Spring):void
+		public function bouncePlayer(player:Player, spring:Spring):Void
 		{
 			if (player.y + player.height < spring.y + 16 && player.velocity.y > 0)
 			{
@@ -557,7 +557,7 @@ package
 			}
 		}
 
-		public function killBlade(blade:Bullet, foreground:FlxTilemap):void
+		public function killBlade(blade:Bullet, foreground:FlxTilemap):Void
 		{
 			if (blade.onScreen()) FlxG.play(_poof, 1, false, true);
 
@@ -565,7 +565,7 @@ package
 			blade.kill();
 		}
 
-		public function handleStreams(player:Player, stream:Stream):void
+		public function handleStreams(player:Player, stream:Stream):Void
 		{
 			if (stream.type == "drop") null;
 			else
@@ -576,7 +576,7 @@ package
 			if (!stream.flowLeft && stream.type == "normal") _streamLeft = false;
 		}
 
-		public function updateThings(screen:FlxSprite, thing:FlxObject):void //this is supposed to optimze my game. Don't know if actually does.
+		public function updateThings(screen:FlxSprite, thing:FlxObject):Void //this is supposed to optimze my game. Don't know if actually does.
 		{
 			var thatBot:Bot2; //in Level 7, there's one bot that shouldn't stop updating once you get past it
 			if (thing is Bot2) thatBot = Bot2(thing); //since you can only check if the bot2 should update forever, typecast the thing
@@ -591,7 +591,7 @@ package
 		}
 
 
-		public function gotoMainMenu():void
+		public function gotoMainMenu():Void
 		{
 			FlxG.music.stop();
 			Registry.musixFlag = false;
@@ -599,7 +599,7 @@ package
 			FlxG.switchState(new MainMenuState);
 		}
 
-		private function mute():void
+		private function mute():Void
 		{
 			if (Registry.pauseSounds)
 			{
@@ -618,7 +618,7 @@ package
 			}
 		}
 
-		public function makeStage():void
+		public function makeStage():Void
 		{
 			_gameLevel = new stages[Registry.stageCount];
 			Registry.gameLevel = _gameLevel;
@@ -692,7 +692,7 @@ package
 		}
 
 		//load the next stage
-		public function nextStage():void
+		public function nextStage():Void
 		{
 			Registry.stageCount++;
 			Registry.checkpointFlag = false;

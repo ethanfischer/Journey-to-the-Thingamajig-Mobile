@@ -4,8 +4,8 @@ package
 
 	public class CrumbleRocks extends FlxGroup
 	{
-		private var x:int;
-		private var y:int;
+		private var x:Int;
+		private var y:Int;
 		private var player:Player;
 		private var tempRock:CrumbleRock;
 		
@@ -14,7 +14,7 @@ package
 			super();
 		}
 		
-		public function addCrumbleRock(i_x:int, i_y:int):void
+		public function addCrumbleRock(i_x:Int, i_y:Int):Void
 		{	
 			x = i_x;
 			y = i_y;
@@ -22,7 +22,7 @@ package
 			add(tempRock);
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 		}

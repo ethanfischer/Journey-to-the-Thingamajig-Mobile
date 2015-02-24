@@ -9,8 +9,8 @@ package
 	public class Boulder extends FlxSprite
 	{
 		[Embed(source = "../assets/boulder.png")] private var boulderPNG:Class;
-		private var splodeFlag:Boolean = false;
-		public var sploded:Boolean = false;
+		private var splodeFlag:Bool = false;
+		public var sploded:Bool = false;
 		
 		public function Boulder() 
 		{
@@ -23,7 +23,7 @@ package
 			
 			
 		}
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			

@@ -7,17 +7,17 @@ package
 		[Embed(source = "../map/bird.png")] private var BirdPNG:Class;
 		[Embed(source = "../assets/eject.mp3")] private var ejectSFX:Class;
 		
-		public var isDying:Boolean = false;
-		private var dieTimer:Number;
-		private var bounceTimer:Number;
-		private var knockBackTimer:Number;
+		public var isDying:Bool = false;
+		private var dieTimer:Float;
+		private var bounceTimer:Float;
+		private var knockBackTimer:Float;
 		private var player:Player;
-		private var canKnockback:Boolean = false;
-		private var retreatFlag:Boolean = false;
-		public var specialOne:Boolean; //if true, this is the Bird that the lilguy will retreat from
+		private var canKnockback:Bool = false;
+		private var retreatFlag:Bool = false;
+		public var specialOne:Bool; //if true, this is the Bird that the lilguy will retreat from
 		
 		public var message:FlxText;
-		private var messageCount:int = 0;
+		private var messageCount:Int = 0;
 		private var text:String;
 		
 		
@@ -59,7 +59,7 @@ package
 		
 		}
 		
-		override public function kill():void
+		override public function kill():Void
 		{		
 			isDying = true;
 			
@@ -70,13 +70,13 @@ package
 		}
 		
 		
-		private function removeSprite():void
+		private function removeSprite():Void
 		{
 			dieTimer = 3;
 			
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -126,7 +126,7 @@ package
 		
 	
 		
-		public function bounce():void
+		public function bounce():Void
 		{
 			kill();
 		
@@ -135,7 +135,7 @@ package
 			bounceTimer = .01;
 		}
 		
-		public function knockback():void
+		public function knockback():Void
 		{		
 			//kill();
 			velocity.y = -500;
@@ -158,7 +158,7 @@ package
 		}
 		
 		
-		public function talk():void
+		public function talk():Void
 		{
 			play("punched");
 			if (messageCount == 1)

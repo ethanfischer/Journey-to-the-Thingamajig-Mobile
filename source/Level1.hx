@@ -83,7 +83,7 @@ package
 			
 		}
 		
-		private function parseBots(player:Player):void
+		private function parseBots(player:Player):Void
 		{			
 			var _botMap:FlxTilemap = new FlxTilemap();
 			
@@ -91,9 +91,9 @@ package
 			
 			bots = new Bots;
 			
-			for (var ty:Number = 0; ty < _botMap.heightInTiles; ty++)
+			for (var ty:Float = 0; ty < _botMap.heightInTiles; ty++)
 			{
-				for (var tx:int = 0; tx < _botMap.widthInTiles; tx++)
+				for (var tx:Int = 0; tx < _botMap.widthInTiles; tx++)
 				{
 					if (_botMap.getTile(tx, ty) == 1)
 					{
@@ -109,7 +109,7 @@ package
 			
 		}
 		
-		private function parseRocks(player:Player):void
+		private function parseRocks(player:Player):Void
 		{			
 			rockMap = new FlxTilemap();
 			
@@ -117,9 +117,9 @@ package
 			
 			rocks = new Rocks;
 			
-			for (var ty:Number = rockMap.heightInTiles; ty > 0; ty--)
+			for (var ty:Float = rockMap.heightInTiles; ty > 0; ty--)
 			{
-				for (var tx:int = rockMap.widthInTiles; tx > 0; tx--)
+				for (var tx:Int = rockMap.widthInTiles; tx > 0; tx--)
 				{
 					if (rockMap.getTile(tx, ty) == 1)
 					{
@@ -133,15 +133,15 @@ package
 			}
 		}
 		
-		private function parseCheckpoint():void
+		private function parseCheckpoint():Void
 		{			
 			var _checkpointMap:FlxTilemap = new FlxTilemap();
 			
 			_checkpointMap.loadMap(new _checkpointCSV, botletPNG, 16, 16);
 			
-			for (var ty:Number = 0; ty < _checkpointMap.heightInTiles; ty++)
+			for (var ty:Float = 0; ty < _checkpointMap.heightInTiles; ty++)
 			{
-				for (var tx:int = 0; tx < _checkpointMap.widthInTiles; tx++)
+				for (var tx:Int = 0; tx < _checkpointMap.widthInTiles; tx++)
 				{
 					if (_checkpointMap.getTile(tx, ty) == 1)
 					{
@@ -160,7 +160,7 @@ package
 			}
 		}
 		
-		private function parseReinforcements():void
+		private function parseReinforcements():Void
 		{			
 			reinforcementMap = new FlxTilemap();
 			
@@ -168,9 +168,9 @@ package
 			
 			reinforcements = new Reinforcements;
 			
-			for (var ty:Number = reinforcementMap.heightInTiles; ty > 0; ty--)
+			for (var ty:Float = reinforcementMap.heightInTiles; ty > 0; ty--)
 			{
-				for (var tx:int = reinforcementMap.widthInTiles; tx > 0; tx--)
+				for (var tx:Int = reinforcementMap.widthInTiles; tx > 0; tx--)
 				{
 					if (reinforcementMap.getTile(tx, ty) == 1)
 					{

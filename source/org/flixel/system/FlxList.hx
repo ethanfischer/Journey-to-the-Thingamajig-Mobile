@@ -1,41 +1,91 @@
-package org.flixel.system
+package flixel.system;
+
+import flixel.FlxObject;
+import flixel.interfaces.IFlxDestroyable;
+
+/**
+ * A miniature linked list class.
+ * Useful for optimizing time-critical or highly repetitive tasks!
+ * See FlxQuadTree for how to use it, IF YOU DARE.
+ */
+class FlxList implements IFlxDestroyable
 {
-	import org.flixel.FlxObject;
+	/**
+	 * Pooling mechanism, when FlxLists are destroyed, they get added to this collection, and when they get recycled they get removed.
+	 */
+	public static var  _NUM_CACHED_FLX_LIST:Int = 0;
+	private static var _cachedListsHead:FlxList;
 	
 	/**
-	 * A miniature linked list class.
-	 * Useful for optimizing time-critical or highly repetitive tasks!
-	 * See <code>FlxQuadTree</code> for how to use it, IF YOU DARE.
+	 * Recycle a cached Linked List, or creates a new one if needed.
 	 */
-	public class FlxList
+	public static function recycle():FlxList
 	{
-		/**
-		 * Stores a reference to a <code>FlxObject</code>.
-		 */
-		public var object:FlxObject;
-		/**
-		 * Stores a reference to the next link in the list.
-		 */
-		public var next:FlxList;
-		
-		/**
-		 * Creates a new link, and sets <code>object</code> and <code>next</code> to <code>null</code>.
-		 */
-		public function FlxList()
+		if (_cachedListsHead != null)
 		{
-			object = null;
-			next = null;
+			var cachedList:FlxList = _cachedListsHead;
+			_cachedListsHead = _cachedListsHead.next;
+			_NUM_CACHED_FLX_LIST--;
+			
+			cachedList.exists = true;
+			cachedList.next = null;
+			return cachedList;
 		}
-		
-		/**
-		 * Clean up memory.
-		 */
-		public function destroy():void
+		else
+			return new FlxList();
+	}
+	
+	/**
+	 * Clear cached List nodes. You might want to do this when loading new levels (probably not though, no need to clear cache unless you run into memory problems).
+	 */
+	public static function clearCache():Void 
+	{
+		// null out next pointers to help out garbage collector
+		while (_cachedListsHead != null)
 		{
-			object = null;
-			if(next != null)
-				next.destroy();
-			next = null;
+			var node = _cachedListsHead;
+			_cachedListsHead = _cachedListsHead.next;
+			node.object = null;
+			node.next = null;
 		}
+		_NUM_CACHED_FLX_LIST = 0;
+	}
+	
+	/**
+	 * Stores a reference to a FlxObject.
+	 */
+	public var object:FlxObject;
+	/**
+	 * Stores a reference to the next link in the list.
+	 */
+	public var next:FlxList;
+	
+	public var exists:Bool = true;
+	
+	/**
+	 * Private, use recycle instead.
+	 */
+	private function new() {}
+	
+	/**
+	 * Clean up memory.
+	 */
+	public function destroy():Void
+	{
+		// ensure we haven't been destroyed already
+		if (!exists)
+			return;
+		
+		object = null;
+		if (next != null)
+		{
+			next.destroy();
+		}
+		exists = false;
+		
+		// Deposit this list into the linked list for reusal.
+		next = _cachedListsHead;
+		_cachedListsHead = this;
+		_NUM_CACHED_FLX_LIST++;
 	}
 }

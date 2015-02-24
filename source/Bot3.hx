@@ -6,14 +6,14 @@ package
 	{
 		[Embed(source = "../map/bot3.png")] private var botPNG:Class;
 		
-		//public var isDying:Boolean = false;
+		//public var isDying:Bool = false;
 		private var dieTimer:Number;
 		private var player:Player;
-		private var canKnockback:Boolean = false;
+		private var canKnockback:Bool = false;
 		private var haltTimer:Number = -1;
-		private var haltTimerFlag:Boolean = false;
+		private var haltTimerFlag:Bool = false;
 		
-		public function Bot3(x:int, y:int, i_player:Player)
+		public function Bot3(x:Int, y:Int, i_player:Player)
 		{
 			super(x, y,  i_player, FlxObject.RIGHT);
 			

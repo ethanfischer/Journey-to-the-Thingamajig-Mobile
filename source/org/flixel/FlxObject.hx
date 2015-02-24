@@ -1,1173 +1,1072 @@
-package org.flixel
+package flixel;
+
+import flash.display.Graphics;
+import flixel.FlxBasic;
+import flixel.group.FlxGroup;
+import flixel.group.FlxSpriteGroup;
+import flixel.group.FlxTypedGroup;
+import flixel.system.FlxCollisionType;
+import flixel.tile.FlxTilemap;
+import flixel.util.FlxColor;
+import flixel.util.FlxDestroyUtil;
+import flixel.util.FlxPoint;
+import flixel.util.FlxRect;
+import flixel.util.FlxSpriteUtil;
+import flixel.util.FlxStringUtil;
+import flixel.util.FlxVelocity;
+
+/**
+ * This is the base class for most of the display objects (FlxSprite, FlxText, etc).
+ * It includes some basic attributes about game objects, basic state information, sizes, scrolling, and basic physics and motion.
+ */
+class FlxObject extends FlxBasic
 {
-	import flash.display.Graphics;
-	import flash.display.Sprite;
-	import flash.geom.Point;
+	/**
+	 * This value dictates the maximum number of pixels two objects have to intersect before collision stops trying to separate them.
+	 * Don't modify this unless your objects are passing through eachother.
+	 */
+	public static var SEPARATE_BIAS:Float = 4;
+	/**
+	 * Generic value for "left" Used by facing, allowCollisions, and touching.
+	 */
+	public static inline var LEFT:Int	= 0x0001;
+	/**
+	 * Generic value for "right" Used by facing, allowCollisions, and touching.
+	 */
+	public static inline var RIGHT:Int	= 0x0010;
+	/**
+	 * Generic value for "up" Used by facing, allowCollisions, and touching.
+	 */
+	public static inline var UP:Int		= 0x0100;
+	/**
+	 * Generic value for "down" Used by facing, allowCollisions, and touching.
+	 */
+	public static inline var DOWN:Int	= 0x1000;
+	/**
+	 * Special-case constant meaning no collisions, used mainly by allowCollisions and touching.
+	 */
+	public static inline var NONE:Int	= 0;
+	/**
+	 * Special-case constant meaning up, used mainly by allowCollisions and touching.
+	 */
+	public static inline var CEILING:Int= UP;
+	/**
+	 * Special-case constant meaning down, used mainly by allowCollisions and touching.
+	 */
+	public static inline var FLOOR:Int	= DOWN;
+	/**
+	 * Special-case constant meaning only the left and right sides, used mainly by allowCollisions and touching.
+	 */
+	public static inline var WALL:Int	= LEFT | RIGHT;
+	/**
+	 * Special-case constant meaning any direction, used mainly by allowCollisions and touching.
+	 */
+	public static inline var ANY:Int	= LEFT | RIGHT | UP | DOWN;
 	
-	import org.flixel.FlxBasic;
+	private static var _firstSeparateFlxRect:FlxRect = FlxRect.get();
+	private static var _secondSeparateFlxRect:FlxRect = FlxRect.get();
 	
 	/**
-	 * This is the base class for most of the display objects (<code>FlxSprite</code>, <code>FlxText</code>, etc).
-	 * It includes some basic attributes about game objects, including retro-style flickering,
-	 * basic state information, sizes, scrolling, and basic physics and motion.
+	 * The main collision resolution function in flixel.
 	 * 
-	 * @author	Adam Atomic
+	 * @param	Object1 	Any FlxObject.
+	 * @param	Object2		Any other FlxObject.
+	 * @return	Whether the objects in fact touched and were separated.
 	 */
-	public class FlxObject extends FlxBasic
+	public static function separate(Object1:FlxObject, Object2:FlxObject):Bool
 	{
-		/**
-		 * Generic value for "left" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-		 */
-		static public const LEFT:uint	= 0x0001;
-		/**
-		 * Generic value for "right" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-		 */
-		static public const RIGHT:uint	= 0x0010;
-		/**
-		 * Generic value for "up" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-		 */
-		static public const UP:uint		= 0x0100;
-		/**
-		 * Generic value for "down" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
-		 */
-		static public const DOWN:uint	= 0x1000;
-		
-		/**
-		 * Special-case constant meaning no collisions, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-		 */
-		static public const NONE:uint	= 0;
-		/**
-		 * Special-case constant meaning up, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-		 */
-		static public const CEILING:uint= UP;
-		/**
-		 * Special-case constant meaning down, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-		 */
-		static public const FLOOR:uint	= DOWN;
-		/**
-		 * Special-case constant meaning only the left and right sides, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-		 */
-		static public const WALL:uint	= LEFT | RIGHT;
-		/**
-		 * Special-case constant meaning any direction, used mainly by <code>allowCollisions</code> and <code>touching</code>.
-		 */
-		static public const ANY:uint	= LEFT | RIGHT | UP | DOWN;
-		
-		/**
-		 * Handy constant used during collision resolution (see <code>separateX()</code> and <code>separateY()</code>).
-		 */
-		static public const OVERLAP_BIAS:Number = 4;
-		
-		/**
-		 * Path behavior controls: move from the start of the path to the end then stop.
-		 */
-		static public const PATH_FORWARD:uint			= 0x000000;
-		/**
-		 * Path behavior controls: move from the end of the path to the start then stop.
-		 */
-		static public const PATH_BACKWARD:uint			= 0x000001;
-		/**
-		 * Path behavior controls: move from the start of the path to the end then directly back to the start, and start over.
-		 */
-		static public const PATH_LOOP_FORWARD:uint		= 0x000010;
-		/**
-		 * Path behavior controls: move from the end of the path to the start then directly back to the end, and start over.
-		 */
-		static public const PATH_LOOP_BACKWARD:uint		= 0x000100;
-		/**
-		 * Path behavior controls: move from the start of the path to the end then turn around and go back to the start, over and over.
-		 */
-		static public const PATH_YOYO:uint				= 0x001000;
-		/**
-		 * Path behavior controls: ignores any vertical component to the path data, only follows side to side.
-		 */
-		static public const PATH_HORIZONTAL_ONLY:uint	= 0x010000;
-		/**
-		 * Path behavior controls: ignores any horizontal component to the path data, only follows up and down.
-		 */
-		static public const PATH_VERTICAL_ONLY:uint		= 0x100000;
-		
-		/**
-		 * X position of the upper left corner of this object in world space.
-		 */
-		public var x:Number;
-		/**
-		 * Y position of the upper left corner of this object in world space.
-		 */
-		public var y:Number;
-		/**
-		 * The width of this object.
-		 */
-		public var width:Number;
-		/**
-		 * The height of this object.
-		 */
-		public var height:Number;
-
-		/**
-		 * Whether an object will move/alter position after a collision.
-		 */
-		public var immovable:Boolean;
-		
-		/**
-		 * The basic speed of this object.
-		 */
-		public var velocity:FlxPoint;
-		/**
-		 * The virtual mass of the object. Default value is 1.
-		 * Currently only used with <code>elasticity</code> during collision resolution.
-		 * Change at your own risk; effects seem crazy unpredictable so far!
-		 */
-		public var mass:Number;
-		/**
-		 * The bounciness of this object.  Only affects collisions.  Default value is 0, or "not bouncy at all."
-		 */
-		public var elasticity:Number;
-		/**
-		 * How fast the speed of this object is changing.
-		 * Useful for smooth movement and gravity.
-		 */
-		public var acceleration:FlxPoint;
-		/**
-		 * This isn't drag exactly, more like deceleration that is only applied
-		 * when acceleration is not affecting the sprite.
-		 */
-		public var drag:FlxPoint;
-		/**
-		 * If you are using <code>acceleration</code>, you can use <code>maxVelocity</code> with it
-		 * to cap the speed automatically (very useful!).
-		 */
-		public var maxVelocity:FlxPoint;
-		/**
-		 * Set the angle of a sprite to rotate it.
-		 * WARNING: rotating sprites decreases rendering
-		 * performance for this sprite by a factor of 10x!
-		 */
-		public var angle:Number;
-		/**
-		 * This is how fast you want this sprite to spin.
-		 */
-		public var angularVelocity:Number;
-		/**
-		 * How fast the spin speed should change.
-		 */
-		public var angularAcceleration:Number;
-		/**
-		 * Like <code>drag</code> but for spinning.
-		 */
-		public var angularDrag:Number;
-		/**
-		 * Use in conjunction with <code>angularAcceleration</code> for fluid spin speed control.
-		 */
-		public var maxAngular:Number;
-		/**
-		 * Should always represent (0,0) - useful for different things, for avoiding unnecessary <code>new</code> calls.
-		 */
-		static protected const _pZero:FlxPoint = new FlxPoint();
-		
-		/**
-		 * A point that can store numbers from 0 to 1 (for X and Y independently)
-		 * that governs how much this object is affected by the camera subsystem.
-		 * 0 means it never moves, like a HUD element or far background graphic.
-		 * 1 means it scrolls along a the same speed as the foreground layer.
-		 * scrollFactor is initialized as (1,1) by default.
-		 */
-		public var scrollFactor:FlxPoint;
-		/**
-		 * Internal helper used for retro-style flickering.
-		 */
-		protected var _flicker:Boolean;
-		/**
-		 * Internal helper used for retro-style flickering.
-		 */
-		protected var _flickerTimer:Number;
-		/**
-		 * Handy for storing health percentage or armor points or whatever.
-		 */
-		public var health:Number;
-		/**
-		 * This is just a pre-allocated x-y point container to be used however you like
-		 */
-		protected var _point:FlxPoint;
-		/**
-		 * This is just a pre-allocated rectangle container to be used however you like
-		 */
-		protected var _rect:FlxRect;
-		/**
-		 * Set this to false if you want to skip the automatic motion/movement stuff (see <code>updateMotion()</code>).
-		 * FlxObject and FlxSprite default to true.
-		 * FlxText, FlxTileblock, FlxTilemap and FlxSound default to false.
-		 */
-		public var moves:Boolean;
-		/**
-		 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts.
-		 * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
-		 * You can even use them broadly as boolean values if you're feeling saucy!
-		 */
-		public var touching:uint;
-		/**
-		 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step.
-		 * Use bitwise operators to check the values stored here, or use touching(), justStartedTouching(), etc.
-		 * You can even use them broadly as boolean values if you're feeling saucy!
-		 */
-		public var wasTouching:uint;
-		/**
-		 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions.
-		 * Use bitwise operators to check the values stored here.
-		 * Useful for things like one-way platforms (e.g. allowCollisions = UP;)
-		 * The accessor "solid" just flips this variable between NONE and ANY.
-		 */
-		public var allowCollisions:uint;
-		
-		/**
-		 * Important variable for collision processing.
-		 * By default this value is set automatically during <code>preUpdate()</code>.
-		 */
-		public var last:FlxPoint;
-		
-		/**
-		 * A reference to a path object.  Null by default, assigned by <code>followPath()</code>.
-		 */
-		public var path:FlxPath;
-		/**
-		 * The speed at which the object is moving on the path.
-		 * When an object completes a non-looping path circuit,
-		 * the pathSpeed will be zeroed out, but the <code>path</code> reference
-		 * will NOT be nulled out.  So <code>pathSpeed</code> is a good way
-		 * to check if this object is currently following a path or not.
-		 */
-		public var pathSpeed:Number;
-		/**
-		 * The angle in degrees between this object and the next node, where 0 is directly upward, and 90 is to the right.
-		 */
-		public var pathAngle:Number;
-		/**
-		 * Internal helper, tracks which node of the path this object is moving toward.
-		 */
-		protected var _pathNodeIndex:int;
-		/**
-		 * Internal tracker for path behavior flags (like looping, horizontal only, etc).
-		 */
-		protected var _pathMode:uint;
-		/**
-		 * Internal helper for node navigation, specifically yo-yo and backwards movement.
-		 */
-		protected var _pathInc:int;
-		/**
-		 * Internal flag for whether hte object's angle should be adjusted to the path angle during path follow behavior.
-		 */
-		protected var _pathRotate:Boolean;
-		
-		/**
-		 * Instantiates a <code>FlxObject</code>.
-		 * 
-		 * @param	X		The X-coordinate of the point in space.
-		 * @param	Y		The Y-coordinate of the point in space.
-		 * @param	Width	Desired width of the rectangle.
-		 * @param	Height	Desired height of the rectangle.
-		 */
-		public function FlxObject(X:Number=0,Y:Number=0,Width:Number=0,Height:Number=0)
+		var separatedX:Bool = separateX(Object1, Object2);
+		var separatedY:Bool = separateY(Object1, Object2);
+		return separatedX || separatedY;
+	}
+	
+	/**
+	 * The X-axis component of the object separation process.
+	 * 
+	 * @param	Object1 	Any FlxObject.
+	 * @param	Object2		Any other FlxObject.
+	 * @return	Whether the objects in fact touched and were separated along the X axis.
+	 */
+	public static function separateX(Object1:FlxObject, Object2:FlxObject):Bool
+	{
+		//can't separate two immovable objects
+		var obj1immovable:Bool = Object1.immovable;
+		var obj2immovable:Bool = Object2.immovable;
+		if (obj1immovable && obj2immovable)
 		{
-			x = X;
-			y = Y;
-			last = new FlxPoint(x,y);
-			width = Width;
-			height = Height;
-			mass = 1.0;
-			elasticity = 0.0;
-
-			immovable = false;
-			moves = true;
-			
-			touching = NONE;
-			wasTouching = NONE;
-			allowCollisions = ANY;
-			
-			velocity = new FlxPoint();
-			acceleration = new FlxPoint();
-			drag = new FlxPoint();
-			maxVelocity = new FlxPoint(10000,10000);
-			
-			angle = 0;
-			angularVelocity = 0;
-			angularAcceleration = 0;
-			angularDrag = 0;
-			maxAngular = 10000;
-			
-			scrollFactor = new FlxPoint(1.0,1.0);
-			_flicker = false;
-			_flickerTimer = 0;
-			
-			_point = new FlxPoint();
-			_rect = new FlxRect();
-			
-			path = null;
-			pathSpeed = 0;
-			pathAngle = 0;
+			return false;
 		}
 		
-		/**
-		 * Override this function to null out variables or
-		 * manually call destroy() on class members if necessary.
-		 * Don't forget to call super.destroy()!
-		 */
-		override public function destroy():void
+		//If one of the objects is a tilemap, just pass it off.
+		if (Object1.collisionType == FlxCollisionType.TILEMAP)
 		{
-			velocity = null;
-			acceleration = null;
-			drag = null;
-			maxVelocity = null;
-			scrollFactor = null;
-			_point = null;
-			_rect = null;
-			last = null;
-			cameras = null;
-			if(path != null)
-				path.destroy();
-			path = null;
+			return cast(Object1, FlxTilemap).overlapsWithCallback(Object2, separateX);
+		}
+		if (Object2.collisionType == FlxCollisionType.TILEMAP)
+		{
+			return cast(Object2, FlxTilemap).overlapsWithCallback(Object1, separateX, true);
 		}
 		
-		/**
-		 * Pre-update is called right before <code>update()</code> on each object in the game loop.
-		 * In <code>FlxObject</code> it controls the flicker timer,
-		 * tracking the last coordinates for collision purposes,
-		 * and checking if the object is moving along a path or not.
-		 */
-		override public function preUpdate():void
-		{
-			_ACTIVECOUNT++;
-			
-			if(_flickerTimer != 0)
-			{
-				if(_flickerTimer > 0)
-				{
-					_flickerTimer = _flickerTimer - FlxG.elapsed;
-					if(_flickerTimer <= 0)
-					{
-						_flickerTimer = 0;
-						_flicker = false;
-					}
-				}
-			}
-			
-			last.x = x;
-			last.y = y;
-			
-			if((path != null) && (pathSpeed != 0) && (path.nodes[_pathNodeIndex] != null))
-				updatePathMotion();
-		}
+		//First, get the two object deltas
+		var overlap:Float = 0;
+		var obj1delta:Float = Object1.x - Object1.last.x;
+		var obj2delta:Float = Object2.x - Object2.last.x;
 		
-		/**
-		 * Post-update is called right after <code>update()</code> on each object in the game loop.
-		 * In <code>FlxObject</code> this function handles integrating the objects motion
-		 * based on the velocity and acceleration settings, and tracking/clearing the <code>touching</code> flags.
-		 */
-		override public function postUpdate():void
+		if (obj1delta != obj2delta)
 		{
-			if(moves)
-				updateMotion();
+			//Check if the X hulls actually overlap
+			var obj1deltaAbs:Float = (obj1delta > 0) ? obj1delta : -obj1delta;
+			var obj2deltaAbs:Float = (obj2delta > 0) ? obj2delta : -obj2delta;
 			
-			wasTouching = touching;
-			touching = NONE;
-		}
-		
-		/**
-		 * Internal function for updating the position and speed of this object.
-		 * Useful for cases when you need to update this but are buried down in too many supers.
-		 * Does a slightly fancier-than-normal integration to help with higher fidelity framerate-independenct motion.
-		 */
-		protected function updateMotion():void
-		{
-			var delta:Number;
-			var velocityDelta:Number;
-
-			velocityDelta = (FlxU.computeVelocity(angularVelocity,angularAcceleration,angularDrag,maxAngular) - angularVelocity)/2;
-			angularVelocity += velocityDelta; 
-			angle += angularVelocity*FlxG.elapsed;
-			angularVelocity += velocityDelta;
+			var obj1rect:FlxRect = _firstSeparateFlxRect.set(Object1.x - ((obj1delta > 0) ? obj1delta : 0), Object1.last.y, Object1.width + obj1deltaAbs, Object1.height);
+			var obj2rect:FlxRect = _secondSeparateFlxRect.set(Object2.x - ((obj2delta > 0) ? obj2delta : 0), Object2.last.y, Object2.width + obj2deltaAbs, Object2.height);
 			
-			velocityDelta = (FlxU.computeVelocity(velocity.x,acceleration.x,drag.x,maxVelocity.x) - velocity.x)/2;
-			velocity.x += velocityDelta;
-			delta = velocity.x*FlxG.elapsed;
-			velocity.x += velocityDelta;
-			x += delta;
-			
-			velocityDelta = (FlxU.computeVelocity(velocity.y,acceleration.y,drag.y,maxVelocity.y) - velocity.y)/2;
-			velocity.y += velocityDelta;
-			delta = velocity.y*FlxG.elapsed;
-			velocity.y += velocityDelta;
-			y += delta;
-		}
-		
-		/**
-		 * Rarely called, and in this case just increments the visible objects count and calls <code>drawDebug()</code> if necessary.
-		 */
-		override public function draw():void
-		{
-			if(cameras == null)
-				cameras = FlxG.cameras;
-			var camera:FlxCamera;
-			var i:uint = 0;
-			var l:uint = cameras.length;
-			while(i < l)
+			if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height))
 			{
-				camera = cameras[i++];
-				if(!onScreen(camera))
-					continue;
-				_VISIBLECOUNT++;
-				if(FlxG.visualDebug && !ignoreDrawDebug)
-					drawDebug(camera);
-			}
-		}
-		
-		/**
-		 * Override this function to draw custom "debug mode" graphics to the
-		 * specified camera while the debugger's visual mode is toggled on.
-		 * 
-		 * @param	Camera	Which camera to draw the debug visuals to.
-		 */
-		override public function drawDebug(Camera:FlxCamera=null):void
-		{
-			if(Camera == null)
-				Camera = FlxG.camera;
-
-			//get bounding box coordinates
-			var boundingBoxX:Number = x - int(Camera.scroll.x*scrollFactor.x); //copied from getScreenXY()
-			var boundingBoxY:Number = y - int(Camera.scroll.y*scrollFactor.y);
-			boundingBoxX = int(boundingBoxX + ((boundingBoxX > 0)?0.0000001:-0.0000001));
-			boundingBoxY = int(boundingBoxY + ((boundingBoxY > 0)?0.0000001:-0.0000001));
-			var boundingBoxWidth:int = (width != int(width))?width:width-1;
-			var boundingBoxHeight:int = (height != int(height))?height:height-1;
-
-			//fill static graphics object with square shape
-			var gfx:Graphics = FlxG.flashGfx;
-			gfx.clear();
-			gfx.moveTo(boundingBoxX,boundingBoxY);
-			var boundingBoxColor:uint;
-			if(allowCollisions)
-			{
-				if(allowCollisions != ANY)
-					boundingBoxColor = FlxG.PINK;
-				if(immovable)
-					boundingBoxColor = FlxG.GREEN;
-				else
-					boundingBoxColor = FlxG.RED;
-			}
-			else
-				boundingBoxColor = FlxG.BLUE;
-			gfx.lineStyle(1,boundingBoxColor,0.5);
-			gfx.lineTo(boundingBoxX+boundingBoxWidth,boundingBoxY);
-			gfx.lineTo(boundingBoxX+boundingBoxWidth,boundingBoxY+boundingBoxHeight);
-			gfx.lineTo(boundingBoxX,boundingBoxY+boundingBoxHeight);
-			gfx.lineTo(boundingBoxX,boundingBoxY);
-			
-			//draw graphics shape to camera buffer
-			Camera.buffer.draw(FlxG.flashGfxSprite);
-		}
-		
-		/**
-		 * Call this function to give this object a path to follow.
-		 * If the path does not have at least one node in it, this function
-		 * will log a warning message and return.
-		 * 
-		 * @param	Path		The <code>FlxPath</code> you want this object to follow.
-		 * @param	Speed		How fast to travel along the path in pixels per second.
-		 * @param	Mode		Optional, controls the behavior of the object following the path using the path behavior constants.  Can use multiple flags at once, for example PATH_YOYO|PATH_HORIZONTAL_ONLY will make an object move back and forth along the X axis of the path only.
-		 * @param	AutoRotate	Automatically point the object toward the next node.  Assumes the graphic is pointing upward.  Default behavior is false, or no automatic rotation.
-		 */
-		public function followPath(Path:FlxPath,Speed:Number=100,Mode:uint=PATH_FORWARD,AutoRotate:Boolean=false):void
-		{
-			if(Path.nodes.length <= 0)
-			{
-				FlxG.log("WARNING: Paths need at least one node in them to be followed.");
-				return;
-			}
-			
-			path = Path;
-			pathSpeed = FlxU.abs(Speed);
-			_pathMode = Mode;
-			_pathRotate = AutoRotate;
-			
-			//get starting node
-			if((_pathMode == PATH_BACKWARD) || (_pathMode == PATH_LOOP_BACKWARD))
-			{
-				_pathNodeIndex = path.nodes.length-1;
-				_pathInc = -1;
-			}
-			else
-			{
-				_pathNodeIndex = 0;
-				_pathInc = 1;
-			}
-		}
-		
-		/**
-		 * Tells this object to stop following the path its on.
-		 * 
-		 * @param	DestroyPath		Tells this function whether to call destroy on the path object.  Default value is false.
-		 */
-		public function stopFollowingPath(DestroyPath:Boolean=false):void
-		{
-			pathSpeed = 0;
-			if(DestroyPath && (path != null))
-			{
-				path.destroy();
-				path = null;
-			}
-		}
-		
-		/**
-		 * Internal function that decides what node in the path to aim for next based on the behavior flags.
-		 * 
-		 * @return	The node (a <code>FlxPoint</code> object) we are aiming for next.
-		 */
-		protected function advancePath(Snap:Boolean=true):FlxPoint
-		{
-			if(Snap)
-			{
-				var oldNode:FlxPoint = path.nodes[_pathNodeIndex];
-				if(oldNode != null)
-				{
-					if((_pathMode & PATH_VERTICAL_ONLY) == 0)
-						x = oldNode.x - width*0.5;
-					if((_pathMode & PATH_HORIZONTAL_ONLY) == 0)
-						y = oldNode.y - height*0.5;
-				}
-			}
-			
-			_pathNodeIndex += _pathInc;
-			
-			if((_pathMode & PATH_BACKWARD) > 0)
-			{
-				if(_pathNodeIndex < 0)
-				{
-					_pathNodeIndex = 0;
-					pathSpeed = 0;
-				}
-			}
-			else if((_pathMode & PATH_LOOP_FORWARD) > 0)
-			{
-				if(_pathNodeIndex >= path.nodes.length)
-					_pathNodeIndex = 0;
-			}
-			else if((_pathMode & PATH_LOOP_BACKWARD) > 0)
-			{
-				if(_pathNodeIndex < 0)
-				{
-					_pathNodeIndex = path.nodes.length-1;
-					if(_pathNodeIndex < 0)
-						_pathNodeIndex = 0;
-				}
-			}
-			else if((_pathMode & PATH_YOYO) > 0)
-			{
-				if(_pathInc > 0)
-				{
-					if(_pathNodeIndex >= path.nodes.length)
-					{
-						_pathNodeIndex = path.nodes.length-2;
-						if(_pathNodeIndex < 0)
-							_pathNodeIndex = 0;
-						_pathInc = -_pathInc;
-					}
-				}
-				else if(_pathNodeIndex < 0)
-				{
-					_pathNodeIndex = 1;
-					if(_pathNodeIndex >= path.nodes.length)
-						_pathNodeIndex = path.nodes.length-1;
-					if(_pathNodeIndex < 0)
-						_pathNodeIndex = 0;
-					_pathInc = -_pathInc;
-				}
-			}
-			else
-			{
-				if(_pathNodeIndex >= path.nodes.length)
-				{
-					_pathNodeIndex = path.nodes.length-1;
-					pathSpeed = 0;
-				}
-			}
-
-			return path.nodes[_pathNodeIndex];
-		}
-		
-		/**
-		 * Internal function for moving the object along the path.
-		 * Generally this function is called automatically by <code>preUpdate()</code>.
-		 * The first half of the function decides if the object can advance to the next node in the path,
-		 * while the second half handles actually picking a velocity toward the next node.
-		 */
-		protected function updatePathMotion():void
-		{
-			//first check if we need to be pointing at the next node yet
-			_point.x = x + width*0.5;
-			_point.y = y + height*0.5;
-			var node:FlxPoint = path.nodes[_pathNodeIndex];
-			var deltaX:Number = node.x - _point.x;
-			var deltaY:Number = node.y - _point.y;
-			
-			var horizontalOnly:Boolean = (_pathMode & PATH_HORIZONTAL_ONLY) > 0;
-			var verticalOnly:Boolean = (_pathMode & PATH_VERTICAL_ONLY) > 0;
-			
-			if(horizontalOnly)
-			{
-				if(((deltaX>0)?deltaX:-deltaX) < pathSpeed*FlxG.elapsed)
-					node = advancePath();
-			}
-			else if(verticalOnly)
-			{
-				if(((deltaY>0)?deltaY:-deltaY) < pathSpeed*FlxG.elapsed)
-					node = advancePath();
-			}
-			else
-			{
-				if(Math.sqrt(deltaX*deltaX + deltaY*deltaY) < pathSpeed*FlxG.elapsed)
-					node = advancePath();
-			}
-			
-			//then just move toward the current node at the requested speed
-			if(pathSpeed != 0)
-			{
-				//set velocity based on path mode
-				_point.x = x + width*0.5;
-				_point.y = y + height*0.5;
-				if(horizontalOnly || (_point.y == node.y))
-				{
-					velocity.x = (_point.x < node.x)?pathSpeed:-pathSpeed;
-					if(velocity.x < 0)
-						pathAngle = -90;
-					else
-						pathAngle = 90;
-					if(!horizontalOnly)
-						velocity.y = 0;
-				}
-				else if(verticalOnly || (_point.x == node.x))
-				{
-					velocity.y = (_point.y < node.y)?pathSpeed:-pathSpeed;
-					if(velocity.y < 0)
-						pathAngle = 0;
-					else
-						pathAngle = 180;
-					if(!verticalOnly)
-						velocity.x = 0;
-				}
-				else
-				{
-					pathAngle = FlxU.getAngle(_point,node);
-					FlxU.rotatePoint(0,pathSpeed,0,0,pathAngle,velocity);
-				}
+				var maxOverlap:Float = obj1deltaAbs + obj2deltaAbs + SEPARATE_BIAS;
 				
-				//then set object rotation if necessary
-				if(_pathRotate)
+				//If they did overlap (and can), figure out by how much and flip the corresponding flags
+				if (obj1delta > obj2delta)
 				{
-					angularVelocity = 0;
-					angularAcceleration = 0;
-					angle = pathAngle;
+					overlap = Object1.x + Object1.width - Object2.x;
+					if ((overlap > maxOverlap) || ((Object1.allowCollisions & RIGHT) == 0) || ((Object2.allowCollisions & LEFT) == 0))
+					{
+						overlap = 0;
+					}
+					else
+					{
+						Object1.touching |= RIGHT;
+						Object2.touching |= LEFT;
+					}
 				}
-			}			
+				else if (obj1delta < obj2delta)
+				{
+					overlap = Object1.x - Object2.width - Object2.x;
+					if ((-overlap > maxOverlap) || ((Object1.allowCollisions & LEFT) == 0) || ((Object2.allowCollisions & RIGHT) == 0))
+					{
+						overlap = 0;
+					}
+					else
+					{
+						Object1.touching |= LEFT;
+						Object2.touching |= RIGHT;
+					}
+				}
+			}
 		}
 		
-		/**
-		 * Checks to see if some <code>FlxObject</code> overlaps this <code>FlxObject</code> or <code>FlxGroup</code>.
-		 * If the group has a LOT of things in it, it might be faster to use <code>FlxG.overlaps()</code>.
-		 * WARNING: Currently tilemaps do NOT support screen space overlap checks!
-		 * 
-		 * @param	ObjectOrGroup	The object or group being tested.
-		 * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.  Default is false, or "only compare in world space."
-		 * @param	Camera			Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
-		 * 
-		 * @return	Whether or not the two objects overlap.
-		 */
-		public function overlaps(ObjectOrGroup:FlxBasic,InScreenSpace:Boolean=false,Camera:FlxCamera=null):Boolean
+		//Then adjust their positions and velocities accordingly (if there was any overlap)
+		if (overlap != 0)
 		{
-			if(ObjectOrGroup is FlxGroup)
-			{
-				var results:Boolean = false;
-				var i:uint = 0;
-				var members:Array = (ObjectOrGroup as FlxGroup).members;
-				while(i < length)
-				{
-					if(overlaps(members[i++],InScreenSpace,Camera))
-						results = true;
-				}
-				return results;
-			}
+			var obj1v:Float = Object1.velocity.x;
+			var obj2v:Float = Object2.velocity.x;
 			
-			if(ObjectOrGroup is FlxTilemap)
+			if (!obj1immovable && !obj2immovable)
 			{
-				//Since tilemap's have to be the caller, not the target, to do proper tile-based collisions,
-				// we redirect the call to the tilemap overlap here.
-				return (ObjectOrGroup as FlxTilemap).overlaps(this,InScreenSpace,Camera);
+				overlap *= 0.5;
+				Object1.x = Object1.x - overlap;
+				Object2.x += overlap;
+				
+				var obj1velocity:Float = Math.sqrt((obj2v * obj2v * Object2.mass) / Object1.mass) * ((obj2v > 0) ? 1 : -1);
+				var obj2velocity:Float = Math.sqrt((obj1v * obj1v * Object1.mass) / Object2.mass) * ((obj1v > 0) ? 1 : -1);
+				var average:Float = (obj1velocity + obj2velocity) * 0.5;
+				obj1velocity -= average;
+				obj2velocity -= average;
+				Object1.velocity.x = average + obj1velocity * Object1.elasticity;
+				Object2.velocity.x = average + obj2velocity * Object2.elasticity;
 			}
-			
-			var object:FlxObject = ObjectOrGroup as FlxObject;
-			if(!InScreenSpace)
+			else if (!obj1immovable)
 			{
-				return	(object.x + object.width > x) && (object.x < x + width) &&
-						(object.y + object.height > y) && (object.y < y + height);
+				Object1.x = Object1.x - overlap;
+				Object1.velocity.x = obj2v - obj1v * Object1.elasticity;
 			}
+			else if (!obj2immovable)
+			{
+				Object2.x += overlap;
+				Object2.velocity.x = obj1v - obj2v * Object2.elasticity;
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * The Y-axis component of the object separation process.
+	 * 
+	 * @param	Object1 	Any FlxObject.
+	 * @param	Object2		Any other FlxObject.
+	 * @return	Whether the objects in fact touched and were separated along the Y axis.
+	 */
+	public static function separateY(Object1:FlxObject, Object2:FlxObject):Bool
+	{
+		//can't separate two immovable objects
+		var obj1immovable:Bool = Object1.immovable;
+		var obj2immovable:Bool = Object2.immovable;
+		if (obj1immovable && obj2immovable)
+		{
+			return false;
+		}
+		
+		//If one of the objects is a tilemap, just pass it off.
+		if (Object1.collisionType == FlxCollisionType.TILEMAP)
+		{
+			return cast(Object1, FlxTilemap).overlapsWithCallback(Object2, separateY);
+		}
+		if (Object2.collisionType == FlxCollisionType.TILEMAP)
+		{
+			return cast(Object2, FlxTilemap).overlapsWithCallback(Object1, separateY, true);
+		}
 
-			if(Camera == null)
-				Camera = FlxG.camera;
-			var objectScreenPos:FlxPoint = object.getScreenXY(null,Camera);
-			getScreenXY(_point,Camera);
-			return	(objectScreenPos.x + object.width > _point.x) && (objectScreenPos.x < _point.x + width) &&
-					(objectScreenPos.y + object.height > _point.y) && (objectScreenPos.y < _point.y + height);
+		//First, get the two object deltas
+		var overlap:Float = 0;
+		var obj1delta:Float = Object1.y - Object1.last.y;
+		var obj2delta:Float = Object2.y - Object2.last.y;
+		
+		if (obj1delta != obj2delta)
+		{
+			//Check if the Y hulls actually overlap
+			var obj1deltaAbs:Float = (obj1delta > 0) ? obj1delta : -obj1delta;
+			var obj2deltaAbs:Float = (obj2delta > 0) ? obj2delta : -obj2delta;
+			
+			var obj1rect:FlxRect = _firstSeparateFlxRect.set(Object1.x, Object1.y - ((obj1delta > 0) ? obj1delta : 0), Object1.width, Object1.height + obj1deltaAbs);
+			var obj2rect:FlxRect = _secondSeparateFlxRect.set(Object2.x, Object2.y - ((obj2delta > 0) ? obj2delta : 0), Object2.width, Object2.height + obj2deltaAbs);
+			
+			if ((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height))
+			{
+				var maxOverlap:Float = obj1deltaAbs + obj2deltaAbs + SEPARATE_BIAS;
+				
+				//If they did overlap (and can), figure out by how much and flip the corresponding flags
+				if (obj1delta > obj2delta)
+				{
+					overlap = Object1.y + Object1.height - Object2.y;
+					if ((overlap > maxOverlap) || ((Object1.allowCollisions & DOWN) == 0) || ((Object2.allowCollisions & UP) == 0))
+					{
+						overlap = 0;
+					}
+					else
+					{
+						Object1.touching |= DOWN;
+						Object2.touching |= UP;
+					}
+				}
+				else if (obj1delta < obj2delta)
+				{
+					overlap = Object1.y - Object2.height - Object2.y;
+					if ((-overlap > maxOverlap) || ((Object1.allowCollisions & UP) == 0) || ((Object2.allowCollisions & DOWN) == 0))
+					{
+						overlap = 0;
+					}
+					else
+					{
+						Object1.touching |= UP;
+						Object2.touching |= DOWN;
+					}
+				}
+			}
 		}
 		
-		/**
-		 * Checks to see if this <code>FlxObject</code> were located at the given position, would it overlap the <code>FlxObject</code> or <code>FlxGroup</code>?
-		 * This is distinct from overlapsPoint(), which just checks that point, rather than taking the object's size into account.
-		 * WARNING: Currently tilemaps do NOT support screen space overlap checks!
-		 * 
-		 * @param	X				The X position you want to check.  Pretends this object (the caller, not the parameter) is located here.
-		 * @param	Y				The Y position you want to check.  Pretends this object (the caller, not the parameter) is located here.
-		 * @param	ObjectOrGroup	The object or group being tested.
-		 * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.  Default is false, or "only compare in world space."
-		 * @param	Camera			Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
-		 * 
-		 * @return	Whether or not the two objects overlap.
-		 */
-		public function overlapsAt(X:Number,Y:Number,ObjectOrGroup:FlxBasic,InScreenSpace:Boolean=false,Camera:FlxCamera=null):Boolean
+		// Then adjust their positions and velocities accordingly (if there was any overlap)
+		if (overlap != 0)
 		{
-			if(ObjectOrGroup is FlxGroup)
+			var obj1v:Float = Object1.velocity.y;
+			var obj2v:Float = Object2.velocity.y;
+			
+			if (!obj1immovable && !obj2immovable)
 			{
-				var results:Boolean = false;
-				var basic:FlxBasic;
-				var i:uint = 0;
-				var members:Array = (ObjectOrGroup as FlxGroup).members;
-				while(i < length)
+				overlap *= 0.5;
+				Object1.y = Object1.y - overlap;
+				Object2.y += overlap;
+				
+				var obj1velocity:Float = Math.sqrt((obj2v * obj2v * Object2.mass)/Object1.mass) * ((obj2v > 0) ? 1 : -1);
+				var obj2velocity:Float = Math.sqrt((obj1v * obj1v * Object1.mass)/Object2.mass) * ((obj1v > 0) ? 1 : -1);
+				var average:Float = (obj1velocity + obj2velocity) * 0.5;
+				obj1velocity -= average;
+				obj2velocity -= average;
+				Object1.velocity.y = average + obj1velocity * Object1.elasticity;
+				Object2.velocity.y = average + obj2velocity * Object2.elasticity;
+			}
+			else if (!obj1immovable)
+			{
+				Object1.y = Object1.y - overlap;
+				Object1.velocity.y = obj2v - obj1v*Object1.elasticity;
+				// This is special case code that handles cases like horizontal moving platforms you can ride
+				if (Object1.collisonXDrag && Object2.active && Object2.moves && (obj1delta > obj2delta))
 				{
-					if(overlapsAt(X,Y,members[i++],InScreenSpace,Camera))
-						results = true;
+					Object1.x += Object2.x - Object2.last.x;
 				}
-				return results;
 			}
-			
-			if(ObjectOrGroup is FlxTilemap)
+			else if (!obj2immovable)
 			{
-				//Since tilemap's have to be the caller, not the target, to do proper tile-based collisions,
-				// we redirect the call to the tilemap overlap here.
-				//However, since this is overlapsAt(), we also have to invent the appropriate position for the tilemap.
-				//So we calculate the offset between the player and the requested position, and subtract that from the tilemap.
-				var tilemap:FlxTilemap = ObjectOrGroup as FlxTilemap;
-				return tilemap.overlapsAt(tilemap.x - (X - x),tilemap.y - (Y - y),this,InScreenSpace,Camera);
+				Object2.y += overlap;
+				Object2.velocity.y = obj1v - obj2v*Object2.elasticity;
+				// This is special case code that handles cases like horizontal moving platforms you can ride
+				if (Object2.collisonXDrag && Object1.active && Object1.moves && (obj1delta < obj2delta))
+				{
+					Object2.x += Object1.x - Object1.last.x;
+				}
 			}
-			
-			var object:FlxObject = ObjectOrGroup as FlxObject;
-			if(!InScreenSpace)
-			{
-				return	(object.x + object.width > X) && (object.x < X + width) &&
-						(object.y + object.height > Y) && (object.y < Y + height);
-			}
-			
-			if(Camera == null)
-				Camera = FlxG.camera;
-			var objectScreenPos:FlxPoint = object.getScreenXY(null,Camera);
-			_point.x = X - int(Camera.scroll.x*scrollFactor.x); //copied from getScreenXY()
-			_point.y = Y - int(Camera.scroll.y*scrollFactor.y);
-			_point.x += (_point.x > 0)?0.0000001:-0.0000001;
-			_point.y += (_point.y > 0)?0.0000001:-0.0000001;
-			return	(objectScreenPos.x + object.width > _point.x) && (objectScreenPos.x < _point.x + width) &&
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * X position of the upper left corner of this object in world space.
+	 */
+	public var x(default, set):Float = 0;
+	/**
+	 * Y position of the upper left corner of this object in world space.
+	 */
+	public var y(default, set):Float = 0;
+	/**
+	 * The width of this object's hitbox. For sprites, use offset to control the hitbox position.
+	 */
+	@:isVar
+	public var width(get, set):Float;
+	/**
+	 * The height of this object's hitbox. For sprites, use offset to control the hitbox position.
+	 */
+	@:isVar
+	public var height(get, set):Float;
+	/**
+	 * Gets ot sets the first camera of this object.
+	 */
+	public var camera(get, set):FlxCamera;
+	/**
+	 * This determines on which FlxCameras this object will be drawn. If it is null / has not been
+	 * set, it uses FlxCamera.defaultCameras, which is a reference to FlxG.cameras.list (all cameras) by default.
+	 */
+	public var cameras(get, set):Array<Dynamic><FlxCamera>;
+	/**
+	 * Whether or not the coordinates should be rounded during draw(), true by default (recommended for pixel art). 
+	 * Only affects tilesheet rendering and rendering using BitmapData.draw() in blitting.
+	 * (copyPixels() only renders on whole pixels by nature). Causes draw() to be used if false, which is more expensive.
+	 */
+	public var pixelPerfectRender(default, set):Bool = true;
+	/**
+	 * Set the angle of a sprite to rotate it. WARNING: rotating sprites decreases rendering
+	 * performance for this sprite by a factor of 10x (in Flash target)!
+	 */
+	public var angle(default, set):Float = 0;
+	/**
+	 * Set this to false if you want to skip the automatic motion/movement stuff (see updateMotion()).
+	 * FlxObject and FlxSprite default to true. FlxText, FlxTileblock and FlxTilemap default to false.
+	 */
+	public var moves(default, set):Bool = true;
+	/**
+	 * Whether an object will move/alter position after a collision.
+	 */
+	public var immovable(default, set):Bool = false;
+	/**
+	 * Whether the object collides or not.  For more control over what directions the object will collide from, 
+	 * use collision constants (like LEFT, FLOOR, etc) to set the value of allowCollisions directly.
+	 */
+	public var solid(get, set):Bool;
+	/**
+	 * Controls how much this object is affected by camera scrolling. 0 = no movement (e.g. a background layer), 
+	 * 1 = same movement speed as the foreground. Default value is (1,1), except for UI elements like FlxButton where it's (0,0).
+	 */
+	public var scrollFactor(default, null):FlxPoint;
+	/**
+	 * The basic speed of this object (in pixels per second).
+	 */
+	public var velocity(default, null):FlxPoint;
+	/**
+	 * How fast the speed of this object is changing (in pixels per second).
+	 * Useful for smooth movement and gravity.
+	 */
+	public var acceleration(default, null):FlxPoint;
+	/**
+	 * This isn't drag exactly, more like deceleration that is only applied
+	 * when acceleration is not affecting the sprite.
+	 */
+	public var drag(default, null):FlxPoint;
+	/**
+	 * If you are using acceleration, you can use maxVelocity with it
+	 * to cap the speed automatically (very useful!).
+	 */
+	public var maxVelocity(default, null):FlxPoint;
+	/**
+	 * Important variable for collision processing.
+	 * By default this value is set automatically during preUpdate().
+	 */
+	public var last(default, null):FlxPoint;
+	/**
+	 * The virtual mass of the object. Default value is 1. Currently only used with elasticity 
+	 * during collision resolution. Change at your own risk; effects seem crazy unpredictable so far!
+	 */
+	public var mass:Float = 1;
+	/**
+	 * The bounciness of this object. Only affects collisions. Default value is 0, or "not bouncy at all."
+	 */
+	public var elasticity:Float = 0;
+	/**
+	 * This is how fast you want this sprite to spin (in degrees per second).
+	 */
+	public var angularVelocity:Float = 0;
+	/**
+	 * How fast the spin speed should change (in degrees per second).
+	 */
+	public var angularAcceleration:Float = 0;
+	/**
+	 * Like drag but for spinning.
+	 */
+	public var angularDrag:Float = 0;
+	/**
+	 * Use in conjunction with angularAcceleration for fluid spin speed control.
+	 */
+	public var maxAngular:Float = 10000;
+	/**
+	 * Handy for storing health percentage or armor points or whatever.
+	 */
+	public var health:Float = 1;
+	/**
+	 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts. Use bitwise operators to check the values 
+	 * stored here, or use isTouching(), justTouched(), etc. You can even use them broadly as boolean values if you're feeling saucy!
+	 */
+	public var touching:Int = NONE;
+	/**
+	 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating surface contacts from the previous game loop step. Use bitwise operators to check the values 
+	 * stored here, or use isTouching(), justTouched(), etc. You can even use them broadly as boolean values if you're feeling saucy!
+	 */
+	public var wasTouching:Int = NONE;
+	/**
+	 * Bit field of flags (use with UP, DOWN, LEFT, RIGHT, etc) indicating collision directions. Use bitwise operators to check the values stored here.
+	 * Useful for things like one-way platforms (e.g. allowCollisions = UP;). The accessor "solid" just flips this variable between NONE and ANY.
+	 */
+	public var allowCollisions:Int = ANY;
+	/**
+	 * Whether this sprite is dragged along with the horizontal movement of objects it collides with 
+	 * (makes sense for horizontally-moving platforms in platformers for example).
+	 */
+	public var collisonXDrag:Bool = true;
+	
+	#if !FLX_NO_DEBUG
+	/**
+	 * Overriding this will force a specific color to be used for debug rect.
+	 */
+	public var debugBoundingBoxColor:Null<Int> = null;
+	/**
+	 * Setting this to true will prevent the object from appearing
+	 * when FlxG.debugger.drawDebug is true.
+	 */
+	public var ignoreDrawDebug:Bool = false;
+	#end
+	
+	/**
+	 * Internal private static variables, for performance reasons.
+	 */
+	private var _point:FlxPoint;
+	private var _cameras:Array<Dynamic><FlxCamera>;
+	
+	/**
+	 * @param	X		The X-coordinate of the point in space.
+	 * @param	Y		The Y-coordinate of the point in space.
+	 * @param	Width	Desired width of the rectangle.
+	 * @param	Height	Desired height of the rectangle.
+	 */
+	public function new(X:Float = 0, Y:Float = 0, Width:Float = 0, Height:Float = 0)
+	{
+		super();
+		
+		x = X;
+		y = Y;
+		width = Width;
+		height = Height;
+		
+		initVars();
+	}
+	
+	/**
+	 * Internal function for initialization of some object's variables
+	 */
+	private function initVars():Void
+	{
+		collisionType = FlxCollisionType.OBJECT;
+		last = FlxPoint.get(x, y);
+		scrollFactor = FlxPoint.get(1, 1);
+		_point = FlxPoint.get();
+		
+		initMotionVars();
+	}
+	
+	/**
+	 * Internal function for initialization of some variables that are used in updateMotion()
+	 */
+	private inline function initMotionVars():Void
+	{
+		velocity = FlxPoint.get();
+		acceleration = FlxPoint.get();
+		drag = FlxPoint.get();
+		maxVelocity = FlxPoint.get(10000, 10000);
+	}
+	
+	/**
+	 * WARNING: This will remove this object entirely. Use kill() if you want to disable it temporarily only and reset() it later to revive it.
+	 * Override this function to null out variables manually or call destroy() on class members if necessary. Don't forget to call super.destroy()!
+	 */
+	override public function destroy():Void
+	{
+		super.destroy();
+		
+		velocity = FlxDestroyUtil.put(velocity);
+		acceleration = FlxDestroyUtil.put(acceleration);
+		drag = FlxDestroyUtil.put(drag);
+		maxVelocity = FlxDestroyUtil.put(maxVelocity);
+		scrollFactor = FlxDestroyUtil.put(scrollFactor);
+		last = FlxDestroyUtil.put(last);
+		_point = FlxDestroyUtil.put(_point);
+		_cameras = null;
+	}
+	
+	/**
+	 * Override this function to update your class's position and appearance.
+	 * This is where most of your game rules and behavioral code will go.
+	 */
+	override public function update():Void 
+	{
+		#if !FLX_NO_DEBUG
+		// this just increments FlxBasic._ACTIVECOUNT, no need to waste a function call on release
+		super.update();
+		#end
+		
+		last.x = x;
+		last.y = y;
+		
+		if (moves)
+		{
+			updateMotion();
+		}
+		
+		wasTouching = touching;
+		touching = NONE;
+	}
+	
+	/**
+	 * Internal function for updating the position and speed of this object. Useful for cases when you need to update this but are buried down in too many supers.
+	 * Does a slightly fancier-than-normal integration to help with higher fidelity framerate-independenct motion.
+	 */
+	private inline function updateMotion():Void
+	{
+		var dt:Float = FlxG.elapsed;
+		
+		var velocityDelta = 0.5 * (FlxVelocity.computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular) - angularVelocity);
+		angularVelocity += velocityDelta; 
+		angle += angularVelocity * dt;
+		angularVelocity += velocityDelta;
+		
+		velocityDelta = 0.5 * (FlxVelocity.computeVelocity(velocity.x, acceleration.x, drag.x, maxVelocity.x) - velocity.x);
+		velocity.x += velocityDelta;
+		var delta = velocity.x * dt;
+		velocity.x += velocityDelta;
+		x += delta;
+		
+		velocityDelta = 0.5 * (FlxVelocity.computeVelocity(velocity.y, acceleration.y, drag.y, maxVelocity.y) - velocity.y);
+		velocity.y += velocityDelta;
+		delta = velocity.y * dt;
+		velocity.y += velocityDelta;
+		y += delta;
+	}
+	
+	/**
+	 * Rarely called, and in this case just increments the visible objects count and calls drawDebug() if necessary.
+	 */
+	override public function draw():Void
+	{
+		#if !FLX_NO_DEBUG
+		super.draw();
+		if (FlxG.debugger.drawDebug)
+			drawDebug();
+		#end
+	}
+	
+	/**
+	 * Checks to see if some FlxObject overlaps this FlxObject or FlxGroup. If the group has a LOT of things in it, 
+	 * it might be faster to use FlxG.overlaps(). WARNING: Currently tilemaps do NOT support screen space overlap checks!
+	 * 
+	 * @param	ObjectOrGroup	The object or group being tested.
+	 * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.  Default is false, or "only compare in world space."
+	 * @param	Camera			Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
+	 * @return	Whether or not the two objects overlap.
+	 */
+	public function overlaps(ObjectOrGroup:FlxBasic, InScreenSpace:Bool = false, ?Camera:FlxCamera):Bool
+	{
+		var group = FlxGroup.resolveGroup(ObjectOrGroup);
+		if (group != null) // if it is a group
+		{
+			return FlxGroup.overlaps(overlapsCallback, group, 0, 0, InScreenSpace, Camera);
+		}
+		
+		if (ObjectOrGroup.collisionType == FlxCollisionType.TILEMAP)
+		{
+			//Since tilemap's have to be the caller, not the target, to do proper tile-based collisions,
+			// we redirect the call to the tilemap overlap here.
+			return cast(ObjectOrGroup, FlxTilemap).overlaps(this, InScreenSpace, Camera);
+		}
+		
+		var object:FlxObject = cast(ObjectOrGroup, FlxObject);
+		if (!InScreenSpace)
+		{
+			return	(object.x + object.width > x) && (object.x < x + width) &&
+					(object.y + object.height > y) && (object.y < y + height);
+		}
+
+		if (Camera == null)
+		{
+			Camera = FlxG.camera;
+		}
+		var objectScreenPos:FlxPoint = object.getScreenXY(null, Camera);
+		getScreenXY(_point, Camera);
+		return	(objectScreenPos.x + object.width > _point.x) && (objectScreenPos.x < _point.x + width) &&
 				(objectScreenPos.y + object.height > _point.y) && (objectScreenPos.y < _point.y + height);
+	}
+	
+	private inline function overlapsCallback(ObjectOrGroup:FlxBasic, X:Float, Y:Float, InScreenSpace:Bool, Camera:FlxCamera):Bool
+	{
+		return overlaps(ObjectOrGroup, InScreenSpace, Camera);
+	}
+	
+	/**
+	 * Checks to see if this FlxObject were located at the given position, would it overlap the FlxObject or FlxGroup?
+	 * This is distinct from overlapsPoint(), which just checks that point, rather than taking the object's size into account. WARNING: Currently tilemaps do NOT support screen space overlap checks!
+	 * 
+	 * @param	X				The X position you want to check.  Pretends this object (the caller, not the parameter) is located here.
+	 * @param	Y				The Y position you want to check.  Pretends this object (the caller, not the parameter) is located here.
+	 * @param	ObjectOrGroup	The object or group being tested.
+	 * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.  Default is false, or "only compare in world space."
+	 * @param	Camera			Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
+	 * @return	Whether or not the two objects overlap.
+	 */
+	public function overlapsAt(X:Float, Y:Float, ObjectOrGroup:FlxBasic, InScreenSpace:Bool = false, ?Camera:FlxCamera):Bool
+	{
+		var group = FlxGroup.resolveGroup(ObjectOrGroup);
+		if (group != null) // if it is a group
+		{
+			return FlxGroup.overlaps(overlapsAtCallback, group, X, Y, InScreenSpace, Camera);
 		}
 		
-		/**
-		 * Checks to see if a point in 2D world space overlaps this <code>FlxObject</code> object.
-		 * 
-		 * @param	Point			The point in world space you want to check.
-		 * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.
-		 * @param	Camera			Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
-		 * 
-		 * @return	Whether or not the point overlaps this object.
-		 */
-		public function overlapsPoint(Point:FlxPoint,InScreenSpace:Boolean=false,Camera:FlxCamera=null):Boolean
+		if (ObjectOrGroup.collisionType == FlxCollisionType.TILEMAP)
 		{
-			if(!InScreenSpace)
-				return (Point.x > x) && (Point.x < x + width) && (Point.y > y) && (Point.y < y + height);
-
-			if(Camera == null)
-				Camera = FlxG.camera;
-			var X:Number = Point.x - Camera.scroll.x;
-			var Y:Number = Point.y - Camera.scroll.y;
-			getScreenXY(_point,Camera);
-			return (X > _point.x) && (X < _point.x+width) && (Y > _point.y) && (Y < _point.y+height);
+			//Since tilemap's have to be the caller, not the target, to do proper tile-based collisions,
+			// we redirect the call to the tilemap overlap here.
+			//However, since this is overlapsAt(), we also have to invent the appropriate position for the tilemap.
+			//So we calculate the offset between the player and the requested position, and subtract that from the tilemap.
+			var tilemap:FlxTilemap = cast(ObjectOrGroup, FlxTilemap);
+			return tilemap.overlapsAt(tilemap.x - (X - x), tilemap.y - (Y - y), this, InScreenSpace, Camera);
 		}
 		
-		/**
-		 * Check and see if this object is currently on screen.
-		 * 
-		 * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
-		 * 
-		 * @return	Whether the object is on screen or not.
-		 */
-		public function onScreen(Camera:FlxCamera=null):Boolean
+		var object:FlxObject = cast(ObjectOrGroup, FlxObject);
+		if (!InScreenSpace)
 		{
-			if(Camera == null)
-				Camera = FlxG.camera;
-			getScreenXY(_point,Camera);
-			return (_point.x + width > 0) && (_point.x < Camera.width) && (_point.y + height > 0) && (_point.y < Camera.height);
+			return	(object.x + object.width > X) && (object.x < X + width) &&
+					(object.y + object.height > Y) && (object.y < Y + height);
 		}
 		
-		/**
-		 * Call this function to figure out the on-screen position of the object.
-		 * 
-		 * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
-		 * @param	Point		Takes a <code>FlxPoint</code> object and assigns the post-scrolled X and Y values of this object to it.
-		 * 
-		 * @return	The <code>Point</code> you passed in, or a new <code>Point</code> if you didn't pass one, containing the screen X and Y position of this object.
-		 */
-		public function getScreenXY(Point:FlxPoint=null,Camera:FlxCamera=null):FlxPoint
+		if (Camera == null)
 		{
-			if(Point == null)
-				Point = new FlxPoint();
-			if(Camera == null)
-				Camera = FlxG.camera;
-			Point.x = x - int(Camera.scroll.x*scrollFactor.x);
-			Point.y = y - int(Camera.scroll.y*scrollFactor.y);
-			Point.x += (Point.x > 0)?0.0000001:-0.0000001;
-			Point.y += (Point.y > 0)?0.0000001:-0.0000001;
-			return Point;
+			Camera = FlxG.camera;
+		}
+		var objectScreenPos:FlxPoint = object.getScreenXY(null, Camera);
+		getScreenXY(_point, Camera);
+		return	(objectScreenPos.x + object.width > _point.x) && (objectScreenPos.x < _point.x + width) &&
+			(objectScreenPos.y + object.height > _point.y) && (objectScreenPos.y < _point.y + height);
+	}
+	
+	private inline function overlapsAtCallback(ObjectOrGroup:FlxBasic, X:Float, Y:Float, InScreenSpace:Bool, Camera:FlxCamera):Bool
+	{
+		return overlapsAt(X, Y, ObjectOrGroup, InScreenSpace, Camera);
+	}
+	
+	/**
+	 * Checks to see if a point in 2D world space overlaps this FlxObject object.
+	 * 
+	 * @param	Point			The point in world space you want to check.
+	 * @param	InScreenSpace	Whether to take scroll factors into account when checking for overlap.
+	 * @param	Camera			Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
+	 * @return	Whether or not the point overlaps this object.
+	 */
+	public function overlapsPoint(point:FlxPoint, InScreenSpace:Bool = false, ?Camera:FlxCamera):Bool
+	{
+		if (!InScreenSpace)
+		{
+			return (point.x > x) && (point.x < x + width) && (point.y > y) && (point.y < y + height);
 		}
 		
-		/**
-		 * Tells this object to flicker, retro-style.
-		 * Pass a negative value to flicker forever.
-		 * 
-		 * @param	Duration	How many seconds to flicker for.
-		 */
-		public function flicker(Duration:Number=1):void
+		if (Camera == null)
 		{
-			_flickerTimer = Duration;
-			if(_flickerTimer == 0)
-				_flicker = false;
+			Camera = FlxG.camera;
 		}
-		
-		/**
-		 * Check to see if the object is still flickering.
-		 * 
-		 * @return	Whether the object is flickering or not.
-		 */
-		public function get flickering():Boolean
+		var X:Float = point.x - Camera.scroll.x;
+		var Y:Float = point.y - Camera.scroll.y;
+		getScreenXY(_point, Camera);
+		point.putWeak();
+		return (X > _point.x) && (X < _point.x + width) && (Y > _point.y) && (Y < _point.y + height);
+	}
+	
+	/**
+	 * Check and see if this object is currently within the Worldbounds - useful for killing objects that get too far away.
+	 * 
+	 * @return	Whether the object is within the Worldbounds or not.
+	 */
+	public inline function inWorldBounds():Bool
+	{
+		return (x + width > FlxG.worldBounds.x) && (x < FlxG.worldBounds.right) && (y + height > FlxG.worldBounds.y) && (y < FlxG.worldBounds.bottom);
+	}
+	
+	/**
+	 * Call this function to figure out the on-screen position of the object.
+	 * 
+	 * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
+	 * @param	Point		Takes a FlxPoint object and assigns the post-scrolled X and Y values of this object to it.
+	 * @return	The Point you passed in, or a new Point if you didn't pass one, containing the screen X and Y position of this object.
+	 */
+	public function getScreenXY(?point:FlxPoint, ?Camera:FlxCamera):FlxPoint
+	{
+		if (point == null)
 		{
-			return _flickerTimer != 0;
+			point = FlxPoint.get();
 		}
-		
-		/**
-		 * Whether the object collides or not.  For more control over what directions
-		 * the object will collide from, use collision constants (like LEFT, FLOOR, etc)
-		 * to set the value of allowCollisions directly.
-		 */
-		public function get solid():Boolean
+		if (Camera == null)
 		{
-			return (allowCollisions & ANY) > NONE;
+			Camera = FlxG.camera;
 		}
-		
-		/**
-		 * @private
-		 */
-		public function set solid(Solid:Boolean):void
+		return point.set(x - (Camera.scroll.x * scrollFactor.x), y - (Camera.scroll.y * scrollFactor.y));
+	}
+	
+	/**
+	 * Retrieve the midpoint of this object in world coordinates.
+	 * 
+	 * @param	point	Allows you to pass in an existing FlxPoint object if you're so inclined.  Otherwise a new one is created.
+	 * @return	A FlxPoint object containing the midpoint of this object in world coordinates.
+	 */
+	public function getMidpoint(?point:FlxPoint):FlxPoint
+	{
+		if (point == null)
 		{
-			if(Solid)
-				allowCollisions = ANY;
-			else
-				allowCollisions = NONE;
+			point = FlxPoint.get();
 		}
-		
-		/**
-		 * Retrieve the midpoint of this object in world coordinates.
-		 * 
-		 * @Point	Allows you to pass in an existing <code>FlxPoint</code> object if you're so inclined.  Otherwise a new one is created.
-		 * 
-		 * @return	A <code>FlxPoint</code> object containing the midpoint of this object in world coordinates.
-		 */
-		public function getMidpoint(Point:FlxPoint=null):FlxPoint
+		return point.set(x + width * 0.5, y + height * 0.5);
+	}
+	
+	/**
+	 * Handy function for reviving game objects.
+	 * Resets their existence flags and position.
+	 * 
+	 * @param	X	The new X position of this object.
+	 * @param	Y	The new Y position of this object.
+	 */
+	public function reset(X:Float, Y:Float):Void
+	{
+		revive();
+		touching = NONE;
+		wasTouching = NONE;
+		setPosition(X, Y);
+		last.set(x, y);
+		velocity.set();
+	}
+	
+	/**
+	 * Check and see if this object is currently on screen.
+	 * 
+	 * @param	Camera		Specify which game camera you want.  If null getScreenXY() will just grab the first global camera.
+	 * @return	Whether the object is on screen or not.
+	 */
+	public function isOnScreen(?Camera:FlxCamera):Bool
+	{
+		if (Camera == null)
 		{
-			if(Point == null)
-				Point = new FlxPoint();
-			Point.x = x + width*0.5;
-			Point.y = y + height*0.5;
-			return Point;
+			Camera = FlxG.camera;
 		}
-		
-		/**
-		 * Handy function for reviving game objects.
-		 * Resets their existence flags and position.
-		 * 
-		 * @param	X	The new X position of this object.
-		 * @param	Y	The new Y position of this object.
-		 */
-		public function reset(X:Number,Y:Number):void
+		getScreenXY(_point, Camera);
+		return (_point.x + width > 0) && (_point.x < Camera.width) && (_point.y + height > 0) && (_point.y < Camera.height);
+	}
+	
+	/**
+	 * Handy function for checking if this object is touching a particular surface.
+	 * Be sure to check it before calling super.update(), as that will reset the flags.
+	 * 
+	 * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
+	 * @return	Whether the object is touching an object in (any of) the specified direction(s) this frame.
+	 */
+	public inline function isTouching(Direction:Int):Bool
+	{
+		return (touching & Direction) > NONE;
+	}
+	
+	/**
+	 * Handy function for checking if this object is just landed on a particular surface.
+	 * Be sure to check it before calling super.update(), as that will reset the flags.
+	 * 
+	 * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
+	 * @return	Whether the object just landed on (any of) the specified surface(s) this frame.
+	 */
+	public inline function justTouched(Direction:Int):Bool
+	{
+		return ((touching & Direction) > NONE) && ((wasTouching & Direction) <= NONE);
+	}
+	
+	/**
+	 * Reduces the "health" variable of this sprite by the amount specified in Damage.
+	 * Calls kill() if health drops to or below zero.
+	 * 
+	 * @param	Damage		How much health to take away (use a negative number to give a health bonus).
+	 */
+	public function hurt(Damage:Float):Void
+	{
+		health = health - Damage;
+		if (health <= 0)
 		{
-			revive();
-			touching = NONE;
-			wasTouching = NONE;
-			x = X;
-			y = Y;
-			last.x = x;
-			last.y = y;
-			velocity.x = 0;
-			velocity.y = 0;
+			kill();
 		}
-		
-		/**
-		 * Handy function for checking if this object is touching a particular surface.
-		 * For slightly better performance you can just &amp; the value directly into <code>touching</code>.
-		 * However, this method is good for readability and accessibility.
-		 * 
-		 * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
-		 * 
-		 * @return	Whether the object is touching an object in (any of) the specified direction(s) this frame.
-		 */
-		public function isTouching(Direction:uint):Boolean
+	}
+	
+	/**
+	 * Helper function to set the coordinates of this object.
+	 * Handy since it only requires one line of code.
+	 * 
+	 * @param	X	The new x position
+	 * @param	Y	The new y position
+	 */
+	public function setPosition(X:Float = 0, Y:Float = 0):Void
+	{
+		x = X;
+		y = Y;
+	}
+	
+	/**
+	 * Shortcut for setting both width and Height.
+	 * 
+	 * @param	Width	The new sprite width.
+	 * @param	Height	The new sprite height.
+	 */
+	public function setSize(Width:Float, Height:Float)
+	{
+		width = Width;
+		height = Height;
+	}
+	
+	#if !FLX_NO_DEBUG
+	public function drawDebug():Void
+	{
+		if (!ignoreDrawDebug)
 		{
-			return (touching & Direction) > NONE;
-		}
-		
-		/**
-		 * Handy function for checking if this object is just landed on a particular surface.
-		 * 
-		 * @param	Direction	Any of the collision flags (e.g. LEFT, FLOOR, etc).
-		 * 
-		 * @return	Whether the object just landed on (any of) the specified surface(s) this frame.
-		 */
-		public function justTouched(Direction:uint):Boolean
-		{
-			return ((touching & Direction) > NONE) && ((wasTouching & Direction) <= NONE);
-		}
-		
-		/**
-		 * Reduces the "health" variable of this sprite by the amount specified in Damage.
-		 * Calls kill() if health drops to or below zero.
-		 * 
-		 * @param	Damage		How much health to take away (use a negative number to give a health bonus).
-		 */
-		public function hurt(Damage:Number):void
-		{
-			health = health - Damage;
-			if(health <= 0)
-				kill();
-		}
-		
-		/**
-		 * The main collision resolution function in flixel.
-		 * 
-		 * @param	Object1 	Any <code>FlxObject</code>.
-		 * @param	Object2		Any other <code>FlxObject</code>.
-		 * 
-		 * @return	Whether the objects in fact touched and were separated.
-		 */
-		static public function separate(Object1:FlxObject, Object2:FlxObject):Boolean
-		{
-			var separatedX:Boolean = separateX(Object1,Object2);
-			var separatedY:Boolean = separateY(Object1,Object2);
-			return separatedX || separatedY;
-		}
-		
-		/**
-		 * The X-axis component of the object separation process.
-		 * 
-		 * @param	Object1 	Any <code>FlxObject</code>.
-		 * @param	Object2		Any other <code>FlxObject</code>.
-		 * 
-		 * @return	Whether the objects in fact touched and were separated along the X axis.
-		 */
-		static public function separateX(Object1:FlxObject, Object2:FlxObject):Boolean
-		{
-			//can't separate two immovable objects
-			var obj1immovable:Boolean = Object1.immovable;
-			var obj2immovable:Boolean = Object2.immovable;
-			if(obj1immovable && obj2immovable)
-				return false;
-			
-			//If one of the objects is a tilemap, just pass it off.
-			if(Object1 is FlxTilemap)
-				return (Object1 as FlxTilemap).overlapsWithCallback(Object2,separateX);
-			if(Object2 is FlxTilemap)
-				return (Object2 as FlxTilemap).overlapsWithCallback(Object1,separateX,true);
-			
-			//First, get the two object deltas
-			var overlap:Number = 0;
-			var obj1delta:Number = Object1.x - Object1.last.x;
-			var obj2delta:Number = Object2.x - Object2.last.x;
-			if(obj1delta != obj2delta)
+			for (camera in cameras)
 			{
-				//Check if the X hulls actually overlap
-				var obj1deltaAbs:Number = (obj1delta > 0)?obj1delta:-obj1delta;
-				var obj2deltaAbs:Number = (obj2delta > 0)?obj2delta:-obj2delta;
-				var obj1rect:FlxRect = new FlxRect(Object1.x-((obj1delta > 0)?obj1delta:0),Object1.last.y,Object1.width+((obj1delta > 0)?obj1delta:-obj1delta),Object1.height);
-				var obj2rect:FlxRect = new FlxRect(Object2.x-((obj2delta > 0)?obj2delta:0),Object2.last.y,Object2.width+((obj2delta > 0)?obj2delta:-obj2delta),Object2.height);
-				if((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height))
+				drawDebugOnCamera(camera);
+			}
+		}
+	}
+	
+	/**
+	 * Override this function to draw custom "debug mode" graphics to the
+	 * specified camera while the debugger's drawDebug mode is toggled on.
+	 * 
+	 * @param	Camera	Which camera to draw the debug visuals to.
+	 */
+	public function drawDebugOnCamera(Camera:FlxCamera):Void
+	{
+		if (!Camera.visible || !Camera.exists || !isOnScreen(Camera))
+		{
+			return;
+		}
+		
+		//get bounding box coordinates
+		var boundingBoxX:Float = x - (Camera.scroll.x * scrollFactor.x); //copied from getScreenXY()
+		var boundingBoxY:Float = y - (Camera.scroll.y * scrollFactor.y);
+		
+		if (pixelPerfectRender)
+		{
+			boundingBoxX = Math.floor(boundingBoxX);
+			boundingBoxY = Math.floor(boundingBoxY);
+		}
+		
+		#if FLX_RENDER_BLIT
+		var boundingBoxWidth:Int = Std.Int(width);
+		var boundingBoxHeight:Int = Std.Int(height);
+		#end
+		
+		// Find the color to use
+		var color:Null<Int> = debugBoundingBoxColor;
+		if (color == null)
+		{
+			if (allowCollisions != FlxObject.NONE)
+			{
+				if (allowCollisions != ANY)
 				{
-					var maxOverlap:Number = obj1deltaAbs + obj2deltaAbs + OVERLAP_BIAS;
-					
-					//If they did overlap (and can), figure out by how much and flip the corresponding flags
-					if(obj1delta > obj2delta)
-					{
-						overlap = Object1.x + Object1.width - Object2.x;
-						if((overlap > maxOverlap) || !(Object1.allowCollisions & RIGHT) || !(Object2.allowCollisions & LEFT))
-							overlap = 0;
-						else
-						{
-							Object1.touching |= RIGHT;
-							Object2.touching |= LEFT;
-						}
-					}
-					else if(obj1delta < obj2delta)
-					{
-						overlap = Object1.x - Object2.width - Object2.x;
-						if((-overlap > maxOverlap) || !(Object1.allowCollisions & LEFT) || !(Object2.allowCollisions & RIGHT))
-							overlap = 0;
-						else
-						{
-							Object1.touching |= LEFT;
-							Object2.touching |= RIGHT;
-						}
-					}
+					color = FlxColor.PINK;
+				}
+				if (immovable)
+				{
+					color = FlxColor.GREEN;
+				}
+				else
+				{
+					color = FlxColor.RED;
 				}
 			}
 			
-			//Then adjust their positions and velocities accordingly (if there was any overlap)
-			if(overlap != 0)
+			// if there's still no color...
+			if (color == null)
 			{
-				var obj1v:Number = Object1.velocity.x;
-				var obj2v:Number = Object2.velocity.x;
-				
-				if(!obj1immovable && !obj2immovable)
-				{
-					overlap *= 0.5;
-					Object1.x = Object1.x - overlap;
-					Object2.x += overlap;
-
-					var obj1velocity:Number = Math.sqrt((obj2v * obj2v * Object2.mass)/Object1.mass) * ((obj2v > 0)?1:-1);
-					var obj2velocity:Number = Math.sqrt((obj1v * obj1v * Object1.mass)/Object2.mass) * ((obj1v > 0)?1:-1);
-					var average:Number = (obj1velocity + obj2velocity)*0.5;
-					obj1velocity -= average;
-					obj2velocity -= average;
-					Object1.velocity.x = average + obj1velocity * Object1.elasticity;
-					Object2.velocity.x = average + obj2velocity * Object2.elasticity;
-				}
-				else if(!obj1immovable)
-				{
-					Object1.x = Object1.x - overlap;
-					Object1.velocity.x = obj2v - obj1v*Object1.elasticity;
-				}
-				else if(!obj2immovable)
-				{
-					Object2.x += overlap;
-					Object2.velocity.x = obj1v - obj2v*Object2.elasticity;
-				}
-				return true;
+				color = FlxColor.BLUE;
 			}
-			else
-				return false;
 		}
 		
-		/**
-		 * The Y-axis component of the object separation process.
-		 * 
-		 * @param	Object1 	Any <code>FlxObject</code>.
-		 * @param	Object2		Any other <code>FlxObject</code>.
-		 * 
-		 * @return	Whether the objects in fact touched and were separated along the Y axis.
-		 */
-		static public function separateY(Object1:FlxObject, Object2:FlxObject):Boolean
+		//fill static graphics object with square shape
+		#if FLX_RENDER_BLIT
+		var gfx:Graphics = FlxSpriteUtil.flashGfx;
+		gfx.clear();
+		gfx.moveTo(boundingBoxX, boundingBoxY);
+		gfx.lineStyle(1, color, 0.5);
+		gfx.lineTo(boundingBoxX + boundingBoxWidth, boundingBoxY);
+		gfx.lineTo(boundingBoxX + boundingBoxWidth, boundingBoxY + boundingBoxHeight);
+		gfx.lineTo(boundingBoxX, boundingBoxY + boundingBoxHeight);
+		gfx.lineTo(boundingBoxX, boundingBoxY);
+		//draw graphics shape to camera buffer
+		Camera.buffer.draw(FlxSpriteUtil.flashGfxSprite);
+		#else
+		var gfx:Graphics = Camera.debugLayer.graphics;
+		gfx.lineStyle(1, color, 0.5);
+		gfx.drawRect(boundingBoxX, boundingBoxY, width, height);
+		#end
+	}
+	#end
+	
+	/**
+	 * Convert object to readable string name.  Useful for debugging, save games, etc.
+	 */
+	override public function toString():String
+	{
+		return FlxStringUtil.getDebugString([
+			LabelValuePair.weak("x", x), 
+			LabelValuePair.weak("y", y), 
+			LabelValuePair.weak("w", width), 
+			LabelValuePair.weak("h", height), 
+			LabelValuePair.weak("visible", visible), 
+			LabelValuePair.weak("velocity", velocity)]);
+	}
+	
+		private function set_x(NewX:Float):Float
+	{
+		return x = NewX;
+	}
+	
+	private function set_y(NewY:Float):Float
+	{
+		return y = NewY;
+	}
+	
+	private function set_width(Width:Float):Float
+	{
+		#if !FLX_NO_DEBUG
+		if (Width < 0) 
 		{
-			//can't separate two immovable objects
-			var obj1immovable:Boolean = Object1.immovable;
-			var obj2immovable:Boolean = Object2.immovable;
-			if(obj1immovable && obj2immovable)
-				return false;
-			
-			//If one of the objects is a tilemap, just pass it off.
-			if(Object1 is FlxTilemap)
-				return (Object1 as FlxTilemap).overlapsWithCallback(Object2,separateY);
-			if(Object2 is FlxTilemap)
-				return (Object2 as FlxTilemap).overlapsWithCallback(Object1,separateY,true);
-
-			//First, get the two object deltas
-			var overlap:Number = 0;
-			var obj1delta:Number = Object1.y - Object1.last.y;
-			var obj2delta:Number = Object2.y - Object2.last.y;
-			if(obj1delta != obj2delta)
-			{
-				//Check if the Y hulls actually overlap
-				var obj1deltaAbs:Number = (obj1delta > 0)?obj1delta:-obj1delta;
-				var obj2deltaAbs:Number = (obj2delta > 0)?obj2delta:-obj2delta;
-				var obj1rect:FlxRect = new FlxRect(Object1.x,Object1.y-((obj1delta > 0)?obj1delta:0),Object1.width,Object1.height+obj1deltaAbs);
-				var obj2rect:FlxRect = new FlxRect(Object2.x,Object2.y-((obj2delta > 0)?obj2delta:0),Object2.width,Object2.height+obj2deltaAbs);
-				if((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height))
-				{
-					var maxOverlap:Number = obj1deltaAbs + obj2deltaAbs + OVERLAP_BIAS;
-					
-					//If they did overlap (and can), figure out by how much and flip the corresponding flags
-					if(obj1delta > obj2delta)
-					{
-						overlap = Object1.y + Object1.height - Object2.y;
-						if((overlap > maxOverlap) || !(Object1.allowCollisions & DOWN) || !(Object2.allowCollisions & UP))
-							overlap = 0;
-						else
-						{
-							Object1.touching |= DOWN;
-							Object2.touching |= UP;
-						}
-					}
-					else if(obj1delta < obj2delta)
-					{
-						overlap = Object1.y - Object2.height - Object2.y;
-						if((-overlap > maxOverlap) || !(Object1.allowCollisions & UP) || !(Object2.allowCollisions & DOWN))
-							overlap = 0;
-						else
-						{
-							Object1.touching |= UP;
-							Object2.touching |= DOWN;
-						}
-					}
-				}
-			}
-			
-			//Then adjust their positions and velocities accordingly (if there was any overlap)
-			if(overlap != 0)
-			{
-				var obj1v:Number = Object1.velocity.y;
-				var obj2v:Number = Object2.velocity.y;
-				
-				if(!obj1immovable && !obj2immovable)
-				{
-					overlap *= 0.5;
-					Object1.y = Object1.y - overlap;
-					Object2.y += overlap;
-
-					var obj1velocity:Number = Math.sqrt((obj2v * obj2v * Object2.mass)/Object1.mass) * ((obj2v > 0)?1:-1);
-					var obj2velocity:Number = Math.sqrt((obj1v * obj1v * Object1.mass)/Object2.mass) * ((obj1v > 0)?1:-1);
-					var average:Number = (obj1velocity + obj2velocity)*0.5;
-					obj1velocity -= average;
-					obj2velocity -= average;
-					Object1.velocity.y = average + obj1velocity * Object1.elasticity;
-					Object2.velocity.y = average + obj2velocity * Object2.elasticity;
-				}
-				else if(!obj1immovable)
-				{
-					Object1.y = Object1.y - overlap;
-					Object1.velocity.y = obj2v - obj1v*Object1.elasticity;
-					//This is special case code that handles cases like horizontal moving platforms you can ride
-					if(Object2.active && Object2.moves && (obj1delta > obj2delta))
-						Object1.x += Object2.x - Object2.last.x;
-				}
-				else if(!obj2immovable)
-				{
-					Object2.y += overlap;
-					Object2.velocity.y = obj1v - obj2v*Object2.elasticity;
-					//This is special case code that handles cases like horizontal moving platforms you can ride
-					if(Object1.active && Object1.moves && (obj1delta < obj2delta))
-						Object2.x += Object1.x - Object1.last.x;
-				}
-				return true;
-			}
-			else
-				return false;
+			FlxG.log.warn("An object's width cannot be smaller than 0. Use offset for sprites to control the hitbox position!");
 		}
+		else
+		{
+		#end
+			width = Width;
+		#if !FLX_NO_DEBUG
+		}
+		#end
+		
+		return Width;
+	}
+	
+	private function set_height(Height:Float):Float
+	{
+		#if !FLX_NO_DEBUG
+		if (Height < 0) 
+		{
+			FlxG.log.warn("An object's height cannot be smaller than 0. Use offset for sprites to control the hitbox position!");
+		}
+		else
+		{
+		#end
+			height = Height;
+		#if !FLX_NO_DEBUG
+		}
+		#end
+		
+		return Height;
+	}
+	
+	private function get_width():Float
+	{
+		return width;
+	}
+	
+	private function get_height():Float
+	{
+		return height;
+	}
+	
+	private inline function get_solid():Bool
+	{
+		return (allowCollisions & ANY) > NONE;
+	}
+	
+	private function set_solid(Solid:Bool):Bool
+	{
+		if (Solid)
+		{
+			allowCollisions = ANY;
+		}
+		else
+		{
+			allowCollisions = NONE;
+		}
+		return Solid;
+	}
+	
+	private function set_angle(Value:Float):Float
+	{
+		return angle = Value;
+	}
+	
+	private function set_moves(Value:Bool):Bool
+	{
+		return moves = Value;
+	}
+	
+	private function set_immovable(Value:Bool):Bool
+	{
+		return immovable = Value;
+	}
+	
+	private function get_camera():FlxCamera
+	{
+		return (_cameras == null || _cameras.length == 0) ? FlxCamera.defaultCameras[0] : _cameras[0];
+	}
+	
+	private function set_camera(Value:FlxCamera):FlxCamera
+	{
+		if (_cameras == null)
+			_cameras = [Value];
+		else
+			_cameras[0] = Value;
+		return Value;
+	}
+	
+	private function get_cameras():Array<Dynamic><FlxCamera>
+	{
+		return (_cameras == null) ? FlxCamera.defaultCameras : _cameras;
+	}
+	
+	private function set_cameras(Value:Array<Dynamic><FlxCamera>):Array<Dynamic><FlxCamera>
+	{
+		return _cameras = Value;
+	}
+	
+	private function set_pixelPerfectRender(Value:Bool):Bool 
+	{
+		return pixelPerfectRender = Value;
 	}
 }

@@ -6,13 +6,13 @@ package
 	public class LevelTitleState extends FlxState
 	{	
 		private var levelMessage:FlxText;
-		private var levelNumber:int;
+		private var levelNumber:Int;
 		
 		public function LevelTitleState() 
 		{
 		}
 		
-		override public function create():void
+		override public function create():Void
 		{
 			
 			levelNumber = Registry.stageCount + 1;
@@ -28,7 +28,7 @@ package
 			add(levelMessage);
 		}
 		
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -39,12 +39,12 @@ package
 			
 		}
 		
-		private function changeState():void
+		private function changeState():Void
 		{
 			FlxG.switchState(new PlayState);
 		}
 		
-		override public function destroy():void
+		override public function destroy():Void
 		{
 			FlxSpecialFX.clear();
 			

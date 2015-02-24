@@ -6,19 +6,19 @@ package
 	{
 		[Embed(source="../map/wiz.png")] private var wizPNG:Class;
 		
-		public var isDying:Boolean = false;
-		private var dieTimer:Number;
-		private var bounceTimer:Number;
-		private var turnAroundTimer:Number;
-		private var knockBackTimer:Number;
+		public var isDying:Bool = false;
+		private var dieTimer:Float;
+		private var bounceTimer:Float;
+		private var turnAroundTimer:Float;
+		private var knockBackTimer:Float;
 		private var player:Player;
-		public var dTurnFlag:Boolean = false;
-		private var shockedTimer:Number;
-		private var shockedFlag:Boolean = false;
+		public var dTurnFlag:Bool = false;
+		private var shockedTimer:Float;
+		private var shockedFlag:Bool = false;
 		
 		
 		
-		public function Wiz(x:int, y:int)
+		public function Wiz(x:Int, y:Int)
 		{
 			super(x, y);
 			
@@ -34,7 +34,7 @@ package
 			acceleration.y = 500;
 		}
 	
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
@@ -58,7 +58,7 @@ package
 			}
 		}
 		
-		public function turnAround():void
+		public function turnAround():Void
 		{
 			if (!isDying)
 			{

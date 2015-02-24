@@ -4,8 +4,8 @@ package
 
 	public class Torches extends FlxGroup
 	{
-		private var x:int;
-		private var y:int;
+		private var x:Int;
+		private var y:Int;
 		private var tempTorch:Torch;
 		
 		
@@ -14,7 +14,7 @@ package
 			super();
 		}
 		
-		public function addTorch(i_x:int, i_y:int, i_flameDance:int):void
+		public function addTorch(i_x:Int, i_y:Int, i_flameDance:Int):Void
 		{	
 			x = i_x;
 			y = i_y;

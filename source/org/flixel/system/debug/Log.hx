@@ -1,92 +1,159 @@
-package org.flixel.system.debug
+package flixel.system.debug;
+#if !FLX_NO_DEBUG
+
+import flash.geom.Rectangle;
+import flash.text.TextField;
+import flash.text.TextFormat;
+import flixel.FlxG;
+import flixel.system.debug.FlxDebugger;
+import flixel.util.FlxPoint;
+import flixel.util.FlxStringUtil;
+import haxe.ds.StringMap;
+
+/**
+ * A simple trace output window for use in the debugger overlay.
+ */
+class Log extends Window
 {
-	import flash.geom.Rectangle;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
-	import org.flixel.system.FlxWindow;
+	public static inline var MAX_LOG_LINES:Int = 200;
+	private static inline var LINE_BREAK:String = #if js "\n" #else "<br>"#end; 
 
+	private var _text:TextField;
+	private var _lines:Array<Dynamic><String>;
+	
 	/**
-	 * A simple trace output window for use in the debugger overlay.
-	 * 
-	 * @author Adam Atomic
-	 */
-	public class Log extends FlxWindow
+	 * Creates a log window object.
+	 */	
+	public function new()
 	{
-		static protected const MAX_LOG_LINES:uint = 200;
-
-		protected var _text:TextField;
-		protected var _lines:Array;
+		super("log", new GraphicLog(0, 0));
 		
-		/**
-		 * Creates a new window object.  This Flash-based class is mainly (only?) used by <code>FlxDebugger</code>.
-		 * 
-		 * @param Title			The name of the window, displayed in the header bar.
-		 * @param Width			The initial width of the window.
-		 * @param Height		The initial height of the window.
-		 * @param Resizable		Whether you can change the size of the window with a drag handle.
-		 * @param Bounds		A rectangle indicating the valid screen area for the window.
-		 * @param BGColor		What color the window background should be, default is gray and transparent.
-		 * @param TopColor		What color the window header bar should be, default is black and transparent.
-		 */	
-		public function Log(Title:String, Width:Number, Height:Number, Resizable:Boolean=true, Bounds:Rectangle=null, BGColor:uint=0x7f7f7f7f, TopColor:uint=0x7f000000)
-		{
-			super(Title, Width, Height, Resizable, Bounds, BGColor, TopColor);
-			
-			_text = new TextField();
-			_text.x = 2;
-			_text.y = 15;
-			_text.multiline = true;
-			_text.wordWrap = true;
-			_text.selectable = true;
-			_text.defaultTextFormat = new TextFormat("Courier",12,0xffffff);
-			addChild(_text);
-			
-			_lines = new Array();
-		}
+		_text = new TextField();
+		_text.x = 2;
+		_text.y = 15;
+		_text.multiline = true;
+		_text.wordWrap = true;
+		_text.selectable = true;
+		_text.embedFonts = true;
+		_text.defaultTextFormat = new TextFormat(FlxAssets.FONT_DEBUGGER, 12, 0xffffff);
+		addChild(_text);
 		
-		/**
-		 * Clean up memory.
-		 */
-		override public function destroy():void
+		_lines = new Array<Dynamic><String>();
+	}
+	
+	/**
+	 * Clean up memory.
+	 */
+	override public function destroy():Void
+	{
+		if (_text != null)
 		{
 			removeChild(_text);
 			_text = null;
-			_lines = null;
-			super.destroy();
 		}
 		
-		/**
-		 * Adds a new line to the log window.
-		 * 
-		 * @param Text		The line you want to add to the log window.
-		 */
-		public function add(Text:String):void
+		_lines = null;
+		super.destroy();
+	}
+	
+	/**
+	 * Adds a new line to the log window.
+	 * @param 	Data		The data being logged.
+	 * @param 	Style		The LogStyle to be used for the log
+	 * @param 	FireOnce   	Whether you only want to log the Data in case it hasn't been added already
+	 */
+	public function add(Data:Array<Dynamic><Dynamic>, Style:LogStyle, FireOnce:Bool = false):Bool
+	{
+		if (Data == null) 
 		{
-			if(_lines.length <= 0)
-				_text.text = "";
-			_lines.push(Text);
-			if(_lines.length > MAX_LOG_LINES)
-			{
-				_lines.shift();
-				var newText:String = "";
-				for(var i:uint = 0; i < _lines.length; i++)
-					newText += _lines[i]+"\n";
-				_text.text = newText;
-			}
-			else
-				_text.appendText(Text+"\n");
-			_text.scrollV = _text.height;
+			return false;
 		}
 		
-		/**
-		 * Adjusts the width and height of the text field accordingly.
-		 */
-		override protected function updateSize():void
+		var texts:Array<Dynamic><String> = new Array<Dynamic><String>();
+		
+		// Format FlxPoints, Arrays, Maps or turn the Data entry into a String
+		for (i in 0...Data.length) 
 		{
-			super.updateSize();
+			texts[i] = Std.string(Data[i]);
 			
-			_text.width = _width-10;
-			_text.height = _height-15;
+			// Make sure you can't insert html tags
+			texts[i] = StringTools.htmlEscape(texts[i]);
 		}
+		
+		var text:String = Style.prefix + texts.join(" ");
+		
+		// Apply text formatting
+		#if !js
+		text = FlxStringUtil.htmlFormat(text, Style.size, Style.color, Style.bold, Style.italic, Style.underlined);
+		#end
+		
+		// Check if the text has been added yet already
+		if (FireOnce)
+		{
+			for (line in _lines)
+			{
+				if (text == line)
+				{
+					return false;
+				}
+			}
+		}
+		
+		// Actually add it to the textfield
+		if (_lines.length <= 0)
+		{
+			_text.text = "";
+		}
+		
+		_lines.push(text);
+		
+		if (_lines.length > MAX_LOG_LINES)
+		{
+			_lines.shift();
+			var newText:String = "";
+			for (i in 0..._lines.length) 
+			{
+				newText += _lines[i] + LINE_BREAK;
+			}
+			// TODO: Make htmlText work on HTML5 target
+			#if !js
+			_text.htmlText = newText;
+			#else
+			_text.text = newText;
+			#end
+		}
+		else
+		{
+			// TODO: Make htmlText work on HTML5 target
+			#if !js
+			_text.htmlText += (text + LINE_BREAK);
+			#else
+			_text.text += text + LINE_BREAK;
+			#end
+		}
+		
+		_text.scrollV = Std.Int(_text.maxScrollV);
+		return true;
+	}
+	
+	public function clear():Void
+	{
+		_text.text = "";
+		_lines.splice(0, _lines.length);
+		#if !js
+		_text.scrollV = 0;
+		#end
+	}
+	
+	/**
+	 * Adjusts the width and height of the text field accordingly.
+	 */
+	override private function updateSize():Void
+	{
+		super.updateSize();
+		
+		_text.width = _width-10;
+		_text.height = _height-15;
 	}
 }
+#end

@@ -8,15 +8,15 @@ package
 		[Embed(source = "../assets/pop.mp3")] private var pop:Class;
 		[Embed(source = "../assets/ending.png")] private var endPNG:Class;
 		
-		public var isDying:Boolean = false;
-		private var dieTimer:Number;
+		public var isDying:Bool = false;
+		private var dieTimer:Float;
 		private var player:Player;
-		private var canKnockback:Boolean = false;
-		public var aliveTimer:Number = 0;
-		public var dieFlag:Boolean = false;
-		public var end:Boolean;
+		private var canKnockback:Bool = false;
+		public var aliveTimer:Float = 0;
+		public var dieFlag:Bool = false;
+		public var end:Bool;
 		
-		public function Checkpoint(x:int, y:int, i_end:Boolean = false)
+		public function Checkpoint(x:Int, y:Int, i_end:Bool = false)
 		{
 			super(x*16, y*16);
 			
@@ -47,7 +47,7 @@ package
 			
 		}
 		
-		override public function kill():void
+		override public function kill():Void
 		{		
 			if (!dieFlag)
 			{
@@ -59,7 +59,7 @@ package
 			}
 		}
 	
-		override public function update():void
+		override public function update():Void
 		{
 			super.update();
 			
