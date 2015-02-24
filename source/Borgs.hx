@@ -15,7 +15,7 @@ package
 			super();
 		}
 		
-		public function addBorg(i_x:Int, i_y:Int, i_player:Player, facing:uint):Void
+		public function addBorg(i_x:Int, i_y:Int, i_player:Player, facing:UInt):Void
 		{	
 			x = i_x;
 			y = i_y;

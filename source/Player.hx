@@ -673,7 +673,7 @@ package
 			return _invincible;
 		}
 		
-		public function get getFacing():uint
+		public function get getFacing():UInt
 		{
 			return _facing;
 		}

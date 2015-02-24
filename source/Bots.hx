@@ -18,7 +18,7 @@ package
 			super();
 		}
 		
-		public function addBot(i_x:Int, i_y:Int, i_player:Player, i_facing:uint):Void
+		public function addBot(i_x:Int, i_y:Int, i_player:Player, i_facing:UInt):Void
 		{	
 			x = i_x;
 			y = i_y;

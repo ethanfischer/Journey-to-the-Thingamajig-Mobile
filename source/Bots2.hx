@@ -18,7 +18,7 @@ package
 			super();
 		}
 		
-		public function addBot2(i_x:Int, i_y:Int, i_player:Player, facing:uint, bladeSpeed:Int, i_active:Bool = false, i_fireRate:Int = 1, i_bullets:Int = 4, i_updateForever:Bool = false):Void
+		public function addBot2(i_x:Int, i_y:Int, i_player:Player, facing:UInt, bladeSpeed:Int, i_active:Bool = false, i_fireRate:Int = 1, i_bullets:Int = 4, i_updateForever:Bool = false):Void
 		{	
 			x = i_x;
 			y = i_y + 4/16; //+ 4 because the bots fall a little bit to the ground otherwise
