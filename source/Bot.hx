@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Bot extends FlxSprite
@@ -260,5 +259,3 @@ package
 			}
 		}
 	}
-
-}

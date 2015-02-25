@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Rocks extends FlxGroup
@@ -34,5 +33,3 @@ package
 		}
 
 	}
-
-}

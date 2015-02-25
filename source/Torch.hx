@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.FlxSprite;
 	/**
 	 * ...
@@ -42,5 +41,3 @@ package
 			else play("flameOff");
 		}
 	}
-
-}

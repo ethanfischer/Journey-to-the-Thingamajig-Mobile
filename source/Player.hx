@@ -1,5 +1,4 @@
-package
-{
+package;
 	import flash.geom.Rectangle;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
@@ -692,4 +691,3 @@ package
 		}
 		
 	}
-}

@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class FadeBlock extends FlxSprite
@@ -81,4 +80,3 @@ package
 		{
 		}
 	}
-}

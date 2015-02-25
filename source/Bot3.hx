@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Bot3 extends Bot
@@ -154,6 +153,4 @@ package
 				angle -= 20;
 			}
 		} */
-	} 
-
-}
+	}

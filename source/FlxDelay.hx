@@ -9,8 +9,7 @@
  * @author Richard Davey / Photon Storm
 */
 
-package  
-{
+package;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -121,5 +120,3 @@ package
 		}
 		
 	}
-
-}

@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Supports extends FlxGroup
@@ -23,5 +22,3 @@ package
 			add(tempSupport);
 		}
 	}
-
-}

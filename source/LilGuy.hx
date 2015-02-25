@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class LilGuy extends FlxSprite
@@ -138,5 +137,3 @@ package
 		}
 		
 	}
-
-}

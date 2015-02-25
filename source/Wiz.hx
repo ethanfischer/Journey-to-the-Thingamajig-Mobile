@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Wiz extends FlxSprite
@@ -80,5 +79,3 @@ package
 		
 		
 	}
-
-}

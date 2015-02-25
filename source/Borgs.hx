@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Borgs extends FlxGroup
@@ -25,5 +24,3 @@ package
 			add(tempBorg);
 		}
 	}
-
-}

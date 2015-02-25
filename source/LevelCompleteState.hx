@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 	//import org.flixel.plugin.photonstorm.FX.CenterSlideFX;
@@ -163,5 +162,3 @@ package
 		}
 	
 	}
-
-}

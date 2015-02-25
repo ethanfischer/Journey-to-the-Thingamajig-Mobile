@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class TallRock extends FlxSprite
@@ -69,4 +68,3 @@ package
 		{
 		}
 	}
-}

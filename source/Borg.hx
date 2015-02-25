@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Borg extends FlxSprite
@@ -234,5 +233,3 @@ package
 			
 		}
 	}
-
-}

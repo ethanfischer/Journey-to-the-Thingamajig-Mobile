@@ -1,5 +1,4 @@
-package
-{
+package;
 	import flash.geom.Point;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
@@ -703,4 +702,3 @@ package
 			/////////////////////////////////////////////////////////////DON"T LET MUSIC STOP. FIGURE OUT A WAY TO DO SMOOTH TRANSITION
 		}
 	}
-}

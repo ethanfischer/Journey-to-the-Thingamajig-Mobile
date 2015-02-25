@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Rock extends FlxSprite
@@ -75,4 +74,3 @@ package
 		{
 		}
 	}
-}

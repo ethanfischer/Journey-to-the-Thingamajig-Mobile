@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.FlxGroup;
 	/**
 	 * ...
@@ -20,5 +19,3 @@ package
 		}
 		
 	}
-
-}

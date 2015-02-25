@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Reinforcement extends FlxSprite
@@ -74,4 +73,3 @@ package
 		{
 		}
 	}
-}

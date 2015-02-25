@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class FadeBlocks extends FlxGroup
@@ -25,5 +24,3 @@ package
 			add(tempRock);
 		}	
 	}
-
-}

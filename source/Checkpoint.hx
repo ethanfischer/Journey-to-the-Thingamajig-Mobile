@@ -1,5 +1,4 @@
-package
-{
+package;
 	import org.flixel.*;
 
 	public class Checkpoint extends FlxSprite
@@ -85,8 +84,6 @@ package
 		
 		
 	}
-
-}
 		
 		
 	

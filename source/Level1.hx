@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import flash.display.Sprite;
 	import org.flixel.*;
 
@@ -188,4 +187,3 @@ package
 			}
 		}
 	}
-}

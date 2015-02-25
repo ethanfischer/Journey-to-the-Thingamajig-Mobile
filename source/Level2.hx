@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import flash.display.Sprite;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
@@ -295,4 +294,3 @@ package
 		}
 		
 	}
-}

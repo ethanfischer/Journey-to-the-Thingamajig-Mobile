@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxObject;
 	/**
@@ -55,5 +54,3 @@ package
 		}
 		
 	}
-
-}

@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 
@@ -96,5 +95,3 @@ package
 			
 		}
 	}
-
-}

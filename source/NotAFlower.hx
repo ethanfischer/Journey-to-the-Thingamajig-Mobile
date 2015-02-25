@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class NotAFlower extends FlxSprite
@@ -161,4 +160,3 @@ package
 			player.dead();
 		}
 	}
-}

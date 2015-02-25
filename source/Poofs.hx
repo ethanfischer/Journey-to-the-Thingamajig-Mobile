@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Poofs extends FlxGroup
@@ -27,5 +26,3 @@ package
 			//allthePoofs.push(tempPoof);
 		}	
 	}
-
-}

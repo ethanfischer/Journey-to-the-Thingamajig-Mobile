@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Reinforcements extends FlxGroup
@@ -22,5 +21,3 @@ package
 			add(tempReinforcement);
 		}
 	}
-
-}

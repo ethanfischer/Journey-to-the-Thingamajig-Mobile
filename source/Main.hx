@@ -1,5 +1,4 @@
-package
-{
+package;
 	import org.flixel.FlxGame;
 	
 	[SWF(width = "1300", height = "650", backgroundColor = "#000000")]
@@ -14,4 +13,3 @@ package
 			forceDebugger = true;
 		}
 	}
-}

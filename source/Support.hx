@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Support extends FlxSprite
@@ -66,4 +65,3 @@ package
 		{
 		}
 	}
-}

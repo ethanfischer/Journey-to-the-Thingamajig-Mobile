@@ -1,5 +1,4 @@
-package
-{
+package;
         import org.flixel.system.*;
  
 	public class Preloader extends FlxPreloader
@@ -10,4 +9,3 @@ package
 			super();
 		}
 	}
-}

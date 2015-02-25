@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class CrumbleRocks extends FlxGroup
@@ -28,5 +27,3 @@ package
 		}
 		
 	}
-
-}

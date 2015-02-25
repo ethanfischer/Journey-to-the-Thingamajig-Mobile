@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Bird extends FlxSprite
@@ -194,5 +193,3 @@ package
 			messageCount += 1; 
 		}
 	}
-
-}

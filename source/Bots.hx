@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class Bots extends FlxGroup
@@ -30,5 +29,3 @@ package
 	
 		
 	}
-
-}

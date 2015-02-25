@@ -1,5 +1,4 @@
-package  
-{
+package;
 	import org.flixel.*;
 
 	public class CrumbleRock extends FlxSprite
@@ -91,4 +90,3 @@ package
 			
 		}
 	}
-}
