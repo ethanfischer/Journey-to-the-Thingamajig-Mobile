@@ -1,6 +1,6 @@
 package;
-	import org.flixel.FlxSprite;
-	import org.flixel.FlxObject;
+	import flixel.FlxSprite;
+	import flixel.FlxObject;
 	/**
 	 * ...
 	 * @author Ethan Fischer

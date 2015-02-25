@@ -1,5 +1,5 @@
 package;
-        import org.flixel.system.*;
+        import flixel.system.*;
  
 	class Preloader extends FlxPreloader
 	{

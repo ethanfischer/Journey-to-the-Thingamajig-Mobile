@@ -1,6 +1,6 @@
 
 package;
-	import org.flixel.*;
+	import flixel.*;
 
 	class Poofs extends FlxGroup
 	{

@@ -1,6 +1,6 @@
 package;
-	import org.flixel.*;
-	import org.flixel.plugin.photonstorm.*;
+	import flixel.*;
+	import flixel.plugin.photonstorm.*;
 	
 	class LevelTitleState extends FlxState
 	{	

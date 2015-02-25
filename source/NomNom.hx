@@ -1,8 +1,8 @@
 
 package;
-	import org.flixel.FlxSprite;
-	import org.flixel.FlxG;
-	import org.flixel.plugin.photonstorm.FlxColor;
+	import flixel.FlxSprite;
+	import flixel.FlxG;
+	import flixel.plugin.photonstorm.FlxColor;
 
 	class NomNom extends FlxSprite
 	{

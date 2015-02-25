@@ -1,6 +1,6 @@
 package;
-	import org.flixel.FlxSprite;
-	import org.flixel.*;
+	import flixel.FlxSprite;
+	import flixel.*;
 
 	class Sign extends FlxGroup
 	{	

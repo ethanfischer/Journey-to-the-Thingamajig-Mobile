@@ -1,6 +1,6 @@
 package;
-	import org.flixel.*;
-	import org.flixel.plugin.photonstorm.FlxWeapon;
+	import flixel.*;
+	import flixel.plugin.photonstorm.FlxWeapon;
 
 	class Bots2 extends FlxGroup
 	{

@@ -1,5 +1,5 @@
 package;
-	import org.flixel.FlxGame;
+	import flixel.FlxGame;
 	
 	//[SWF(width = "1300", height = "650", backgroundColor = "#000000")]
 	//[Frame(factoryClass="Preloader")] //Tells Flixel to use the default preloader

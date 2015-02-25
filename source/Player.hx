@@ -1,8 +1,8 @@
 package;
 	import flash.geom.Rectangle;
-	import org.flixel.*;
-	import org.flixel.plugin.photonstorm.*;
-	import org.flixel.system.FlxReplay;
+	import flixel.*;
+	import flixel.plugin.photonstorm.*;
+	import flixel.system.FlxReplay;
 	
 	class Player extends FlxSprite
 	{

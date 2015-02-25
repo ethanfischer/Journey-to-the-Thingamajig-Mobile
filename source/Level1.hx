@@ -1,7 +1,7 @@
 
 package;
 	import flash.display.Sprite;
-	import org.flixel.*;
+	import flixel.*;
 
 	class Level1 extends GameLevel
 	{

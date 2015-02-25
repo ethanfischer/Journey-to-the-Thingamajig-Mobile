@@ -1,8 +1,8 @@
 package;
 	import flash.display.Sprite;
 	import flash.geom.Point;
-	import org.flixel.*;
-	import org.flixel.plugin.photonstorm.*;
+	import flixel.*;
+	import flixel.plugin.photonstorm.*;
 
 	class Level5 extends GameLevel
 	{

@@ -16,7 +16,7 @@ package;
 	import flash.events.EventDispatcher;
 	import flash.utils.getTimer;
 	
-	import org.flixel.*;
+	import flixel.*;
 	
 	/**
 	 * A useful timer that can be used to trigger events after certain amounts of time are up.<br />

@@ -1,6 +1,6 @@
 package;
 	import flash.geom.Point;
-	import org.flixel.*;
+	import flixel.*;
 	
 	class Registry 
 	{

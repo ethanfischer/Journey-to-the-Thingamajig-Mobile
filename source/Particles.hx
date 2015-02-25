@@ -1,5 +1,5 @@
 package;
-	import org.flixel.FlxGroup;
+	import flixel.FlxGroup;
 	/**
 	 * ...
 	 * @author ...

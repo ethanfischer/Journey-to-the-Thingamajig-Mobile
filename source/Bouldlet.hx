@@ -1,7 +1,7 @@
 package;
-	import org.flixel.FlxGroup;
-	import org.flixel.FlxSprite;
-	import org.flixel.FlxG;
+	import flixel.FlxGroup;
+	import flixel.FlxSprite;
+	import flixel.FlxG;
 	/**
 	 * ...
 	 * @author ...

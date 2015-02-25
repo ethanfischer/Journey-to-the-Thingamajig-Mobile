@@ -1,8 +1,8 @@
 package;
 	import flash.geom.Point;
-	import org.flixel.*;
-	import org.flixel.plugin.photonstorm.*;
-	import org.flixel.plugin.photonstorm.BaseTypes.Bullet;
+	import flixel.*;
+	import flixel.plugin.photonstorm.*;
+	import flixel.plugin.photonstorm.BaseTypes.Bullet;
 
 	class PlayState extends FlxState
 	{

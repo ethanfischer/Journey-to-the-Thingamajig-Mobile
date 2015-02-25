@@ -1,5 +1,5 @@
 package;
-	import org.flixel.*;
+	import flixel.*;
 
 	class Checkpoint extends FlxSprite
 	{
