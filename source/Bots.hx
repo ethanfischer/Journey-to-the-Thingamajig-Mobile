@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Bots extends FlxGroup
+	class Bots extends FlxGroup
 	{
 		private var x:Int;
 		private var y:Int;

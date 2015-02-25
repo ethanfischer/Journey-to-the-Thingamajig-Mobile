@@ -2,7 +2,7 @@ package;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 
-	public class Bot2 extends Bot
+	class Bot2 extends Bot
 	{
 		[Embed(source = "../assets/bot2.png")] private var bot2PNG:Class;
 		[Embed(source = "../assets/botKillSFX.mp3")] private var botKillSFX:Class;

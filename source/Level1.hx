@@ -1,8 +1,9 @@
+
 package;
 	import flash.display.Sprite;
 	import org.flixel.*;
 
-	public class Level1 extends GameLevel
+	class Level1 extends GameLevel
 	{
 		[Embed(source="../map/mapCSV_Level1_Background.csv", mimeType="application/octet-stream")] public var backgroundCSV:Class;
 		[Embed(source="../map/mapCSV_Level1_Back_Background.csv", mimeType="application/octet-stream")] public var backbackgroundCSV:Class;

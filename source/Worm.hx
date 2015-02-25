@@ -2,7 +2,7 @@ package;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 
-	public class Worm extends FlxSprite
+	class Worm extends FlxSprite
 	{
 		[Embed(source = "../assets/worm.png")] private var WormPNG:Class;	
 		

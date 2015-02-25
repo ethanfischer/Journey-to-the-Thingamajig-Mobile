@@ -4,7 +4,7 @@ package;
 	import org.flixel.plugin.photonstorm.*;
 	import org.flixel.system.FlxReplay;
 	
-	public class Player extends FlxSprite
+	class Player extends FlxSprite
 	{
 		[Embed(source = "../assets/player_40x40(letter).png")] private var _girlPNG:Class; //normal
 		[Embed(source = "../assets/egg(2).png")] private var _botPNG:Class; //robot

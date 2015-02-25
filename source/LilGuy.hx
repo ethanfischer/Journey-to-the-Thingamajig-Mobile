@@ -1,7 +1,8 @@
+
 package;
 	import org.flixel.*;
 
-	public class LilGuy extends FlxSprite
+	class LilGuy extends FlxSprite
 	{
 		[Embed(source = "../assets/lilGuy.png")] private var lilGuyPNG:Class;
 		

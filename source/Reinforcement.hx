@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Reinforcement extends FlxSprite
+	class Reinforcement extends FlxSprite
 	{
 		private var player:Player;
 		private var timer:Float;

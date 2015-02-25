@@ -2,7 +2,7 @@ package;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 	
-	public class LevelTitleState extends FlxState
+	class LevelTitleState extends FlxState
 	{	
 		private var levelMessage:FlxText;
 		private var levelNumber:Int;

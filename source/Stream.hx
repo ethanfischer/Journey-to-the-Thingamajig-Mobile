@@ -5,7 +5,7 @@ package;
 	 * ...
 	 * @author Ethan Fischer
 	 */
-	public class Stream extends FlxSprite
+	class Stream extends FlxSprite
 	{
 		[Embed(source = "../assets/stream.png")] private var streamPNG:Class;
 		public var flowLeft:Bool;

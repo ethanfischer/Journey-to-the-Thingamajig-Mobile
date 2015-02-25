@@ -1,7 +1,8 @@
+
 package;
 	import org.flixel.*;
 
-	public class Borgs extends FlxGroup
+	class Borgs extends FlxGroup
 	{
 		private var x:Int;
 		private var y:Int;

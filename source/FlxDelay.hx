@@ -1,3 +1,4 @@
+
 /**
  * FlxDelay
  * -- Part of the Flixel Power Tools set
@@ -24,7 +25,7 @@ package;
 	 * If your game pauses, when it starts again the timer notices and adjusts the expires time accordingly.
 	 */
 	
-	public class FlxDelay extends Sprite
+	class FlxDelay extends Sprite
 	{
 		public var isRunning:Bool;
 		

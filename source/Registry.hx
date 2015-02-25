@@ -2,7 +2,7 @@ package;
 	import flash.geom.Point;
 	import org.flixel.*;
 	
-	public class Registry 
+	class Registry 
 	{
 		public static var screenWidth:Int = 600;
 		public static var screenHeight:Int = 300;

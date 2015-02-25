@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Borg extends FlxSprite
+	class Borg extends FlxSprite
 	{
 		[Embed(source = "../map/borg(dark).png")] private var borgPNG:Class;
 		

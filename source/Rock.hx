@@ -1,7 +1,8 @@
+
 package;
 	import org.flixel.*;
 
-	public class Rock extends FlxSprite
+	class Rock extends FlxSprite
 	{
 		private var player:Player;
 		private var timer:Float;

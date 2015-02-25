@@ -4,7 +4,7 @@ package;
 	 * ...
 	 * @author ...
 	 */
-	public class Mail extends FlxSprite
+	class Mail extends FlxSprite
 	{
 		[Embed(source = "../assets/mail.png")] private var mailPNG:Class;
 		

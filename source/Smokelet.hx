@@ -4,7 +4,7 @@ package;
 	 * ...
 	 * @author ...
 	 */
-	public class Smokelet extends FlxSprite
+	class Smokelet extends FlxSprite
 	{
 		[Embed(source = "../assets/smokelet.png")] private var smokeletPNG:Class;
 		private var rand1:Int;

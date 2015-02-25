@@ -3,7 +3,7 @@ package;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 
-	public class GameLevel extends FlxGroup
+	class GameLevel extends FlxGroup
 	{
 		public var player:Player;
 		public var background:FlxTilemap;

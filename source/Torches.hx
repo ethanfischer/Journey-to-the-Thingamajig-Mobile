@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Torches extends FlxGroup
+	class Torches extends FlxGroup
 	{
 		private var x:Int;
 		private var y:Int;

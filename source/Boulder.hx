@@ -5,7 +5,7 @@ package;
 	 * ...
 	 * @author ...
 	 */
-	public class Boulder extends FlxSprite
+	class Boulder extends FlxSprite
 	{
 		[Embed(source = "../assets/boulder.png")] private var boulderPNG:Class;
 		private var splodeFlag:Bool = false;

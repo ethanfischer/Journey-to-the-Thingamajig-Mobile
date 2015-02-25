@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Bird extends FlxSprite
+	class Bird extends FlxSprite
 	{
 		[Embed(source = "../map/bird.png")] private var BirdPNG:Class;
 		[Embed(source = "../assets/eject.mp3")] private var ejectSFX:Class;

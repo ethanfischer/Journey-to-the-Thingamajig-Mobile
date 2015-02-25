@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class CrumbleRock extends FlxSprite
+	class CrumbleRock extends FlxSprite
 	{
 		private var crumbleTimer:Float;
 		private var crumbleTimerFlag:Bool;

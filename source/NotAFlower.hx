@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class NotAFlower extends FlxSprite
+	class NotAFlower extends FlxSprite
 	{
 		private var player:Player;
 		private var blinktimer:Float;

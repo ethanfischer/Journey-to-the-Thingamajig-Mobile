@@ -4,7 +4,7 @@ package;
 	import org.flixel.plugin.photonstorm.*;
 	import org.flixel.plugin.photonstorm.BaseTypes.Bullet;
 
-	public class PlayState extends FlxState
+	class PlayState extends FlxState
 	{
 		private var _gameLevel:GameLevel;
 		private static var stages:Array<Dynamic>;

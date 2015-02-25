@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Support extends FlxSprite
+	class Support extends FlxSprite
 	{
 		private var player:Player;
 		private var timer:Float;

@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Poof extends FlxSprite
+	class Poof extends FlxSprite
 	{
 		[Embed(source = "../assets/Poof.png")] private var PoofPNG:Class;
 		

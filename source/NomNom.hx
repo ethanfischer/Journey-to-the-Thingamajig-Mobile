@@ -1,9 +1,10 @@
+
 package;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxG;
 	import org.flixel.plugin.photonstorm.FlxColor;
 
-	public class NomNom extends FlxSprite
+	class NomNom extends FlxSprite
 	{
 		[Embed(source = '../map/star.png')] private var nomNomPNG:Class;
 		

@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class TallRock extends FlxSprite
+	class TallRock extends FlxSprite
 	{
 		private var player:Player;
 		private var timer:Float;

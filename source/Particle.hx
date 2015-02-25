@@ -5,7 +5,7 @@ package;
 	 * ...
 	 * @author ...
 	 */
-	public class Particle extends FlxSprite
+	class Particle extends FlxSprite
 	{
 		[Embed(source = "../assets/particle.png")] private var ParticlePNG:Class;
 		private var rand1:Int;

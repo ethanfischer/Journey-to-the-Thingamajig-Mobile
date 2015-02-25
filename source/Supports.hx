@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Supports extends FlxGroup
+	class Supports extends FlxGroup
 	{
 		private var x:Int;
 		private var y:Int;

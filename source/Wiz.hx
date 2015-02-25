@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Wiz extends FlxSprite
+	class Wiz extends FlxSprite
 	{
 		[Embed(source="../map/wiz.png")] private var wizPNG:Class;
 		

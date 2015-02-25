@@ -3,7 +3,7 @@ package;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 
-	public class Level2 extends GameLevel
+	class Level2 extends GameLevel
 	{
 		[Embed(source="../map/mapCSV_Level2_Background.csv", mimeType="application/octet-stream")] public var backgroundCSV:Class;
 		[Embed(source="../map/mapCSV_Level2_Back_Background.csv", mimeType="application/octet-stream")] public var backbackgroundCSV:Class;

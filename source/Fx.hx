@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Fx extends FlxGroup
+	class Fx extends FlxGroup
 	{
 		private var pixels:FlxGroup;
 		private var jet:FlxEmitter;

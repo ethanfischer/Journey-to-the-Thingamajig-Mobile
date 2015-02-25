@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Rocks extends FlxGroup
+	class Rocks extends FlxGroup
 	{
 		private var x:Int;
 		private var y:Int;

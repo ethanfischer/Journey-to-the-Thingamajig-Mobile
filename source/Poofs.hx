@@ -1,7 +1,8 @@
+
 package;
 	import org.flixel.*;
 
-	public class Poofs extends FlxGroup
+	class Poofs extends FlxGroup
 	{
 		private var x:Int;
 		private var y:Int;

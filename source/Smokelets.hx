@@ -4,7 +4,7 @@ package;
 	 * ...
 	 * @author ...
 	 */
-	public class Smokelets extends FlxGroup
+	class Smokelets extends FlxGroup
 	{
 		
 		public function new()

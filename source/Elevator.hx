@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 	
-	public class Elevator extends FlxSprite
+	class Elevator extends FlxSprite
 	{
 		[Embed(source = '../assets/elevator.png')] private var elevatorPNG:Class;
 		

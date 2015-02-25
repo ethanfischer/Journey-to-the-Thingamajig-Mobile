@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Checkpoint extends FlxSprite
+	class Checkpoint extends FlxSprite
 	{
 		[Embed(source = "../assets/checkpoint.png")] private var CheckpointPNG:Class;
 		[Embed(source = "../assets/pop.mp3")] private var pop:Class;

@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Reinforcements extends FlxGroup
+	class Reinforcements extends FlxGroup
 	{
 		private var x:Int;
 		private var y:Int;

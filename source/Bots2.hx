@@ -2,7 +2,7 @@ package;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.FlxWeapon;
 
-	public class Bots2 extends FlxGroup
+	class Bots2 extends FlxGroup
 	{
 		public var x:Int;
 		public var y:Int;

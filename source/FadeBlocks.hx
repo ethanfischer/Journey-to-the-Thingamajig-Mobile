@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class FadeBlocks extends FlxGroup
+	class FadeBlocks extends FlxGroup
 	{
 		private var x:Int;
 		private var y:Int;

@@ -4,7 +4,7 @@ package;
 	//import org.flixel.plugin.photonstorm.FX.CenterSlideFX;
 	//import org.flixel.plugin.photonstorm.FX.FloodFillFX;
 	
-	public class LevelMenuState extends FlxState
+	class LevelMenuState extends FlxState
 	{
 		[Embed(source = "../assets/StartPage.png")] private var titlePagePNG:Class;
 		[Embed(source = "../assets/menuBox.png")] private var menuBoxPNG:Class;

@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Bot extends FlxSprite
+	class Bot extends FlxSprite
 	{
 		[Embed(source = "../map/bot.png")] private var botPNG:Class;
 		[Embed(source = "../assets/eject.mp3")] private var ejectSFX:Class;

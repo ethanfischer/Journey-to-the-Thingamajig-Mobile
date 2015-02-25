@@ -2,7 +2,7 @@ package;
 	import org.flixel.FlxSprite;
 	import org.flixel.*;
 
-	public class Sign extends FlxGroup
+	class Sign extends FlxGroup
 	{	
 		public var message:FlxText;
 		private var player:Player;

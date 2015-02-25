@@ -4,7 +4,7 @@ package;
 	 * ...
 	 * @author ...
 	 */
-	public class Particles extends FlxGroup
+	class Particles extends FlxGroup
 	{
 		
 		public function new()

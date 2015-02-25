@@ -1,7 +1,8 @@
+
 package;
 	import org.flixel.*;
 
-	public class FadeBlock extends FlxSprite
+	class FadeBlock extends FlxSprite
 	{
 		private var player:Player;
 		private var timer:Float;

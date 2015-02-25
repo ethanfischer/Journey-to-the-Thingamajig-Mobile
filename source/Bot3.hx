@@ -1,7 +1,7 @@
 package;
 	import org.flixel.*;
 
-	public class Bot3 extends Bot
+	class Bot3 extends Bot
 	{
 		[Embed(source = "../map/bot3.png")] private var botPNG:Class;
 		

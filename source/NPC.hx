@@ -2,7 +2,7 @@ package;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 
-	public class NPC extends FlxSprite
+	class NPC extends FlxSprite
 	{
 		[Embed(source = "../map/teddy.png")] private var NPCPNG:Class;
 		[Embed(source = "../assets/here.mp3")] private var hereSFX:Class;

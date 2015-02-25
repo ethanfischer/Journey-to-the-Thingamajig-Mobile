@@ -4,7 +4,7 @@ package;
 	 * ...
 	 * @author Ethan Fischer
 	 */
-	public class Torch extends FlxSprite
+	class Torch extends FlxSprite
 	{
 		[Embed(source = "../assets/torch.png")] private var torchPNG:Class;
 		

@@ -4,7 +4,7 @@ package;
 	 * ...
 	 * @author Ethan Fischer
 	 */
-	public class Spring extends FlxSprite
+	class Spring extends FlxSprite
 	{
 		[Embed(source = "../assets/spring.png")] private var springPNG:Class;
 		public var bounce:Int;

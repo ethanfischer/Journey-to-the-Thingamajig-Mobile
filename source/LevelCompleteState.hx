@@ -4,7 +4,7 @@ package;
 	//import org.flixel.plugin.photonstorm.FX.CenterSlideFX;
 	//import org.flixel.plugin.photonstorm.FX.FloodFillFX;
 	
-	public class LevelCompleteState extends FlxState
+	class LevelCompleteState extends FlxState
 	{	
 		private var levelMessage:FlxText;
 		private var levelNumber:Int;

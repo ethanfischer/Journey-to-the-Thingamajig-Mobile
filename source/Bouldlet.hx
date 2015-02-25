@@ -6,7 +6,7 @@ package;
 	 * ...
 	 * @author ...
 	 */
-	public class Bouldlet extends FlxSprite
+	class Bouldlet extends FlxSprite
 	{
 		[Embed(source = "../assets/bouldlet.png")] public var bouldletPNG:Class;
 		[Embed(source = "../assets/bouldletmini.png")] public var bouldletminiPNG:Class;
